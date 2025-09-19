@@ -3,37 +3,36 @@
 - Faculdade: IADE
 - Elementos do grupo: Rodrigo Canto, Rodrigo Daibert, Marco Fosenca e Luís Quirim   
 - Nome do projeto: BuyTogether  
-- Repositório GitHub: 
+- Repositório GitHub: https://github.com/rodrigocanto05/BuyTogether.git 
 
 ---
 
 ## 2. Palavras-chave
-Lista de compras, localização, notificações, refeições práticas, compras colaborativas.
+lista de compras, localização, notificações, refeições práticas, compras colaborativas.
 
 ---
 
-## 3. Breve descrição da app e do problema a resolver
-A aplicação **ShopSync** pretende resolver a falta de coordenação familiar na criação e atualização de listas de compras. Frequentemente, diferentes membros da família vão ao supermercado em momentos distintos, resultando em esquecimentos ou compras duplicadas.  
-A aplicação centraliza a lista de compras e utiliza geolocalização para enviar notificações quando um membro está próximo de um supermercado, permitindo também sugerir refeições com base nos ingredientes disponíveis.
+## 3. Descriçao da app e problemas a resolver
+A aplicação **BuyTogether** pretende resolver a falta de coordenação familiar na atualização de listas de compras partilhadas. Os utilizadores podem criar um grupo e adicionar os restantes membros da casa, permitindo que todos tenham acesso à mesma lista em tempo real. Cada membro pode adicionar, editar ou remover produtos, garantindo que a informação está sempre atualizada. Frequentemente, diferentes membros da família vão ao supermercado em momentos distintos, o que leva a esquecimentos. Para evitar isso, a aplicação centraliza a lista de compras e utiliza a localização para enviar notificações quando um membro entra num supermercado, permitindo ainda sugerir refeições com base nos ingredientes disponíveis em casa e indicando os supermecados mais pertos conforme a sua localização atual.
 
 ---
 
 ## 4. Objetivos e motivação
-- Melhorar a organização das compras familiares  
-- Evitar esquecimentos de produtos essenciais  
-- Reduzir deslocações desnecessárias  
-- Tornar o processo de compras mais colaborativo  
-- Incentivar uma alimentação mais planeada com base nos ingredientes disponíveis  
+- Melhorar a organização das compras familiares; 
+- Evitar esquecimentos de produtos essenciais;
+- Reduzir deslocações desnecessárias;
+- Tornar o processo de compras mais colaborativo:  
+- Incentivar uma alimentação mais planeada com base nos ingredientes disponíveis em casa.
 
 ---
 
 ## 5. Público-alvo
-Famílias, casais e grupos de amigos que vivem juntos e partilham responsabilidades domésticas.
+Famílias, casais e grupos de amigos.
 
 ---
 
 ## 6. Pesquisa de mercado
-- :contentReference[oaicite:1]{index=1} — listas partilhadas, mas sem alertas de localização  
+- AnyList: Grocery Shopping List — listas partilhadas mas sem alertas de noticaçoes caso um membro entre no supermecado
 - :contentReference[oaicite:2]{index=2} — listas de compras e despensa, mas sem colaboração em tempo real  
 - :contentReference[oaicite:3]{index=3} — listas colaborativas, mas sem integração com localização  
 
