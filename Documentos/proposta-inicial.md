@@ -31,20 +31,21 @@ Famílias, casais e grupos de amigos.
 
 ---
 
-## 6. Pesquisa de mercado
-- AnyList: Grocery Shopping List — listas partilhadas mas sem alertas de noticaçoes caso um membro entre no supermecado
-- :contentReference[oaicite:2]{index=2} — listas de compras e despensa, mas sem colaboração em tempo real  
-- :contentReference[oaicite:3]{index=3} — listas colaborativas, mas sem integração com localização  
+## 6. APPs Semelhantes
+**Semelhanças**:
+- AnyList — listas compartilhadas, planeamento de refeições;
+- Bring! - listas compartilhadas, ideias de receitas e cartoes de fidelidade; 
+- Listonic - listas compartilhdas.
 
-**Diferenciação:** Nenhuma destas inclui **notificações baseadas em GPS** nem **sugestões de refeições baseadas nos ingredientes disponíveis** como a nossa.
+**Diferenças:** Nenhuma destas apps inclui notificações baseadas em GPS nem sugestões de refeições baseadas nos ingredientes disponíveis como a BuyTogether, porém Listonic tem guias de produtos para aconselhamento mais saudavel e controle de orçamento.
 
 ---
 
 ## 7. Guiões de teste
 
 ### Guião 1 — Caso Core: Adicionar produto à lista
-1. Utilizador abre a app  
-2. Seleciona o grupo da casa  
+1. Utilizador abre a app;  
+2. Seleciona o grupo pretendido; 
 3. Escreve "Pão" e carrega em "Adicionar"  
 4. Produto aparece na lista para todos os membros
 
