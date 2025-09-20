@@ -265,6 +265,45 @@ A tabela seguinte apresenta a distribuição preliminar de tarefas entre os memb
 - **Sugestão de Refeições**  
 ![Mockup Refeições](Imagens/mockup-refeicoes.png)
 
+#### 9.2.1 Project Charter
+
+- **Nome do Projeto**: BuyTogether  
+- **Equipa**: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca, Luís Quirim  
+- **Data de Início**: Setembro 2025  
+- **Prazo de Conclusão**: Janeiro 2026  
+
+**Descrição do Projeto**  
+Aplicação mobile colaborativa para gestão de listas de compras partilhadas. Permite adicionar e remover produtos em tempo real, receber notificações quando um membro entra num supermercado e sugerir refeições com base nos ingredientes disponíveis em casa. Futuramente poderá integrar QR Codes para descontos em supermercados parceiros.  
+
+**Scope (Âmbito)**  
+- **Incluído**: listas de compras colaborativas, notificações por geolocalização, sugestões de refeições, integração com mapas.  
+- **Excluído**: pagamentos dentro da aplicação, parcerias comerciais formais (fase futura).  
+
+**Business Case**  
+- Melhorar a organização das compras familiares.  
+- Evitar esquecimentos e duplicação de produtos.  
+- Incentivar refeições mais planeadas.  
+- Potencial parceria futura com supermercados para descontos.  
+
+**Restrições**  
+- **Tempo**: 1 semestre letivo (14 semanas).  
+- **Equipa**: 4 elementos com funções distintas (frontend, backend, BD, documentação).  
+- **Tecnologia**: Android, Spring Boot, PostgreSQL.  
+
+**Entregáveis**  
+- Protótipo funcional da aplicação (Android).  
+- Relatório técnico e académico.  
+- Poster de apresentação.  
+- Vídeo promocional.  
+
+**Stakeholders**  
+- **Primários**: famílias, casais, estudantes que vivem juntos.  
+- **Secundários**: supermercados parceiros.  
+
+**Riscos (iniciais)**  
+- Dificuldade em integrar notificações por localização em tempo real.  
+- Problemas de sincronização entre utilizadores.  
+- Possível subestimação do esforço de desenvolvimento.  
 ---
 
 #### 9.2.6 Planificação (Gráfico de Gantt)
