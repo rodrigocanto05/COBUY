@@ -18,7 +18,7 @@
 ---
 
 ## 3. Descriçao da app e problemas a resolver
-A aplicação **BuyTogether** pretende resolver a falta de coordenação familiar criando listas de compras partilhadas entre os membros. Os utilizadores podem criar um grupo e adicionar os restantes membros da casa, permitindo que todos tenham acesso à mesma lista de compras, cada membro pode adicionar, editar ou remover produtos, garantindo que a informação está sempre atualizada. Frequentemente, diferentes membros da família vão ao supermercado em momentos distintos, o que leva a esquecimentos. Para evitar isso, a aplicação centraliza a lista de compras e utiliza a localização para enviar notificações quando um membro entra num supermercado, permitindo ainda sugerir refeições com base nos ingredientes disponíveis em casa e indicando os supermecados mais pertos conforme a sua localização atual. Caso exista parceria com supermercados, a aplicação poderá ainda disponibilizar um QR Code que os membros do grupo podem utilizar no ato da compra para obter descontos exclusivos.
+ A aplicação **BuyTogether** pretende resolver a falta de coordenação familiar criando listas de compras partilhadas entre os membros. Os utilizadores podem criar um grupo e adicionar os restantes membros, permitindo que todos tenham acesso à mesma lista de compras, cada membro pode adicionar, editar ou remover produtos, garantindo que a informação está sempre atualizada. Frequentemente, diferentes membros da família vão ao supermercado em momentos distintos, o que leva a esquecimentos. Para evitar isso, a aplicação centraliza a lista de compras e utiliza a localização para enviar notificações quando um membro entra num supermercado, permitindo ainda sugerir refeições com base nos ingredientes disponíveis em casa e indicando os supermecados mais pertos conforme a sua localização atual. Caso exista parceria com supermercados, a aplicação poderá futuramente disponibilizar um QR Code onde os membros do grupo podem utilizar no ato da compra para obter descontos exclusivos.
 
 ---
 
@@ -101,42 +101,186 @@ A aplicação **BuyTogether** pretende resolver a falta de coordenação familia
   3. Utilizador aproveita a ideia. 
 - **Pós-condição:** Refeição escolhida.
 
----
-
-## 8. Casos de utilização
-- **Core:** Gerir lista de compras partilhada (CRUD de produtos na lista)
-- **Complementar 1:** Notificações automáticas quando alguém está perto de um supermercado
-- **Complementar 2:** Sugestão de refeições com base nos ingredientes registados como existentes em casa
-
----
-
-## 9. Descrição da solução
-
-### 9.1 Descrição genérica
-App mobile colaborativa com lista de compras partilhada, alertas por geolocalização e sugestões de refeições.
-
-### 9.2 Enquadramento nas UCs
-- Programação Mobile — App Android com :contentReference[oaicite:8]{index=8} (:contentReference[oaicite:9]{index=9} e :contentReference[oaicite:10]{index=10})
-- Programação Orientada a Objetos — Back-end :contentReference[oaicite:11]{index=11} com API :contentReference[oaicite:12]{index=12}
-- Bases de Dados — :contentReference[oaicite:13]{index=13} para armazenamento de utilizadores, produtos, grupos e refeições
-- Competências Comunicacionais — Poster, vídeo e pitch
-- Matemática Discreta — Algoritmo para sugestão de refeições com base nas combinações possíveis de ingredientes
-
-### 9.3 Requisitos técnicos provisórios
-- Autenticação de utilizadores  
-- Sistema de grupos  
-- Notificações push  
-- Permissões de localização (GPS)  
-- Integração com mapas  
-- Base de dados relacional
-
-### 9.4 Arquitetura provisória
-MVC + API REST + Base de Dados relacional
-
-### 9.5 Tecnologias a utilizar
-:contentReference[oaicite:14]{index=14}, :contentReference[oaicite:15]{index=15}, :contentReference[oaicite:16]{index=16}, :contentReference[oaicite:17]{index=17}, :contentReference[oaicite:18]{index=18}, :contentReference[oaicite:19]{index=19}
+### Caso 4 — Encontrar supermercados próximos
+- **Ator:** Utilizador  
+- **Pré-condição:** Permissões de GPS ativas.  
+  1. Utilizador seleciona a opção “Encontrar supermercados”;  
+  2. A app mostra os supermercados mais próximos (ex.: “Continente a 2 km”);
+  3. O utilizador seleciona um supermercado e a app apresenta a rota no mapa;  
+  4. O utilizador segue a rota até ao supermercado.
+- **Pós-condição:** O utilizador encontra o supermercado mais próximo e tem acesso à rota até lá.
 
 ---
+
+## 8. Descrição da solução a implementar
+
+### 8.1 Descrição genérica
+ A aplicação **BuyTogether** é uma solução mobile colaborativa que pretende facilitar a organização das compras em grupo. Os utilizadores podem criar ou entrar num grupo e partilhar uma lista de compras em tempo real, garantindo que todos têm acesso à mesma informação atualizada. Além disso, a app integra funcionalidades inteligentes: envia notificações quando um membro entra num supermercado, sugere refeições com base nos ingredientes disponíveis em casa e mostra os supermercados mais próximos através de geolocalização. Futuramente, poderá também incluir parcerias com supermercados, permitindo que os utilizadores utilizem um QR Code para obter descontos nas suas compras.
+
+### 8.2 Enquadramento nas diversas Unidades Curriculares
+O projeto **BuyTogether** resulta da integração dos conhecimentos adquiridos em várias Unidades Curriculares do 3.º semestre da Licenciatura em Engenharia Informática:
+
+- **Programação Mobile**: desenvolvimento da aplicação em Android, utilizando Kotlin e Jetpack Compose para criar a interface e as funcionalidades principais da app.  
+- **Programação Orientada a Objetos**: implementação das regras de negócio e da lógica do sistema no backend, através de Spring Boot e uma API REST.  
+- **Bases de Dados**: modelação e implementação de uma base de dados relacional em MySQLWorkbench, responsável por armazenar utilizadores, grupos, listas de compras e refeições.  
+- **Competências Comunicacionais**: elaboração dos documentos escritos (relatório), materiais gráficos (poster) e produção do vídeo promocional.  
+- **Matemática Discreta**: apoio na definição de algoritmos para recomendações de refeições, bem como na estruturação lógica dos dados.
+
+### 8.3 Requisitos técnicos (provisórios)
+- Autenticação de utilizadores; 
+- Criação e gestão de grupos;  
+- Listas de compras colaborativas em tempo real;  
+- Notificações push baseadas em GPS;  
+- Sugestão de refeições a partir dos ingredientes baseados no stock;
+- Integração com mapas para mostrar supermercados mais próximos;  
+- Possibilidade de QR Code para descontos.  
+
+### 8.4 Arquitetura da solução (provisória)
+- Arquitetura **MVC**  
+- **View**: Android Studio (Kotlin, Jetpack Compose) para interface e interação com o utilizador;  
+- **Controller**: Backend em Spring Boot com REST API para lógica de negócio e integração;  
+- **Model**: Base de dados relacional em MySQL (MySQL Workbench) para armazenamento de utilizadores, grupos, listas e produtos;  
+- **Comunicação**: API REST com troca de dados em formato JSON/HTTP; 
+- **Localização**: Integração com serviços de mapas (Google Maps API ou similar) para deteção de supermercados próximos e rotas;  
+- **Sugestão de refeições**: Algoritmos baseados nos ingredientes disponíveis; possibilidade futura de integrar Inteligência Artificial (sistemas de recomendação) para sugerir refeições personalizadas;
+
+### 8.5 Tecnologias a utilizar (provisórias)
+- **Frontend (Aplicação Mobile)**  
+  - Android Studio  
+  - Kotlin  
+  - Jetpack Compose (UI)
+
+- **Backend (Servidor / API)**  
+  - Spring Boot (Java)  
+  - API REST para comunicação com a app  
+  - JSON/HTTP para troca de dados  
+
+- **Base de Dados**  
+  - MySQL / PostgreSQL (gestão com MySQL Workbench ou pgAdmin)
+
+- **Integrações externas**  
+  - Google Maps API (localização de supermercados e rotas)  
+  - Firebase Cloud Messaging (para notificações push)  
+  - Possibilidade futura: modelos de Inteligência Artificial para recomendação de refeições  
+
+- **Ferramentas de apoio**  
+  - GitHub (controlo de versão e documentação)  
+  - Figma (mockups e prototipagem)  
+  - ProjectLibre / Excel (gestão de planeamento e Gantt)
+ 
+---
+## 9. Planeamento e Calendarização
+
+### 9.1 Distribuição de Tarefas
+A tabela seguinte apresenta a distribuição preliminar de tarefas entre os membros do grupo:
+
+| Membro        | Tarefas principais |
+|---------------|-------------------|
+| Rodrigo Canto | Documentação (relatório, poster), pesquisa de mercado |
+| Rodrigo Daibert | Backend (Spring Boot, API REST) |
+| Marco Fonseca | Base de dados (modelação, queries) |
+| Luís Quirim   | Frontend mobile (Kotlin, mockups Figma) |
+
+*(Opcional: substituir por gráfico de Gantt individual para visualização por semanas).*
+
+---
+
+### 9.2 Plano de Trabalhos
+
+#### 9.2.1 Project Charter
+- **Nome do Projeto**: BuyTogether  
+- **Objetivo**: Desenvolver uma aplicação mobile colaborativa que permita gerir listas de compras partilhadas, enviar notificações por localização e sugerir refeições com base nos ingredientes disponíveis.  
+- **Equipa**: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca, Luís Quirim  
+- **Stakeholders**: Famílias, casais, estudantes em partilha de casa, supermercados parceiros  
+- **Recursos**: Android Studio, Kotlin, Spring Boot, PostgreSQL, GitHub, Figma  
+- **Entregáveis**: Relatório, Poster, Vídeo promocional, Protótipo funcional da aplicação  
+- **Prazo**: Final do semestre letivo (Janeiro 2026)  
+
+---
+
+#### 9.2.2 Work Breakdown Structure (WBS)
+**Nível 1: Projeto BuyTogether**  
+1. Análise & Planeamento  
+ 1.1 Levantamento de requisitos  
+ 1.2 Definição de casos de utilização  
+ 1.3 Pesquisa de mercado  
+ 1.4 Definição de objetivos  
+
+2. Design  
+ 2.1 Modelo do domínio  
+ 2.2 Mockups no Figma  
+ 2.3 Arquitetura  
+
+3. Implementação  
+ 3.1 App Mobile (Kotlin)  
+ 3.2 Backend (Spring Boot, REST)  
+ 3.3 Base de dados (PostgreSQL)  
+
+4. Testes  
+ 4.1 Guiões de teste  
+ 4.2 Testes funcionais  
+ 4.3 Integração  
+
+5. Comunicação  
+ 5.1 Relatório  
+ 5.2 Poster  
+ 5.3 Vídeo  
+ 5.4 Apresentações  
+
+---
+
+#### 9.2.3 Requisitos Funcionais e Não Funcionais
+- **Funcionais**:  
+  - Criar e gerir grupos de utilizadores  
+  - Adicionar, editar e remover produtos da lista  
+  - Sincronização em tempo real entre membros  
+  - Notificações push quando um utilizador entra num supermercado  
+  - Sugestão de refeições com base nos ingredientes disponíveis  
+  - Visualização dos supermercados mais próximos e rotas no mapa  
+  - Utilização de QR Code para descontos  
+
+- **Não Funcionais**:  
+  - Usabilidade intuitiva e interface simples  
+  - Boa performance (resposta rápida nas operações)  
+  - Segurança (autenticação e proteção dos dados dos utilizadores)  
+  - Fiabilidade na sincronização dos dados  
+  - Compatibilidade com versões recentes do Android  
+  - Escalabilidade para suportar múltiplos grupos em simultâneo  
+
+---
+
+#### 9.2.4 Modelo do Domínio
+![Modelo do Domínio](Imagens/modelo-dominio.png)
+
+---
+
+#### 9.2.5 Mockups e Interfaces
+- **Ecrã de Login / Registo**  
+![Mockup Login](Imagens/mockup-login.png)
+
+- **Ecrã Lista de Compras**  
+![Mockup Lista](Imagens/mockup-lista.png)
+
+- **Notificação por Localização**  
+![Mockup Notificação](Imagens/mockup-notificacao.png)
+
+- **Sugestão de Refeições**  
+![Mockup Refeições](Imagens/mockup-refeicoes.png)
+
+---
+
+#### 9.2.6 Planificação (Gráfico de Gantt)
+O planeamento temporal do projeto pode ser representado no gráfico de Gantt seguinte:
+
+| Fase                  | S1 | S2 | S3 | S4 | S5 | S6–10 | S11–14 |
+|-----------------------|----|----|----|----|----|-------|--------|
+| Análise & Planeamento | X  | X  |    |    |    |       |        |
+| Design (mockups, BD)  |    | X  | X  | X  |    |       |        |
+| Implementação inicial |    |    | X  | X  | X  |   X   |        |
+| Testes iniciais       |    |    |    |    | X  |   X   |        |
+| Protótipo funcional   |    |    |    |    |    |   X   |        |
+| Relatório / Poster    | X  |    |    | X  |    |       |   X    |
+| Apresentação final    |    |    |    |    |    |       |   X    |
 
 ## 10. Planeamento e calendarização
 - Semana 1-2: Proposta inicial, mockups, modelação da BD  
