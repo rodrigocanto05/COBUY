@@ -181,8 +181,6 @@ A tabela seguinte apresenta a distribuição preliminar de tarefas entre os memb
 | Marco Fonseca | Base de dados (modelação, queries) |
 | Luís Quirim   | Frontend mobile (Kotlin, mockups Figma) |
 
-*(Opcional: substituir por gráfico de Gantt individual para visualização por semanas).*
-
 ---
 
 ### 9.2 Plano de Trabalhos
