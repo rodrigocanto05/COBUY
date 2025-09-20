@@ -8,7 +8,12 @@
 ---
 
 ## 2. Palavras-chave
-lista de compras, localização, notificações, refeições práticas, compras colaborativas.
+- listas de compras;
+- localização;
+- notificações;
+- refeições práticas;
+- compras colaborativas;
+- QR code.
 
 ---
 
@@ -18,46 +23,83 @@ A aplicação **BuyTogether** pretende resolver a falta de coordenação familia
 ---
 
 ## 4. Objetivos e motivação
-- Melhorar a organização das compras familiares; 
-- Evitar esquecimentos de produtos essenciais;
-- Reduzir deslocações desnecessárias;
-- Tornar o processo de compras mais colaborativo:  
-- Incentivar uma alimentação mais planeada com base nos ingredientes disponíveis em casa.
+- Melhorar a organização das compras familiares  
+- Evitar esquecimentos de produtos essenciais  
+- Reduzir deslocações desnecessárias  
+- Tornar o processo de compras mais colaborativo  
+- Incentivar uma alimentação mais planeada com base nos ingredientes disponíveis em casa  
+- Criar uma experiência mais moderna de compra com integrações (QR codes, descontos)  
 
 ---
 
 ## 5. Público-alvo
-Famílias, casais e grupos de amigos.
+- Famílias que partilham as tarefas domésticas;  
+- Casais que fazem compras em conjunto;  
+- Estudantes ou colegas de casa que dividem despesas;  
+- Grupos de amigos que organizam eventos e precisam de listas partilhadas.  
 
 ---
 
-## 6. APPs Semelhantes
-**Semelhanças**:
-- AnyList — listas compartilhadas, planeamento de refeições;
-- Bring! - listas compartilhadas, ideias de receitas e cartoes de fidelidade; 
-- Listonic - listas compartilhdas.
+## 6. Pesquisa de mercado
 
-**Diferenças:** Nenhuma destas apps inclui notificações baseadas em GPS nem sugestões de refeições baseadas nos ingredientes disponíveis como a BuyTogether, porém Listonic tem guias de produtos para aconselhamento mais saudavel e controle de orçamento.
+### AnyList
+| 🟢 Semelhanças | 🔴 Diferenças |
+|---|---|
+| Partilha de listas entre membros | Não envia notificações ao entrar num supermercado |
+| Sincronização em tempo real | Não sugere refeições com base no stock real em casa |
+| Planeamento de refeições | Não indica supermercados mais próximos |
+| Gestão de receitas | Não tem descontos ou QR codes |
+
+### Bring!
+| 🟢 Semelhanças | 🔴 Diferenças |
+|---|---|
+| Listas de compras partilhadas | Não envia notificações ao entrar num supermercado |
+| Lista de compras automática | Não sugere refeições com base nos ingredientes em casa |
+| Sugestões de receitas | Não mostra supermercados próximos nem rotas |
+| Organização por categorias | Não tem QR codes ou parcerias de descontos |
+
+### Listonic
+| 🟢 Semelhanças | 🔴 Diferenças |
+|---|---|
+| Listas partilhadas | Não envia notificações ao entrar num supermercado |
+| Sugestões inteligentes de produtos | Não faz planeamento de refeições  |
+| Organização clara de itens e financeiro | Não tem descontos ou QR codes |
+
+### SuperCook
+| 🟢 Semelhanças | 🔴 Diferenças |
+|---|---|
+| Sugere refeições com base nos ingredientes disponíveis | Não tem lista de compras colaborativa |
+| Evita desperdício alimentar | Não envia notificações ao entrar num supermercado |
+| Ajuda a gerir stock doméstico | Não tem QR codes ou rotas para supermercados |
 
 ---
 
 ## 7. Guiões de teste
 
-### Guião 1 — Caso Core: Adicionar produto à lista
-1. Utilizador abre a app;  
-2. Seleciona o grupo pretendido; 
-3. Escreve "Pão" e carrega em "Adicionar"  
-4. Produto aparece na lista para todos os membros
+### Caso Core — Gerir lista partilhada
+- **Ator:** Membro do grupo  
+- **Pré-condição:** Grupo criado; utilizador autenticado.  
+  1. Utilizador abre a app e seleciona o Grupo “Casa”; 
+  2. Adiciona item à lista;
+  3. A lista sincroniza e todos veem o estado atualizado.  
+- **Pós-condição:** Lista atualizada e visível para todos.
 
-### Guião 2 — Notificação por localização
-1. Utilizador aproxima-se de um :contentReference[oaicite:4]{index=4}  
-2. A app deteta a localização e envia notificação "Vai às compras? Adicione produtos de última hora"  
-3. Outros membros recebem aviso para adicionar produtos
+### Caso 2 — Notificação por localização
+- **Ator:** Membro do grupo (utilizador1) 
+- **Pré-condição:** Grupo criado; utilizadores autenticados; Permissões de GPS ativas.
+  1. utilizador1 entra no supermercado;
+  2. A app envia notificação para todos aos restantes membros do grupo: “utilizador1 entrou no supermercado, pretende adicionar algum item á lista?”;
+  3. Outros membros recebem a notificação e podem adicionar produtos;
+  4. Item adicionado utilizador1 recebe notificação: "utilizador2 atualizou a lista, reveja!".
+- **Pós-condição:** Lista atualizada antes da compra.
 
-### Guião 3 — Escolher supermercado e rota
-1. Utilizador abre o mapa na app  
-2. Seleciona :contentReference[oaicite:5]{index=5}  
-3. A app mostra o :contentReference[oaicite:6]{index=6} mais próximo e o trajeto com :contentReference[oaicite:7]{index=7}
+### Caso 3 — Sugestão de refeições
+- **Ator:** Membro do grupo  
+- **Pré-condição:** Grupo criado; utilizadores autenticados; Igredientes do stock registados.   
+  1. Utilizador abre “Sugestões de refeições”  
+  2. App propõe “Massa com atum”  
+  3. Utilizador aproveita a ideia. 
+- **Pós-condição:** Refeição escolhida.
 
 ---
 
