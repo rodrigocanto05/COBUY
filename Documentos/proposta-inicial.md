@@ -186,64 +186,57 @@ A tabela seguinte apresenta a distribuição preliminar de tarefas entre os memb
 ### 9.2 Plano de Trabalhos
 
 #### 9.2.1 Project Charter
+
 - **Nome do Projeto**: BuyTogether  
-- **Objetivo**: Desenvolver uma aplicação mobile colaborativa que permita gerir listas de compras partilhadas, enviar notificações por localização e sugerir refeições com base nos ingredientes disponíveis.  
 - **Equipa**: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca, Luís Quirim  
-- **Stakeholders**: Famílias, casais, estudantes em partilha de casa, supermercados parceiros  
-- **Recursos**: Android Studio, Kotlin, Spring Boot, PostgreSQL, GitHub, Figma  
-- **Entregáveis**: Relatório, Poster, Vídeo promocional, Protótipo funcional da aplicação  
-- **Prazo**: Final do semestre letivo (Janeiro 2026)  
+- **Data de Início**: Setembro 2025  
+- **Prazo de Conclusão**: Janeiro 2026  
+
+**Descrição do Projeto**  
+Aplicação mobile colaborativa para gestão de listas de compras partilhadas. Permite adicionar e remover produtos em tempo real, receber notificações quando um membro entra num supermercado e sugerir refeições com base nos ingredientes disponíveis em casa. Futuramente poderá integrar QR Codes para descontos em supermercados parceiros.  
+
+**Scope (Âmbito)**  
+- **Incluído**: listas de compras colaborativas, notificações por geolocalização, sugestões de refeições, integração com mapas.  
+- **Excluído**: pagamentos dentro da aplicação, parcerias comerciais formais (fase futura).  
+
+**Business Case**  
+- Melhorar a organização das compras familiares.  
+- Evitar esquecimentos e duplicação de produtos.  
+- Incentivar refeições mais planeadas.  
+- Potencial parceria futura com supermercados para descontos.  
+
+**Restrições**  
+- **Tempo**: 3º semestre letivo (14 semanas).  
+- **Equipa**: 4 elementos com funções distintas (frontend, backend, BD, documentação).  
+- **Tecnologia**: Android Studio, Spring Boot, MySQLWorkbench.  
+
+**Entregáveis**  
+- Protótipo funcional da aplicação.  
+- Relatório técnico e académico.  
+- Poster de apresentação.  
+- Vídeo promocional.  
+
+**Stakeholders**  
+- **Primários**: famílias, casais, estudantes que vivem juntos.  
+- **Secundários**: supermercados.  
+
+**Riscos (iniciais)**  
+- Dificuldade em integrar notificações por localização em tempo real.  
+- Problemas de sincronização entre utilizadores.  
+- Possível subestimação do esforço de desenvolvimento.  
 
 ---
 
 #### 9.2.2 Work Breakdown Structure (WBS)
-**Nível 1: Projeto BuyTogether**  
-1. Análise & Planeamento  
- 1.1 Levantamento de requisitos  
- 1.2 Definição de casos de utilização  
- 1.3 Pesquisa de mercado  
- 1.4 Definição de objetivos  
-
-2. Design  
- 2.1 Modelo do domínio  
- 2.2 Mockups no Figma  
- 2.3 Arquitetura  
-
-3. Implementação  
- 3.1 App Mobile (Kotlin)  
- 3.2 Backend (Spring Boot, REST)  
- 3.3 Base de dados (PostgreSQL)  
-
-4. Testes  
- 4.1 Guiões de teste  
- 4.2 Testes funcionais  
- 4.3 Integração  
-
-5. Comunicação  
- 5.1 Relatório  
- 5.2 Poster  
- 5.3 Vídeo  
- 5.4 Apresentações  
 
 ---
 
 #### 9.2.3 Requisitos Funcionais e Não Funcionais
 - **Funcionais**:  
-  - Criar e gerir grupos de utilizadores  
-  - Adicionar, editar e remover produtos da lista  
-  - Sincronização em tempo real entre membros  
-  - Notificações push quando um utilizador entra num supermercado  
-  - Sugestão de refeições com base nos ingredientes disponíveis  
-  - Visualização dos supermercados mais próximos e rotas no mapa  
-  - Utilização de QR Code para descontos  
+
 
 - **Não Funcionais**:  
-  - Usabilidade intuitiva e interface simples  
-  - Boa performance (resposta rápida nas operações)  
-  - Segurança (autenticação e proteção dos dados dos utilizadores)  
-  - Fiabilidade na sincronização dos dados  
-  - Compatibilidade com versões recentes do Android  
-  - Escalabilidade para suportar múltiplos grupos em simultâneo  
+
 
 ---
 
@@ -265,49 +258,9 @@ A tabela seguinte apresenta a distribuição preliminar de tarefas entre os memb
 - **Sugestão de Refeições**  
 ![Mockup Refeições](Imagens/mockup-refeicoes.png)
 
-#### 9.2.1 Project Charter
-
-- **Nome do Projeto**: BuyTogether  
-- **Equipa**: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca, Luís Quirim  
-- **Data de Início**: Setembro 2025  
-- **Prazo de Conclusão**: Janeiro 2026  
-
-**Descrição do Projeto**  
-Aplicação mobile colaborativa para gestão de listas de compras partilhadas. Permite adicionar e remover produtos em tempo real, receber notificações quando um membro entra num supermercado e sugerir refeições com base nos ingredientes disponíveis em casa. Futuramente poderá integrar QR Codes para descontos em supermercados parceiros.  
-
-**Scope (Âmbito)**  
-- **Incluído**: listas de compras colaborativas, notificações por geolocalização, sugestões de refeições, integração com mapas.  
-- **Excluído**: pagamentos dentro da aplicação, parcerias comerciais formais (fase futura).  
-
-**Business Case**  
-- Melhorar a organização das compras familiares.  
-- Evitar esquecimentos e duplicação de produtos.  
-- Incentivar refeições mais planeadas.  
-- Potencial parceria futura com supermercados para descontos.  
-
-**Restrições**  
-- **Tempo**: 1 semestre letivo (14 semanas).  
-- **Equipa**: 4 elementos com funções distintas (frontend, backend, BD, documentação).  
-- **Tecnologia**: Android, Spring Boot, PostgreSQL.  
-
-**Entregáveis**  
-- Protótipo funcional da aplicação (Android).  
-- Relatório técnico e académico.  
-- Poster de apresentação.  
-- Vídeo promocional.  
-
-**Stakeholders**  
-- **Primários**: famílias, casais, estudantes que vivem juntos.  
-- **Secundários**: supermercados parceiros.  
-
-**Riscos (iniciais)**  
-- Dificuldade em integrar notificações por localização em tempo real.  
-- Problemas de sincronização entre utilizadores.  
-- Possível subestimação do esforço de desenvolvimento.  
 ---
 
-#### 9.2.6 Planificação (Gráfico de Gantt)
-O planeamento temporal do projeto pode ser representado no gráfico de Gantt seguinte:
+#### 9.2.6 Planificação 
 
 | Fase                  | S1 | S2 | S3 | S4 | S5 | S6–10 | S11–14 |
 |-----------------------|----|----|----|----|----|-------|--------|
@@ -319,22 +272,3 @@ O planeamento temporal do projeto pode ser representado no gráfico de Gantt seg
 | Relatório / Poster    | X  |    |    | X  |    |       |   X    |
 | Apresentação final    |    |    |    |    |    |       |   X    |
 
-## 10. Planeamento e calendarização
-- Semana 1-2: Proposta inicial, mockups, modelação da BD  
-- Semana 3-5: Protótipo e servidor  
-- Semana 6-10: Desenvolvimento das funcionalidades principais  
-- Semana 11-14: Testes, integração e relatório final  
-
-*(Será apresentado em gráfico de Gantt no :contentReference[oaicite:20]{index=20} ou :contentReference[oaicite:21]{index=21})*
-
----
-
-## 11. Conclusão
-O projeto **ShopSync** permitirá que as famílias façam compras de forma coordenada e inteligente, com base na geolocalização e nas necessidades reais da casa, reduzindo desperdício e aumentando a eficiência.
-
----
-
-## 12. Bibliografia
-- Documentação oficial :contentReference[oaicite:22]{index=22}  
-- Documentação oficial :contentReference[oaicite:23]{index=23}  
-- Documentação oficial :contentReference[oaicite:24]{index=24}  
