@@ -145,7 +145,68 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 
 ### 9.1 Distribuição de Tarefas
 
+A distribuição de tarefas pelos membros do grupo está representada no gráfico de Gantt seguinte:
+
+![Gráfico de Gantt — Distribuição de Tarefas](https://github.com/user-attachments/assets/3c26bd66-a243-4799-87a2-9ded1f1976a8)
+
 ---
 
 ### 9.2 Plano de Trabalhos
+
+O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
+
 ![Gráfico de Gantt do Projeto COBUY](https://github.com/user-attachments/assets/325e8b1b-d552-4638-b5c6-dc74c1d6d615)
+
+---
+### 9.3. Modelo do Domínio
+
+
+---
+
+#### 9.3.1 Mockups e Interfaces
+- **Ecrã de Login / Registo**  
+
+
+- **Ecrã Lista de Compras**  
+
+
+- **Rota de Supermercados**  
+
+
+- **Refeições**  
+
+---
+
+## 10. Conclusão
+
+O desenvolvimento da aplicação **COBUY** pretende facilitar a gestão de compras em grupo através de três funcionalidades principais: listas de compras partilhadas, identificação de supermercados próximos com apresentação de rotas e cálculo automático de ingredientes e quantidades a partir de refeições.  
+
+Os principais objetivos a atingir são:
+- Garantir a sincronização em tempo real das listas partilhadas;  
+- Fornecer uma interface intuitiva e simples para todos os utilizadores;  
+- Integrar corretamente os serviços de geolocalização e mapas;  
+- Disponibilizar um módulo de refeições que sugira ingredientes e quantidades adaptadas ao número de pessoas;  
+- Cumprir os prazos de desenvolvimento definidos no planeamento do projeto.  
+
+Com a concretização deste projeto, espera-se que os utilizadores consigam reduzir esquecimentos, organizar melhor as compras do dia a dia e otimizar tempo e recursos.
+
+---
+
+## 11. Bibliografia
+
+AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
+
+Bring! Labs AG. (2025). *Bring! Shopping list & recipes*. Recuperado de https://www.getbring.com/  
+
+Listonic. (2025). *Smart grocery shopping list*. Recuperado de https://listonic.com/  
+
+SuperCook. (2025). *Recipe generator*. Recuperado de https://www.supercook.com/  
+
+Google Developers. (2025). *Google Maps Platform documentation*. Recuperado de https://developers.google.com/maps  
+
+Android Developers. (2025). *Android Studio documentation*. Recuperado de https://developer.android.com/studio  
+
+Spring. (2025). *Spring Boot reference documentation*. Recuperado de https://spring.io/projects/spring-boot  
+
+Oracle. (2025). *MySQL reference manual*. Recuperado de https://dev.mysql.com/doc/  
+
