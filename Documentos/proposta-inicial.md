@@ -10,6 +10,7 @@
 ## WBS (Work Breakdown Structure)
 
 **1.Planeamento e Gestão do Projeto**
+
   1.1. Levantamento de requisitos
   
   1.2. Análise do briefing e definição de objetivos
@@ -19,6 +20,7 @@
   1.4. Calendarização (gráfico de Gantt)
 
 **2.Design e Prototipagem**
+
   2.1. Criação de mockups no Figma
   
   2.2. Definição do fluxo de navegação da app
@@ -26,6 +28,7 @@
   2.3. Testes de usabilidade inicial
 
 **3.Desenvolvimento Técnico**
+
   3.1. Frontend (Android Studio, Kotlin)
 - Implementação das interfaces principais (login, lista de compras, rotas, refeições)
 
@@ -42,6 +45,7 @@
 - Módulo de receitas inteligentes
 
 **4.Funcionalidades-chave da App**
+
   4.1. Listas de compras colaborativas em tempo real
   
   4.2. Localização inteligente e rotas para supermercados
@@ -51,6 +55,7 @@
   4.4. Gestão de grupos e permissões
 
 **5.Testes e Validação**
+
   5.1. Testes funcionais (listas, rotas, receitas)
   
   5.2. Testes de usabilidade com utilizadores
@@ -58,6 +63,7 @@
   5.3. Correções e ajustes finais
 
 **6.Entrega e Comunicação**
+
   6.1. Relatório final escrito
   
   6.2. Poster do projeto
