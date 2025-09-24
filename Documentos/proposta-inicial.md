@@ -148,4 +148,4 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 ---
 
 ### 9.2 Plano de Trabalhos
-
+![Gráfico de Gantt do Projeto COBUY](https://github.com/user-attachments/assets/325e8b1b-d552-4638-b5c6-dc74c1d6d615)
