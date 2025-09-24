@@ -11,43 +11,59 @@
 
 **1.Planeamento e Gestão do Projeto**
   1.1. Levantamento de requisitos
+  
   1.2. Análise do briefing e definição de objetivos
+  
   1.3. Pesquisa de mercado e benchmarking
+  
   1.4. Calendarização (gráfico de Gantt)
 
 **2.Design e Prototipagem**
   2.1. Criação de mockups no Figma
+  
   2.2. Definição do fluxo de navegação da app
+  
   2.3. Testes de usabilidade inicial
 
 **3.Desenvolvimento Técnico**
   3.1. Frontend (Android Studio, Kotlin)
 - Implementação das interfaces principais (login, lista de compras, rotas, refeições)
+
   3.2. Backend (Spring Boot)
 - Desenvolvimento da API REST
 - Gestão de autenticação e grupos
+  
   3.3. Base de Dados (MySQL)
 - Modelação no Workbench
 - Sincronização com servidor
+  
   3.4. Integrações externas
 - Google Maps API (supermercados e rotas)
 - Módulo de receitas inteligentes
 
 **4.Funcionalidades-chave da App**
   4.1. Listas de compras colaborativas em tempo real
+  
   4.2. Localização inteligente e rotas para supermercados
+  
   4.3. Refeições inteligentes (ingredientes e quantidades automáticas)
+  
   4.4. Gestão de grupos e permissões
 
 **5.Testes e Validação**
   5.1. Testes funcionais (listas, rotas, receitas)
+  
   5.2. Testes de usabilidade com utilizadores
+  
   5.3. Correções e ajustes finais
 
 **6.Entrega e Comunicação**
   6.1. Relatório final escrito
+  
   6.2. Poster do projeto
+  
   6.3. Vídeo de apresentação
+  
   6.4. Submissão e defesa do projeto
 
 ---
