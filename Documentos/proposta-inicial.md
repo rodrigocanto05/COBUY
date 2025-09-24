@@ -7,6 +7,51 @@
 
 ---
 
+## WBS (Work Breakdown Structure)
+
+**1.Planeamento e Gestão do Projeto**
+  1.1. Levantamento de requisitos
+  1.2. Análise do briefing e definição de objetivos
+  1.3. Pesquisa de mercado e benchmarking
+  1.4. Calendarização (gráfico de Gantt)
+
+**2.Design e Prototipagem**
+  2.1. Criação de mockups no Figma
+  2.2. Definição do fluxo de navegação da app
+  2.3. Testes de usabilidade inicial
+
+**3.Desenvolvimento Técnico**
+  3.1. Frontend (Android Studio, Kotlin)
+- Implementação das interfaces principais (login, lista de compras, rotas, refeições)
+  3.2. Backend (Spring Boot)
+- Desenvolvimento da API REST
+- Gestão de autenticação e grupos
+  3.3. Base de Dados (MySQL)
+- Modelação no Workbench
+- Sincronização com servidor
+  3.4. Integrações externas
+- Google Maps API (supermercados e rotas)
+- Módulo de receitas inteligentes
+
+**4.Funcionalidades-chave da App**
+  4.1. Listas de compras colaborativas em tempo real
+  4.2. Localização inteligente e rotas para supermercados
+  4.3. Refeições inteligentes (ingredientes e quantidades automáticas)
+  4.4. Gestão de grupos e permissões
+
+**5.Testes e Validação**
+  5.1. Testes funcionais (listas, rotas, receitas)
+  5.2. Testes de usabilidade com utilizadores
+  5.3. Correções e ajustes finais
+
+**6.Entrega e Comunicação**
+  6.1. Relatório final escrito
+  6.2. Poster do projeto
+  6.3. Vídeo de apresentação
+  6.4. Submissão e defesa do projeto
+
+---
+
 ## 2. Palavras-chave
 - listas de compras;  
 - localização;  
@@ -21,37 +66,47 @@ A aplicação **COBUY** surge como resposta a um problema muito comum em famíli
 
 Numa família típica de quatro pessoas, é frequente cada elemento ir ao supermercado em momentos diferentes. Esta prática leva a dois cenários problemáticos: a compra repetida de produtos (ex.: três embalagens de leite quando já havia suficiente) e o esquecimento de itens essenciais (ex.: detergente ou pão).  
 
-Além disso, a ausência de uma lista partilhada torna difícil controlar o stock de alimentos em casa, resultando em desperdício alimentar e gastos desnecessários.  
+Além disso, a ausência de uma lista partilhada torna difícil controlar o stock de alimentos em casa, resultando em desperdício alimentar e gastos desnecessários.
+Para além disso, a ausência de uma lista partilhada entre os membros da casa dificulta o controlo do stock dos alimentos. Uma visão centralizada e atualizada, torna mais fácil planear refeições, gerir quantidades de forma equilibrada e garantir que os produtos essenciais não falham. Esta falta de coordenação traduz-se não apenas em esforço duplicado, mas também em deslocações desnecessárias e numa gestão pouco sustentável dos recursos familiares.
 
-A **COBUY** resolve estas falhas através de:  
-- **Listas de compras colaborativas em tempo real**: todos os membros do grupo têm acesso à mesma informação, podendo adicionar, editar ou remover produtos.  
-- **Localização inteligente**: a app identifica os supermercados mais próximos do utilizador e apresenta a rota até ao local escolhido.  
-- **Refeições inteligentes**: ao escrever o nome de uma refeição (ex.: “massa com atum”), a aplicação gera automaticamente os ingredientes necessários, ajustando as quantidades ao número de pessoas.  
+A **COBUY** resolve estas falhas através de:
+-**Listas de compras colaborativas em tempo real**: Todos os membros do grupo têm acesso à lista de compras, podendo adicionar, editar ou remover produtos. A atualização instantânea assegura que todos trabalham sobre a mesma lista, evitando produtos duplicados ou esquecidos.
 
-Este conjunto de funcionalidades visa **otimizar o tempo, reduzir custos e aumentar a eficiência das compras**, trazendo modernidade e colaboração ao ato de fazer compras.  
+-**Localização inteligente**: A integração com sistemas de geolocalização, a app localiza os supermercados mais próximos do utilizador e apresenta a rota até ao local escolhido. Desta forma, reduz-se o tempo despendido em deslocações e garante-se maior acessibilidade no processo de compras.
+
+-**Refeições inteligentes**: Escrever o nome de uma refeição (ex.: “massa com atum”), gera automaticamente os ingredientes necessários e ajusta as quantidades para o número de pessoas. Este recurso contribui para um planeamento alimentar mais prático e organizado, ajudando os utilizadores a poupar tempo e a garantir refeições adequadas às suas necessidades.
+
+
+Este conjunto de funcionalidades visa **otimizar o tempo, reduzir custos e aumentar a eficiência das compras**, trazendo modernidade e colaboração ao ato de fazer compras tal como simplicidade e acessibilidade que facilitam a vida quotidiana dos utilizadores e excluir velhos hábitos de esquecimento.  
 
 ---
 
 ## 4. Objetivos e motivação
-- Melhorar a organização das compras.  
-- Evitar esquecimentos de produtos essenciais.  
-- Reduzir deslocações desnecessárias.  
-- Tornar o processo de compras mais colaborativo.  
-- Incentivar uma alimentação planeada através de receitas.  
+- **Melhorar a organização das compras**:
+  Centralização da informação em um único espaço digital, evita imprevistos e incongruências, e a coextência de listas inteligentes prevêm tais problemas e garantem uma compra mais eficiente e bem planeada.  
+- **Controlo do stock doméstico**:
+  O controlo do inventário em casa ajuda a organização tanto financeira como alimentar, em termos de desperdícios, permitindo assim que a reposição do necessário seja comprado, **SEM FALHAS**. 
+- **Reduzir deslocações desnecessárias**:
+  Com a introdução de uma localização inteligente e possivel minimizar tempo, e energia, tal como a interação entre grupos para a mesma função (**Poupar Tempo**), decidindo assim o momento certo de ir as compras.   
+- **Tornar o processo de compras mais colaborativo**:
+  Além da inovação interativamente social entre compras, também promove uma divisão justa das responsabilidades, participando todos de uma forma ativa fortalecendo a cooperação de utilizadores atravez da adição e edição de listas simultâneamente.
+- **Incentivar uma alimentação planeada através de receitas**: Temos como objetivo não só facilitar a compra mas como a preparação dos produtos, isto é, serao introduzidas receitas a partir do stock ou listas, assim o planeamento alimentar, para desfazer habitos alimentares, reduz desperdício e contribui para refeições mais conscientes.
+    
+Inicialmente começamos por argumentar em  grupo acerca de programação de férias, ou mesmo organização em casa e no supermercado, e como estamos no século das tecnologias, decidimos que o papel e a caneta, ou mesmo as notas dos telemovéis, são pouco práticas e muito confusas, tal como a sobrecarga de tarefas que tornava a experiência ineficiente e demorada, até que pensamos que existe uma forma interativa, veloz e organizada do planeamento da cesta quotidiana do comsumidor. As listas cooperativas são uma função que é tanto interativa como poupa tempo a quem nelas participa, mesmo que esteja no sofa de casa, apenas com uma notificação ineligente, pode fazer parte de uma ação super importante e necessário, que hoje em dia é tão laborioso e esforçoso, então temos como motivação a simplificação e cooperação de utilizadores para não so tornar o ato de fazer compras sociavel mas tambem divertido, com tais interações.
 
 ---
 
 ## 5. Público-alvo
 O público-alvo da COBUY é bastante abrangente, englobando vários perfis:  
 
-- **Famílias**: que precisam de coordenar as compras de vários membros.  
-- **Casais**: que desejam dividir responsabilidades de forma prática.  
-- **Estudantes**: que partilham casa e dividem despesas, podendo usar a app para controlar o orçamento conjunto.  
-- **Grupos de amigos**: que organizam eventos (como churrascos ou festas) e necessitam de gerir as compras de forma colaborativa.  
+- **Famílias**: Coordenação de compras e stock.  
+- **Casais**: Divisão de responsabilidades de forma prática e organizada.  
+- **Estudantes**: Divisão de despesas para controlar o iventário e o orçamento em conjunto.  
+- **Grupos de amigos**: organização de eventos (como churrascos ou festas) que necessitam de gerirência das compras de forma colaborativa.  
 
-**Exemplos de personas:**  
-- *João, 25 anos*, estudante universitário que divide casa com três colegas. A COBUY ajuda-o a gerir de forma justa e organizada as compras semanais do grupo.  
-- *Marta, 40 anos*, mãe de dois filhos, utiliza a COBUY para garantir que a família não se esquece de nenhum produto essencial e para planear refeições semanais.  
+**Exemplos de pessoas**:  
+- *João, 25 anos*, estudante universitário que divide casa com três colegas. A COBUY ajuda-o a gerir de forma justa e organizada as compras semanais do grupo, de forma a que seja dividdida a despesa de cada um.  
+- *Marta, 40 anos*, mãe de dois filhos, utiliza a COBUY para garantir uma listagem rápida e eficiente para que a família não se esqueça de nenhum produto essencial planeando refeições semanais, a partir do inventário.  
 
 ---
 
