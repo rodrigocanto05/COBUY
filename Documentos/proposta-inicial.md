@@ -29,23 +29,23 @@
 
 **3.Desenvolvimento Técnico**
 
-  3.1. Frontend (Android Studio, Kotlin)
+-- Frontend (Android Studio, Kotlin):
   
 - Implementação das interfaces principais (login, lista de compras, rotas, refeições)
 
-  3.2. Backend (Spring Boot)
+-- Backend (Spring Boot):
   
 - Desenvolvimento da API REST
 
 - Gestão de autenticação e grupos
   
-  3.3. Base de Dados (MySQL)
+-- Base de Dados (MySQL):
   
 - Modelação no Workbench
 
 - Sincronização com servidor
   
-  3.4. Integrações externas
+-- Integrações externas:
   
 - Google Maps API (supermercados e rotas)
 
