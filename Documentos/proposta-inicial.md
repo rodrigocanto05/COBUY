@@ -7,80 +7,6 @@
 
 ---
 
-## WBS (Work Breakdown Structure)
-
-**1.Planeamento e Gestão do Projeto**
-
-- Levantamento de requisitos
-  
-- Análise do briefing e definição de objetivos
-  
-- Pesquisa de mercado e benchmarking
-  
-- Calendarização (gráfico de Gantt)
-
-**2.Design e Prototipagem**
-
-- Criação de mockups no Figma
-  
-- Definição do fluxo de navegação da app
-  
-- Testes de usabilidade inicial
-
-**3.Desenvolvimento Técnico**
-
--- Frontend (Android Studio, Kotlin):
-  
-- Implementação das interfaces principais (login, lista de compras, rotas, refeições)
-
--- Backend (Spring Boot):
-  
-- Desenvolvimento da API REST
-
-- Gestão de autenticação e grupos
-  
--- Base de Dados (MySQL):
-  
-- Modelação no Workbench
-
-- Sincronização com servidor
-  
--- Integrações externas:
-  
-- Google Maps API (supermercados e rotas)
-
-- Módulo de receitas inteligentes
-
-**4.Funcionalidades-chave da App**
-
-- Listas de compras colaborativas em tempo real
-  
-- Localização inteligente e rotas para supermercados
-  
-- Refeições inteligentes (ingredientes e quantidades automáticas)
-  
-- Gestão de grupos e permissões
-
-**5.Testes e Validação**
-
-- Testes funcionais (listas, rotas, receitas)
-  
-- Testes de usabilidade com utilizadores
-  
-- Correções e ajustes finais
-
-**6.Entrega e Comunicação**
-
-- Relatório final escrito
-  
-- Poster do projeto
-  
-- Vídeo de apresentação
-  
-- Submissão e defesa do projeto
-
----
-
 ## 2. Palavras-chave
 - listas de compras;  
 - localização;  
@@ -99,6 +25,7 @@ Além disso, a ausência de uma lista partilhada torna difícil controlar o stoc
 Para além disso, a ausência de uma lista partilhada entre os membros da casa dificulta o controlo do stock dos alimentos. Uma visão centralizada e atualizada, torna mais fácil planear refeições, gerir quantidades de forma equilibrada e garantir que os produtos essenciais não falham. Esta falta de coordenação traduz-se não apenas em esforço duplicado, mas também em deslocações desnecessárias e numa gestão pouco sustentável dos recursos familiares.
 
 A **COBUY** resolve estas falhas através de:
+
 -**Listas de compras colaborativas em tempo real**: Todos os membros do grupo têm acesso à lista de compras, podendo adicionar, editar ou remover produtos. A atualização instantânea assegura que todos trabalham sobre a mesma lista, evitando produtos duplicados ou esquecidos.
 
 -**Localização inteligente**: A integração com sistemas de geolocalização, a app localiza os supermercados mais próximos do utilizador e apresenta a rota até ao local escolhido. Desta forma, reduz-se o tempo despendido em deslocações e garante-se maior acessibilidade no processo de compras.
@@ -286,12 +213,84 @@ O modelo do domínio da aplicação pode ser representado pelas seguintes entida
 
 ---
 
-#### 9.3.1 Mockups e Interfaces
+### 9.3.1 Mockups e Interfaces
 - **Ecrã de Login / Registo**  
 - **Ecrã Lista de Compras**  
 - **Rota de Supermercados**  
-- **Refeições**  
+- **Refeições**
 
+### 9.4 WBS (Work Breakdown Structure)
+
+**1.Planeamento e Gestão do Projeto**
+
+- Levantamento de requisitos
+  
+- Análise do briefing e definição de objetivos
+  
+- Pesquisa de mercado e benchmarking
+  
+- Calendarização (gráfico de Gantt)
+
+**2.Design e Prototipagem**
+
+- Criação de mockups no Figma
+  
+- Definição do fluxo de navegação da app
+  
+- Testes de usabilidade inicial
+
+**3.Desenvolvimento Técnico**
+
+-- Frontend (Android Studio, Kotlin):
+  
+- Implementação das interfaces principais (login, lista de compras, rotas, refeições)
+
+-- Backend (Spring Boot):
+  
+- Desenvolvimento da API REST
+
+- Gestão de autenticação e grupos
+  
+-- Base de Dados (MySQL):
+  
+- Modelação no Workbench
+
+- Sincronização com servidor
+  
+-- Integrações externas:
+  
+- Google Maps API (supermercados e rotas)
+
+- Módulo de receitas inteligentes
+
+**4.Funcionalidades-chave da App**
+
+- Listas de compras colaborativas em tempo real
+  
+- Localização inteligente e rotas para supermercados
+  
+- Refeições inteligentes (ingredientes e quantidades automáticas)
+  
+- Gestão de grupos e permissões
+
+**5.Testes e Validação**
+
+- Testes funcionais (listas, rotas, receitas)
+  
+- Testes de usabilidade com utilizadores
+  
+- Correções e ajustes finais
+
+**6.Entrega e Comunicação**
+
+- Relatório final escrito
+  
+- Poster do projeto
+  
+- Vídeo de apresentação
+  
+- Submissão e defesa do projeto
+  
 ---
 
 ## 10. Conclusão
