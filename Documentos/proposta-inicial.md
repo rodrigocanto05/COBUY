@@ -29,10 +29,10 @@ A **COBUY** resolve estas falhas através de:
 
 -**Localização inteligente**: A integração com sistemas de geolocalização, a app localiza os supermercados mais próximos do utilizador e apresenta a rota até ao local escolhido. Desta forma, reduz-se o tempo despendido em deslocações e garante-se maior acessibilidade no processo de compras.
 
--**Refeições inteligentes**: Escrever o nome de uma refeição (ex.: “massa com atum”), gera automaticamente os ingredientes necessários e ajusta as quantidades para o número de pessoas. Este recurso contribui para um planeamento alimentar mais prático e organizado, ajudando os utilizadores a poupar tempo e a garantir refeições adequadas às suas necessidades.
+-**Refeições inteligentes**: Escrever o nome de uma refeição (ex.: “massa com atum”), gera automaticamente os ingredientes necessários e ajusta as quantidades para o número de pessoas. Este recurso contribui para um planeamento alimentar mais prático e organizado, ajudando os utilizadores a poupar tempo e garantir refeições adequadas às suas necessidades.
 
 
-Este conjunto de funcionalidades visa **otimizar o tempo, reduzir custos e aumentar a eficiência das compras**, trazendo modernidade e colaboração ao ato de fazer compras tal como simplicidade e acessibilidade que facilitam a vida quotidiana dos utilizadores e excluir velhos hábitos de esquecimento.  
+Este conjunto de funcionalidades têm como principal intenção: **otimizar o tempo, reduzir custos e aumentar a eficiência das compras**, trazendo modernidade e colaboração ao ato de fazer compras tal como simplicidade e acessibilidade que facilitam a vida quotidiana dos utilizadores excluindo velhos hábitos ou descuidos.  
 
 ---
 
