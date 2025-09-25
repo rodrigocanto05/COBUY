@@ -21,8 +21,7 @@ A aplicação **COBUY** surge como resposta a um problema muito comum em famíli
 
 Numa família típica de quatro pessoas, é frequente cada elemento ir ao supermercado em momentos diferentes. Esta prática leva a dois cenários problemáticos: a compra repetida de produtos (ex.: três embalagens de leite quando já havia suficiente) e o esquecimento de itens essenciais (ex.: detergente ou pão).  
 
-Além disso, a ausência de uma lista partilhada torna difícil controlar o stock de alimentos em casa, resultando em desperdício alimentar e gastos desnecessários.
-Para além disso, a ausência de uma lista partilhada entre os membros da casa dificulta o controlo do stock dos alimentos. Uma visão centralizada e atualizada, torna mais fácil planear refeições, gerir quantidades de forma equilibrada e garantir que os produtos essenciais não falham. Esta falta de coordenação traduz-se não apenas em esforço duplicado, mas também em deslocações desnecessárias e numa gestão pouco sustentável dos recursos familiares.
+A ausência de uma lista partilhada entre os membros da casa dificulta o controlo do stock dos produtos. Uma visão centralizada e atualizada, torna mais fácil planear refeições, gerir quantidades de forma equilibrada e garantir que os produtos essenciais não falham. Esta falta de coordenação traduz-se não apenas em esforço duplicado, mas também em deslocações desnecessárias e numa gestão pouco sustentável dos recursos familiares.
 
 A **COBUY** resolve estas falhas através de:
 
