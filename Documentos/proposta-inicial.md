@@ -220,7 +220,7 @@ O modelo do domínio da aplicação pode ser representado pelas seguintes entida
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 #### Tela de Início
-![Tela Início](https://github.com/user-attachments/assets/72b2705a-1084-46df-af5d-ecf80dbc496c)
+
 
 #### Tela de Registo
 ![Tela Registo](https://github.com/user-attachments/assets/201f1bcd-4211-416c-a834-d442a376a958)
