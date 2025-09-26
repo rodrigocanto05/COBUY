@@ -228,8 +228,12 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 #### Tela de Perfil
 ![Tela Perfil](https://github.com/user-attachments/assets/48625c76-78b9-40e4-afe2-d36338b3328f)
 
-#### Tela de Mapa (brevemente)
-![Tela Mapa](https://github.com/user-attachments/assets/15c1acf8-3c25-4485-aeae-ea1e6aec7633)
+#### Tela de Mapa 
+![Tela Mapa](https://github.com/user-attachments/assets/c445cf03-f725-4920-b7a5-5fdb42055131)
+
+#### Tela Lista 
+![Tela de Lista](https://github.com/user-attachments/assets/5eba1670-3e34-4882-840f-677e6422ab97)
+
 
 ### 9.4 WBS (Work Breakdown Structure)
 
