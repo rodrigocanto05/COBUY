@@ -215,12 +215,10 @@ O modelo do domínio da aplicação pode ser representado pelas seguintes entida
 
 ### 9.3.1 Mockups e Interfaces
 
-### 9.3.1 Mockups e Interfaces
-
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 #### Tela de Registo
-
+![Tela de registo](https://github.com/user-attachments/assets/62430566-7db3-4df8-94be-063e133698c1)
 
 #### Tela de Início
 ![Tela Início](https://github.com/user-attachments/assets/201f1bcd-4211-416c-a834-d442a376a958)
