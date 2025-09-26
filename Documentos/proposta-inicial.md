@@ -219,11 +219,11 @@ O modelo do domínio da aplicação pode ser representado pelas seguintes entida
 
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
-#### Tela de Início
-
-
 #### Tela de Registo
-![Tela Registo](https://github.com/user-attachments/assets/201f1bcd-4211-416c-a834-d442a376a958)
+
+
+#### Tela de Início
+![Tela Início](https://github.com/user-attachments/assets/201f1bcd-4211-416c-a834-d442a376a958)
 
 #### Tela de Perfil
 ![Tela Perfil](https://github.com/user-attachments/assets/48625c76-78b9-40e4-afe2-d36338b3328f)
