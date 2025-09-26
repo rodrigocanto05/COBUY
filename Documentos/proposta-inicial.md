@@ -214,14 +214,22 @@ O modelo do domínio da aplicação pode ser representado pelas seguintes entida
 ---
 
 ### 9.3.1 Mockups e Interfaces
-- **Ecrã de Login / Registo**
-- 
-- **Ecrã Lista de Compras**
-- 
-- **Rota de Supermercados**
-- 
-- **Refeições**
-- 
+
+### 9.3.1 Mockups e Interfaces
+
+Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
+
+#### Tela de Início
+![Tela Início](https://github.com/user-attachments/assets/72b2705a-1084-46df-af5d-ecf80dbc496c)
+
+#### Tela de Registo
+![Tela Registo](https://github.com/user-attachments/assets/201f1bcd-4211-416c-a834-d442a376a958)
+
+#### Tela de Perfil
+![Tela Perfil](https://github.com/user-attachments/assets/48625c76-78b9-40e4-afe2-d36338b3328f)
+
+#### Tela de Mapa (brevemente)
+![Tela Mapa](https://github.com/user-attachments/assets/15c1acf8-3c25-4485-aeae-ea1e6aec7633)
 
 ### 9.4 WBS (Work Breakdown Structure)
 
