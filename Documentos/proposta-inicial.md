@@ -186,7 +186,7 @@ O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
 
 ---
 
-### 9.3.1 Mockups e Interfaces
+### 9.2. Mockups e Interfaces
 
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
@@ -206,7 +206,7 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 ![Tela de Lista](https://github.com/user-attachments/assets/5eba1670-3e34-4882-840f-677e6422ab97)
 
 
-### 9.4 WBS (Work Breakdown Structure)
+### 9.3 WBS (Work Breakdown Structure)
 
 **1.Planeamento e Gestão do Projeto**
 
