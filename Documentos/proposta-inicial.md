@@ -191,19 +191,19 @@ O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 #### Tela de Registo
-![Tela de registo](https://github.com/user-attachments/assets/62430566-7db3-4df8-94be-063e133698c1)
+<img width="205" height="412" alt="Captura de ecrã 2025-10-01, às 13 28 41" src="https://github.com/user-attachments/assets/56d07bb9-e5a6-4c48-aaba-b8eec8ddca87" />
 
 #### Tela de Início
-![Tela Início](https://github.com/user-attachments/assets/201f1bcd-4211-416c-a834-d442a376a958)
+
 
 #### Tela de Perfil
-![Tela Perfil](https://github.com/user-attachments/assets/48625c76-78b9-40e4-afe2-d36338b3328f)
+
 
 #### Tela de Mapa 
-![Tela Mapa](https://github.com/user-attachments/assets/c445cf03-f725-4920-b7a5-5fdb42055131)
+
 
 #### Tela Lista 
-![Tela de Lista](https://github.com/user-attachments/assets/5eba1670-3e34-4882-840f-677e6422ab97)
+
 
 
 ### 9.3 WBS (Work Breakdown Structure)
