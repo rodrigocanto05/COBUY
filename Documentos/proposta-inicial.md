@@ -182,7 +182,7 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 ## 9. Planeamento e Calendarização
 
 O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
-!Planeamento](https://github.com/user-attachments/assets/178bd8b5-c1cd-4359-a73a-f73795368dee)
+![Planeamento](https://github.com/user-attachments/assets/325e8b1b-d552-4638-b5c6-dc74c1d6d615)
 
 ---
 
