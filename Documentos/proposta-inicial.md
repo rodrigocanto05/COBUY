@@ -181,35 +181,9 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 
 ## 9. Planeamento e Calendarização
 
-### 9.1 Distribuição de Tarefas
-
-A distribuição de tarefas pelos membros do grupo está representada no gráfico de Gantt seguinte:
-(Neste gráfico estão apenas representadas as tarefas atribuídas até ao momento, uma vez que nas próximas fases iremos rever e ajustar todas as atividades do projeto em conjunto.)
-
-![Distribuição de tarefas (Semanas 0 a 14)](https://github.com/user-attachments/assets/eaf4e73f-7f31-41f5-a33e-db0b71916e3f)
-
-
-### 9.2 Plano de Trabalhos
 O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
 
 ![Gráfico de Gantt do Projeto COBUY](https://github.com/user-attachments/assets/325e8b1b-d552-4638-b5c6-dc74c1d6d615)  
-
----
-
-### 9.3 Modelo do Domínio
-O modelo do domínio da aplicação pode ser representado pelas seguintes entidades:  
-
-- **Utilizador** (id, nome, email, password)  
-- **Grupo** (id, nome, lista associada)  
-- **Lista** (id, produtos, estado)  
-- **Produto** (id, nome, quantidade, estado comprado/não comprado)  
-- **Refeição** (id, nome, ingredientes, quantidades)  
-
-**Relações:**  
-- Um **utilizador** pode pertencer a vários grupos.  
-- Cada **grupo** tem pelo menos uma **lista**.  
-- A **lista** contém vários **produtos**.  
-- As **refeições** geram automaticamente produtos para a lista.  
 
 ---
 
