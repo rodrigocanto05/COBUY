@@ -194,16 +194,19 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 <img width="205" height="412" alt="Captura de ecrã 2025-10-01, às 13 28 41" src="https://github.com/user-attachments/assets/56d07bb9-e5a6-4c48-aaba-b8eec8ddca87" />
 
 #### Tela de Início
-
+<img width="385" height="779" alt="movel1_1" src="https://github.com/user-attachments/assets/ade32d78-ff8c-49e2-b427-d34669883868" />
 
 #### Tela de Perfil
-
+<img width="403" height="778" alt="movel2_1" src="https://github.com/user-attachments/assets/60957cbc-090f-4ad7-8b03-f4c1581bf104" />
 
 #### Tela de Mapa 
-
+<img width="446" height="869" alt="movel4_1" src="https://github.com/user-attachments/assets/10ff8a65-34a4-4f8e-a163-0002e65d9b19" />
 
 #### Tela Lista 
+<img width="466" height="858" alt="movel5_1" src="https://github.com/user-attachments/assets/6238358f-b440-41f1-b7d9-1e2dd7d34952" />
 
+
+---
 
 
 ### 9.3 WBS (Work Breakdown Structure)
