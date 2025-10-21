@@ -1,5 +1,8 @@
 package pt.iade.ei.cobuy.ui.navigation
 
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+
 fun appNavigation() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = NavPath.Login.route) {

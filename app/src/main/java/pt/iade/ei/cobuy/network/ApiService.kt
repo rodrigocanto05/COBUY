@@ -1,9 +1,9 @@
-package pt.iade.ei.cobuy.network
+//package pt.iade.ei.cobuy.network
 
-interface ApiService {
-    @GET("lists")
-    suspend fun getLists(): List<ShoppingList>
+//interface ApiService {
+  //  @GET("lists")
+    //suspend fun getLists(): List<ShoppingList>
 
-    @POST("lists")
-    suspend fun createList(@Body list: ShoppingList)
-}
+    //@POST("lists")
+    //suspend fun createList(@Body list: ShoppingList)
+//}
