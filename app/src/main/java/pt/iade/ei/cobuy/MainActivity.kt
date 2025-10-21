@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui
+package pt.iade.ei.cobuy
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import pt.iade.ei.cobuy.ui.tema.COBUYTheme
+import pt.iade.ei.cobuy.ui.navigation.AppNavigation
+import pt.iade.ei.cobuy.ui.navigation.appNavigation
+import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
+
                     )
+                    appNavigation()
                 }
             }
         }

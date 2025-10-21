@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui
+package pt.iade.ei.cobuy
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import pt.iade.ei.cobuy.R
+import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import java.util.Calendar
 
 class EventDetailActivity : ComponentActivity() {
@@ -38,7 +38,7 @@ class EventDetailActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            GreenventosTheme {
+            COBUYTheme {  }Theme {
                 DetailView()
             }
         }

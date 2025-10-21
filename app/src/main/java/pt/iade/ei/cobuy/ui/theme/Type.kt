@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.tema
+package pt.iade.ei.cobuy.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
