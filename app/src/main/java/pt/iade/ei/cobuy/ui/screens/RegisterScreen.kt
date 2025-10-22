@@ -7,8 +7,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import pt.iade.ei.cobuy.ui.navigation.NavRoutes
+import pt.iade.ei.cobuy.ui.navigation.NavPath
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavController) {
     Scaffold(
@@ -31,7 +32,7 @@ fun RegisterScreen(navController: NavController) {
             OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") })
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = { navController.navigate(NavRoutes.Login.route) }) {
+            Button(onClick = { navController.navigate(NavPath.Login.route) }) {
                 Text("Registar")
             }
         }
