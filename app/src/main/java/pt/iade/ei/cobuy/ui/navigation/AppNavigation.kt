@@ -7,33 +7,21 @@ import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.ui.screens.*
 
 @Composable
-fun appNavigation() {
-    // Cria o controlador de navegação
+fun AppNavigation() {
     val navController = rememberNavController()
 
-    // Define o NavHost (contenedor de todas as rotas)
     NavHost(
         navController = navController,
-        startDestination = NavPath.Login.route // Primeira tela a abrir
+        startDestination = NavPath.Home.route
     ) {
-        // As tuas rotas
-        composable(NavPath.Login.route) {
-            LoginScreen(navController)
-        }
-        composable(NavPath.Register.route) {
-            RegisterScreen(navController)
-        }
-        composable(NavPath.Home.route) {
-            HomeScreen(navController)
-        }
-        composable(NavPath.ShoppingList.route) {
-            ShoppingListScreen(navController)
-        }
-        composable(NavPath.Recipes.route) {
-            RecipeScreen(navController)
-        }
-        composable(NavPath.Map.route) {
-            MapScreen(navController)
-        }
+        composable(NavPath.Home.route) { HomeScreen(navController) }
+        composable(NavPath.Register.route) { RegisterScreen(navController) }
+        composable(NavPath.Login.route) { LoginScreen(navController) }
+        composable(NavPath.Dashboard.route) { DashboardScreen(navController) }
+        composable(NavPath.Profile.route) { ProfileScreen(navController) }
+        composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
+        composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
+        composable(NavPath.GroupDetail.route) { GroupDetailScreen(navController) }
+        composable(NavPath.Map.route) { MapScreen(navController) }
     }
 }
