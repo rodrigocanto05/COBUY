@@ -10,9 +10,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.ui.navigation.NavPath
+import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,47 +28,40 @@ fun HomeScreen(navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(40.dp))
-
             // Logo
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.mipmap.ic_launcher_foreground),
                 contentDescription = "CoBuy Logo",
-                modifier = Modifier
-                    .size(120.dp)
-                    .padding(8.dp),
+                modifier = Modifier.size(120.dp),
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(Modifier.height(24.dp))
-
-            // App name + slogan
+            // Texto principal
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "CoBuy",
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = OrangePrimary
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = "Do GPS ao carrinho — tudo numa app!",
-                    style = MaterialTheme.typography.bodyMedium
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
 
-            Spacer(Modifier.height(48.dp))
-
-            // Buttons
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            // Botões
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(
                     onClick = { navController.navigate(NavPath.Register.route) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
+                        .height(56.dp),
+                    shape = MaterialTheme.shapes.extraLarge
                 ) {
-                    Text("Criar conta")
+                    Text("Criar Conta", fontSize = 18.sp)
                 }
 
                 Spacer(Modifier.height(16.dp))
@@ -75,13 +70,13 @@ fun HomeScreen(navController: NavController) {
                     onClick = { navController.navigate(NavPath.Login.route) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
+                        .height(56.dp),
+                    shape = MaterialTheme.shapes.extraLarge,
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = OrangePrimary)
                 ) {
-                    Text("Iniciar sessão")
+                    Text("Iniciar Sessão", fontSize = 18.sp)
                 }
             }
-
-            Spacer(Modifier.height(40.dp))
         }
     }
 }

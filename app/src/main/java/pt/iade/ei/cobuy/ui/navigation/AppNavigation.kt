@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.ui.screens.*
 
 @Composable
-fun AppNavigation() {
+fun appNavigation() {
     val navController = rememberNavController()
 
     NavHost(

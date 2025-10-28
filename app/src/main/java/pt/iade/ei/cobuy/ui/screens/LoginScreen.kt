@@ -25,7 +25,7 @@ fun LoginScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Iniciar sessão") },
+                title = { Text("Login") },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Voltar")
@@ -38,49 +38,46 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 24.dp, vertical = 16.dp),
+                .padding(24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
                 value = emailOrPhone,
                 onValueChange = { emailOrPhone = it },
-                label = { Text("Email ou número de telefone") },
+                label = { Text("Email ou Telefone") },
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Palavra-passe") },
-                singleLine = true,
+                label = { Text("Password") },
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    val icon = if (showPassword) Icons.Default.VisibilityOff else Icons.Default.Visibility
                     IconButton(onClick = { showPassword = !showPassword }) {
-                        Icon(icon, contentDescription = null)
+                        Icon(
+                            imageVector = if (showPassword) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                            contentDescription = if (showPassword) "Esconder password" else "Mostrar password"
+                        )
                     }
                 }
             )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Button(
                 onClick = { navController.navigate(NavPath.Dashboard.route) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Entrar")
             }
 
-            Spacer(Modifier.height(12.dp))
-
             TextButton(onClick = { navController.navigate(NavPath.Register.route) }) {
-                Text("Não tem conta? Criar agora")
+                Text("Criar Conta")
             }
         }
     }
