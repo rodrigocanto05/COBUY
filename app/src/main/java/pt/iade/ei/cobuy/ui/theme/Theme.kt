@@ -7,9 +7,9 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun COBUYTheme(content: @Composable () -> Unit) {
     val colors = lightColorScheme(
-        primary = Color(0xFF2E7D32),
-        secondary = Color(0xFF81C784),
-        background = Color(0xFFF1F8E9)
+        primary = Color(0xFFE86307),
+        secondary = Color(0xFF000000),
+        background = Color(0xFFEBEFEA)
     )
 
     MaterialTheme(
