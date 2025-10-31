@@ -1,0 +1,13 @@
+com/cobuy/cobuybackend/repository/ShoppingListRepository.class
+com/cobuy/cobuybackend/repository/UserRepository.class
+com/cobuy/cobuybackend/model/ShoppingList.class
+com/cobuy/cobuybackend/controller/ListItemController.class
+com/cobuy/cobuybackend/controller/ShoppingListController.class
+com/cobuy/cobuybackend/repository/ListItemRepository.class
+com/cobuy/cobuybackend/CobuyBackendApplication.class
+com/cobuy/cobuybackend/controller/GroupController.class
+com/cobuy/cobuybackend/model/User.class
+com/cobuy/cobuybackend/controller/UserController.class
+com/cobuy/cobuybackend/repository/GroupRepository.class
+com/cobuy/cobuybackend/model/ListItem.class
+com/cobuy/cobuybackend/model/Group.class
