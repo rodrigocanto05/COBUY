@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("/groups") //ola
 public class GroupController {
 
     private final GroupRepository groupRepository;
