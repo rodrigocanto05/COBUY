@@ -203,11 +203,9 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 <img width="446" height="869" alt="movel4_1" src="https://github.com/user-attachments/assets/10ff8a65-34a4-4f8e-a163-0002e65d9b19" />
 
 #### Tela Lista 
-<img width="466" height="858" alt="movel5_1" src="https://github.com/user-attachments/assets/6238358f-b440-41f1-b7d9-1e2dd7d34952" />
-
+<img width="233" height="429" alt="movel5_small" src="https://github.com/user-attachments/assets/34a7bca0-dfa9-4338-9b0d-fb213f7e81f7" />
 
 ---
-
 
 ### 9.3 WBS (Work Breakdown Structure)
 
