@@ -328,7 +328,7 @@ O sistema assenta nas seguintes entidades principais:
 
 #### Diagrama MER
 
-![BD_MER_small](https://github.com/user-attachments/assets/869a9b99-0062-46b1-814b-7bd5151dce13)
+<img width="500" height="1000" alt="MER drawio-1" src="https://github.com/user-attachments/assets/1d3b1e0f-cec7-45d3-bf12-db9834fd9514" />
 
 Relações:
 
