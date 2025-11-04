@@ -278,41 +278,10 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 - Vídeo de apresentação
   
 - Submissão e defesa do projeto
-  
----
-
-## 11. Conclusão
-A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataforma colaborativa e inteligente**. O seu impacto pode ser sentido em três níveis:  
-
-- **Social:** fortalece a colaboração entre membros de famílias, casais e grupos de amigos, criando um hábito mais organizado e participativo.  
-- **Económico:** reduz desperdícios e gastos desnecessários, já que os utilizadores compram apenas o que precisam.  
-- **Tecnológico:** combina funcionalidades modernas como sincronização em tempo real, geolocalização e algoritmos inteligentes de recomendação.  
-
-Futuramente, a COBUY poderá integrar-se com supermercados locais para permitir compras online, gerar listas a partir de comandos de voz e até sugerir menus semanais completos com base em restrições alimentares.  
-
-Assim, este projeto não só cumpre os objetivos inicialmente propostos, como também abre caminho para evolução futura em direção a uma solução de **smart shopping**.  
 
 ---
 
-# 12.Base de Dados
-
-## 12.1 Diagrama Conceptual (MER)
-
-O sistema **CoBuy** baseia-se num conjunto de entidades relacionadas entre si, que representam os utilizadores, grupos e listas de compras, bem como receitas e ingredientes de referência que os utilizadores podem consultar.  
-A figura seguinte apresenta o **diagrama conceptual (MER)** com as principais relações entre as entidades:
-
-![BD_MER_small](https://github.com/user-attachments/assets/869a9b99-0062-46b1-814b-7bd5151dce13)
-
-As principais relações são:
-- **Um utilizador** pode pertencer a vários **grupos** (`memberships`);
-- **Cada grupo** pode ter várias **listas de compras**;
-- **Cada lista** contém vários **itens**;
-- **As receitas** são pré-definidas e contêm os seus **ingredientes** (consultáveis pelos utilizadores);
-- **Supermercados** e **locais favoritos** permitem aos utilizadores guardar referências de lojas.
-
----
-
-## 12.2 Documentação REST 
+## 10 Documentação REST 
 
 A aplicação disponibiliza uma API RESTful que permite o acesso aos principais recursos da base de dados.
 
@@ -334,58 +303,135 @@ A aplicação disponibiliza uma API RESTful que permite o acesso aos principais 
 | **Saved Places** | `GET` | `/saved-places` | Mostra locais guardados pelo utilizador | `[{"user":"João","supermarket":"Lidl","label":"Perto de casa"}]` |
 |  | `POST` | `/saved-places` | Guarda supermercado como favorito | `{"user_id":1,"supermarket_id":2,"label":"Lidl - Centro"}` |
 
----
 
-## 12.3 Dicionário de Dados (Modelo Entidade-Relacionamento)
+## 12. Base de Dados (BD report)
 
-| Tabela | Campo | Tipo | Chave | Descrição / Restrições |
-|---------|--------|------|--------|--------------------------|
-| **users** | usr_id | INT | PK | Identificador único do utilizador |
-|  | usr_name | VARCHAR(80) |  | Nome completo |
-|  | usr_email | VARCHAR(120) | UQ | Email único |
-|  | usr_password | VARCHAR(200) |  | Hash da password |
-|  | usr_created_at | DATETIME |  | Data de criação |
-| **groupss** | grp_id | INT | PK | Identificador único do grupo |
-|  | grp_name | VARCHAR(80) | UQ | Nome do grupo |
-|  | grp_created_at | DATETIME |  | Data de criação |
-| **memberships** | mem_id | INT | PK | ID da associação utilizador-grupo |
-|  | mem_usr_id | INT | FK → users(usr_id) | Utilizador associado |
-|  | mem_grp_id | INT | FK → groupss(grp_id) | Grupo associado |
-|  | mem_role | VARCHAR(10) |  | owner / member |
-|  | mem_joined_at | DATETIME |  | Data de entrada |
-| **shopping_lists** | lst_id | INT | PK | ID da lista |
-|  | lst_grp_id | INT | FK → groupss(grp_id) | Grupo dono da lista |
-|  | lst_title | VARCHAR(80) |  | Nome da lista |
-|  | lst_created_at | DATETIME |  | Data de criação |
-| **list_items** | itm_id | INT | PK | ID do item |
-|  | itm_lst_id | INT | FK → shopping_lists(lst_id) | Lista associada |
-|  | itm_name | VARCHAR(120) |  | Nome do item |
-|  | itm_qty | DECIMAL(10,2) |  | Quantidade |
-|  | itm_unit | VARCHAR(16) |  | Unidade de medida |
-|  | itm_done | BOOLEAN |  | Estado (feito / não feito) |
-|  | itm_updated_at | TIMESTAMP |  | Última atualização |
-| **recipes** | rec_id | INT | PK | ID da receita (pré-definida) |
-|  | rec_name | VARCHAR(120) |  | Nome da receita |
-|  | rec_serves | INT |  | Nº de porções |
-| **recipe_ingredients** | rin_id | INT | PK | ID do ingrediente |
-|  | rin_rec_id | INT | FK → recipes(rec_id) | Receita associada |
-|  | rin_name | VARCHAR(120) |  | Nome do ingrediente |
-|  | rin_qty_serving | DECIMAL(10,2) |  | Quantidade por porção |
-|  | rin_unit | VARCHAR(16) |  | Unidade |
-| **supermarkets** | sup_id | INT | PK | ID do supermercado |
-|  | sup_name | VARCHAR(120) | UQ | Nome |
-|  | sup_rating | DECIMAL(2,1) |  | Avaliação (0–5) |
-|  | sup_distance | DECIMAL(6,2) |  | Distância (km) |
-| **saved_places** | sav_id | INT | PK | ID do favorito |
-|  | sav_usr_id | INT | FK → users(usr_id) | Utilizador |
-|  | sav_sup_id | INT | FK → supermarkets(sup_id) | Supermercado |
-|  | sav_label | VARCHAR(80) |  | Nome personalizado |
-|  | sav_distance | DECIMAL(6,2) |  | Distância (km) |
-|  | sav_created_at | DATETIME |  | Data de registo |
+Este capítulo apresenta o modelo de dados utilizado no projeto **CoBuy**, incluindo o diagrama conceptual, a definição das entidades e relações, o dicionário de dados e os exemplos que compõem a base de dados de referência para testes.
+
+A base de dados reflete os requisitos funcionais da aplicação, permitindo gerir utilizadores, grupos, listas de compras partilhadas, itens, receitas pré-definidas e locais de compras favoritos.
 
 ---
 
-## 12.4 Guia de Dados (Estrutura da BD Exemplo)
+### 12.1 Modelo Conceptual (MER)
+
+O sistema assenta nas seguintes entidades principais:
+
+- User
+- Groupss
+- Memberships (ligação N:N entre Users e Groups)
+- Shopping Lists
+- List Items
+- Recipes
+- Recipe Ingredients
+- Supermarkets
+- Saved Places (ligação N:N entre Users e Supermarkets)
+
+#### Diagrama MER
+
+![BD_MER_small](https://github.com/user-attachments/assets/869a9b99-0062-46b1-814b-7bd5151dce13)
+
+Relações:
+
+- Um utilizador pode pertencer a vários grupos e cada grupo tem varios utilizadores(`memberships`);
+- Um grupo pode ter várias listas de compras;
+- Cada lista contém vários itens;
+- O utilizador pode consultar receitas pré-definidas e guardar supermercados como favoritos para referência rápida.
+
+---
+
+### 13.2 Dicionário de Dados
+
+#### Tabela: users
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| usr_id | INT | PK | Identificador do utilizador |
+| usr_name | VARCHAR(80) |  | Nome do utilizador |
+| usr_email | VARCHAR(120) | UQ | Email único |
+| usr_password | VARCHAR(200) |  | Password cifrada |
+| usr_created_at | DATETIME |  | Data de criação |
+
+#### Tabela: groupss
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| grp_id | INT | PK | Identificador do grupo |
+| grp_name | VARCHAR(80) | UQ | Nome do grupo |
+| grp_created_at | DATETIME |  | Data de criação |
+
+#### Tabela: memberships
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| mem_id | INT | PK | ID associação user-group |
+| mem_usr_id | INT | FK → users | Utilizador associado |
+| mem_grp_id | INT | FK → groupss | Grupo associado |
+| mem_role | VARCHAR(10) |  | owner / member |
+| mem_joined_at | DATETIME |  | Data de adesão |
+
+#### Tabela: shopping_lists
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| lst_id | INT | PK | ID lista |
+| lst_grp_id | INT | FK → groupss | Grupo dono |
+| lst_title | VARCHAR(80) |  | Nome |
+| lst_created_at | DATETIME |  | Data de criação |
+
+#### Tabela: list_items
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| itm_id | INT | PK | ID item |
+| itm_lst_id | INT | FK → shopping_lists | Lista associada |
+| itm_name | VARCHAR(120) |  | Nome |
+| itm_qty | DECIMAL(10,2) |  | Quantidade |
+| itm_unit | VARCHAR(16) |  | Unidade |
+| itm_done | BOOLEAN |  | Feito / não feito |
+| itm_updated_at | TIMESTAMP |  | Última atualização |
+
+#### Tabela: recipes
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| rec_id | INT | PK | ID receita |
+| rec_usr_id | INT | FK → users | Autor da receita |
+| rec_name | VARCHAR(120) |  | Nome |
+| rec_serves | INT |  | Nº porções |
+
+#### Tabela: recipe_ingredients
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| rin_id | INT | PK | ID ingrediente |
+| rin_rec_id | INT | FK → recipes | Receita associada |
+| rin_name | VARCHAR(120) |  | Nome do ingrediente |
+| rin_qty_serving | DECIMAL(10,2) |  | Quantidade por dose |
+| rin_unit | VARCHAR(16) |  | Unidade |
+
+#### Tabela: supermarkets
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| sup_id | INT | PK | ID supermercado |
+| sup_name | VARCHAR(120) | UQ | Nome |
+| sup_rating | DECIMAL(2,1) |  | Avaliação |
+| sup_distance | DECIMAL(6,2) |  | Distância ao utilizador (km) |
+
+#### Tabela: saved_places
+
+| Campo | Tipo | Chave | Descrição |
+|------|------|-------|-----------|
+| sav_id | INT | PK | ID favorito |
+| sav_usr_id | INT | FK → users | Utilizador |
+| sav_sup_id | INT | FK → supermarkets | Supermercado |
+| sav_label | VARCHAR(80) |  | Rótulo |
+| sav_distance | DECIMAL(6,2) |  | Distância |
+| sav_created_at | DATETIME |  | Data de registo |
+
+---
+
+### 12.3 Guia de Dados (exemplo)
 
 | Tabela | Nº Registos | Exemplos |
 |---|---:|---|
@@ -401,7 +447,26 @@ A aplicação disponibiliza uma API RESTful que permite o acesso aos principais 
 
 ---
 
-## 13. Bibliografia
+### 12.4 Scripts SQL
+
+> Scripts completos incluídos na entrega da tarefa:
+- `creates.sql`
+- `populate.sql`
+
+---
+
+## 11. Conclusão
+A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataforma colaborativa e inteligente**. O seu impacto pode ser sentido em três níveis:  
+
+- **Social:** fortalece a colaboração entre membros de famílias, casais e grupos de amigos, criando um hábito mais organizado e participativo.  
+- **Económico:** reduz desperdícios e gastos desnecessários, já que os utilizadores compram apenas o que precisam.  
+- **Tecnológico:** combina funcionalidades modernas como sincronização em tempo real, geolocalização e algoritmos inteligentes de recomendação.  
+
+Futuramente, a COBUY poderá integrar-se com supermercados locais para permitir compras online, gerar listas a partir de comandos de voz e até sugerir menus semanais completos com base em restrições alimentares.  
+
+Assim, este projeto não só cumpre os objetivos inicialmente propostos, como também abre caminho para evolução futura em direção a uma solução de **smart shopping**.  
+
+## 12. Bibliografia
 AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
 
 Bring! Labs AG. (2025). *Bring! Shopping list & recipes*. Recuperado de https://www.getbring.com/  
