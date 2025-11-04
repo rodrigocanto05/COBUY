@@ -191,19 +191,19 @@ O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 #### Tela de Registo
-<img width="205" height="412" alt="Captura de ecrã 2025-10-01, às 13 28 41" src="https://github.com/user-attachments/assets/56d07bb9-e5a6-4c48-aaba-b8eec8ddca87" />
+<img width="100" height="201" alt="496150741-56d07bb9-e5a6-4c48-aaba-b8eec8ddca87" src="https://github.com/user-attachments/assets/17a9398c-7abc-4196-8ee2-9e67da1eada7" />
 
 #### Tela de Início
-<img width="385" height="779" alt="movel1_1" src="https://github.com/user-attachments/assets/ade32d78-ff8c-49e2-b427-d34669883868" />
+<img width="100" height="201" alt="movel1_1" src="https://github.com/user-attachments/assets/ade32d78-ff8c-49e2-b427-d34669883868" />
 
 #### Tela de Perfil
-<img width="403" height="778" alt="movel2_1" src="https://github.com/user-attachments/assets/60957cbc-090f-4ad7-8b03-f4c1581bf104" />
+<img width="100" height="201" alt="movel2_1" src="https://github.com/user-attachments/assets/60957cbc-090f-4ad7-8b03-f4c1581bf104" />
 
 #### Tela de Mapa 
-<img width="446" height="869" alt="movel4_1" src="https://github.com/user-attachments/assets/10ff8a65-34a4-4f8e-a163-0002e65d9b19" />
+<img width="100" height="201" alt="movel4_1" src="https://github.com/user-attachments/assets/10ff8a65-34a4-4f8e-a163-0002e65d9b19" />
 
 #### Tela Lista 
-<img width="233" height="429" alt="movel5_small" src="https://github.com/user-attachments/assets/34a7bca0-dfa9-4338-9b0d-fb213f7e81f7" />
+<img width="100" height="201" alt="movel5_small" src="https://github.com/user-attachments/assets/34a7bca0-dfa9-4338-9b0d-fb213f7e81f7" />
 
 ---
 
