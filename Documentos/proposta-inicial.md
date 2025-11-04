@@ -296,6 +296,113 @@ Assim, este projeto não só cumpre os objetivos inicialmente propostos, como ta
 
 ---
 
+# 11.Base de Dados
+
+## 11.1 Diagrama Conceptual
+
+O sistema **CoBuy** baseia-se num conjunto de entidades relacionadas entre si, que representam os utilizadores, grupos e listas de compras, bem como receitas e ingredientes de referência que os utilizadores podem consultar.  
+A figura seguinte apresenta o **diagrama conceptual (MER)** com as principais relações entre as entidades
+
+![BD_MER_small](https://github.com/user-attachments/assets/869a9b99-0062-46b1-814b-7bd5151dce13)
+
+As principais relações são:
+- **Um utilizador** pode pertencer a vários **grupos** (`memberships`);
+- **Cada grupo** pode ter várias **listas de compras**;
+- **Cada lista** contém vários **itens**;
+- **As receitas** são pré-definidas e contêm os seus **ingredientes** (consultáveis pelos utilizadores);
+- **Supermercados** e **locais favoritos** permitem aos utilizadores guardar referências de lojas.
+
+---
+
+## 11.2 Documentação REST 
+
+A aplicação disponibiliza uma API RESTful que permite o acesso aos principais recursos da base de dados.
+
+| Entidade | Método | Endpoint | Descrição | Exemplo de Resposta |
+|-----------|---------|-----------|------------|----------------------|
+| **Users** | `GET` | `/users` | Lista todos os utilizadores | `[{"id":1,"name":"João","email":"joao@gmail.com"}]` |
+|  | `POST` | `/users` | Cria um novo utilizador | `{"name":"Sofia","email":"sofia@gmail.com","password":"****"}` |
+| **Groups** | `GET` | `/groups` | Lista todos os grupos existentes | `[{"id":1,"name":"Casa A"}]` |
+|  | `POST` | `/groups` | Cria um novo grupo | `{"name":"Festa de Verão"}` |
+| **Memberships** | `GET` | `/memberships` | Lista todos os membros e respetivos grupos | `[{"user":"João","group":"Casa A"}]` |
+| **Shopping Lists** | `GET` | `/lists` | Lista as listas de compras criadas pelos grupos | `[{"id":1,"title":"Compras Semanais"}]` |
+|  | `POST` | `/lists` | Cria nova lista de compras | `{"group_id":1,"title":"Churrasco sábado"}` |
+| **List Items** | `GET` | `/lists/{id}/items` | Mostra os itens de uma lista específica | `[{"name":"Leite","qty":2,"unit":"L"}]` |
+|  | `POST` | `/lists/{id}/items` | Adiciona item à lista | `{"name":"Pão","qty":10,"unit":"un"}` |
+|  | `PATCH` | `/items/{id}` | Atualiza estado do item (feito/não feito) | `{"done":true}` |
+| **Recipes** | `GET` | `/recipes` | Lista todas as receitas disponíveis para consulta | `[{"id":1,"name":"Lasanha"}]` |
+| **Recipe Ingredients** | `GET` | `/recipes/{id}/ingredients` | Mostra os ingredientes necessários para uma receita | `[{"name":"Carne picada","qty_serving":100,"unit":"g"}]` |
+| **Supermarkets** | `GET` | `/supermarkets` | Lista supermercados registados | `[{"name":"Continente","rating":4.3}]` |
+| **Saved Places** | `GET` | `/saved-places` | Mostra locais guardados pelo utilizador | `[{"user":"João","supermarket":"Lidl","label":"Perto de casa"}]` |
+|  | `POST` | `/saved-places` | Guarda supermercado como favorito | `{"user_id":1,"supermarket_id":2,"label":"Lidl - Centro"}` |
+
+---
+
+## 11.3 Dicionário de Dados (Modelo Entidade-Relacionamento)
+
+| Tabela | Campo | Tipo | Chave | Descrição / Restrições |
+|---------|--------|------|--------|--------------------------|
+| **users** | usr_id | INT | PK | Identificador único do utilizador |
+|  | usr_name | VARCHAR(80) |  | Nome completo |
+|  | usr_email | VARCHAR(120) | UQ | Email único |
+|  | usr_password | VARCHAR(200) |  | Hash da password |
+|  | usr_created_at | DATETIME |  | Data de criação |
+| **groupss** | grp_id | INT | PK | Identificador único do grupo |
+|  | grp_name | VARCHAR(80) | UQ | Nome do grupo |
+|  | grp_created_at | DATETIME |  | Data de criação |
+| **memberships** | mem_id | INT | PK | ID da associação utilizador-grupo |
+|  | mem_usr_id | INT | FK → users(usr_id) | Utilizador associado |
+|  | mem_grp_id | INT | FK → groupss(grp_id) | Grupo associado |
+|  | mem_role | VARCHAR(10) |  | owner / member |
+|  | mem_joined_at | DATETIME |  | Data de entrada |
+| **shopping_lists** | lst_id | INT | PK | ID da lista |
+|  | lst_grp_id | INT | FK → groupss(grp_id) | Grupo dono da lista |
+|  | lst_title | VARCHAR(80) |  | Nome da lista |
+|  | lst_created_at | DATETIME |  | Data de criação |
+| **list_items** | itm_id | INT | PK | ID do item |
+|  | itm_lst_id | INT | FK → shopping_lists(lst_id) | Lista associada |
+|  | itm_name | VARCHAR(120) |  | Nome do item |
+|  | itm_qty | DECIMAL(10,2) |  | Quantidade |
+|  | itm_unit | VARCHAR(16) |  | Unidade de medida |
+|  | itm_done | BOOLEAN |  | Estado (feito / não feito) |
+|  | itm_updated_at | TIMESTAMP |  | Última atualização |
+| **recipes** | rec_id | INT | PK | ID da receita (pré-definida) |
+|  | rec_name | VARCHAR(120) |  | Nome da receita |
+|  | rec_serves | INT |  | Nº de porções |
+| **recipe_ingredients** | rin_id | INT | PK | ID do ingrediente |
+|  | rin_rec_id | INT | FK → recipes(rec_id) | Receita associada |
+|  | rin_name | VARCHAR(120) |  | Nome do ingrediente |
+|  | rin_qty_serving | DECIMAL(10,2) |  | Quantidade por porção |
+|  | rin_unit | VARCHAR(16) |  | Unidade |
+| **supermarkets** | sup_id | INT | PK | ID do supermercado |
+|  | sup_name | VARCHAR(120) | UQ | Nome |
+|  | sup_rating | DECIMAL(2,1) |  | Avaliação (0–5) |
+|  | sup_distance | DECIMAL(6,2) |  | Distância (km) |
+| **saved_places** | sav_id | INT | PK | ID do favorito |
+|  | sav_usr_id | INT | FK → users(usr_id) | Utilizador |
+|  | sav_sup_id | INT | FK → supermarkets(sup_id) | Supermercado |
+|  | sav_label | VARCHAR(80) |  | Nome personalizado |
+|  | sav_distance | DECIMAL(6,2) |  | Distância (km) |
+|  | sav_created_at | DATETIME |  | Data de registo |
+
+---
+
+## 11.4 Guia de Dados (Estrutura da BD Exemplo)
+
+| Tabela | Nº Registos | Exemplos |
+|---|---:|---|
+| users | 8 | Rodrigo, Daibert, Marco… |
+| groupss | 4 | Casa A, Festa… |
+| memberships | 9 | owner/member relações |
+| shopping_lists | 5 | Compras Semanais… |
+| list_items | 12 | Leite, Pão, Arroz… |
+| recipes | 4 | Massa com atum… |
+| recipe_ingredients | 14 | Massa 100g… |
+| supermarkets | 6 | Continente, Lidl… |
+| saved_places | 6 | Perto de casa… |
+
+---
+
 ## 11. Bibliografia
 AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
 
