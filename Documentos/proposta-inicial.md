@@ -283,7 +283,7 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
   
 ---
 
-## 10. Conclusão
+## 11. Conclusão
 A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataforma colaborativa e inteligente**. O seu impacto pode ser sentido em três níveis:  
 
 - **Social:** fortalece a colaboração entre membros de famílias, casais e grupos de amigos, criando um hábito mais organizado e participativo.  
@@ -296,9 +296,9 @@ Assim, este projeto não só cumpre os objetivos inicialmente propostos, como ta
 
 ---
 
-# 11.Base de Dados
+# 12.Base de Dados
 
-## 11.1 Diagrama Conceptual
+## 12.1 Diagrama Conceptual
 
 O sistema **CoBuy** baseia-se num conjunto de entidades relacionadas entre si, que representam os utilizadores, grupos e listas de compras, bem como receitas e ingredientes de referência que os utilizadores podem consultar.  
 A figura seguinte apresenta o **diagrama conceptual (MER)** com as principais relações entre as entidades
@@ -314,7 +314,7 @@ As principais relações são:
 
 ---
 
-## 11.2 Documentação REST 
+## 12.2 Documentação REST 
 
 A aplicação disponibiliza uma API RESTful que permite o acesso aos principais recursos da base de dados.
 
@@ -338,7 +338,7 @@ A aplicação disponibiliza uma API RESTful que permite o acesso aos principais 
 
 ---
 
-## 11.3 Dicionário de Dados (Modelo Entidade-Relacionamento)
+## 12.3 Dicionário de Dados (Modelo Entidade-Relacionamento)
 
 | Tabela | Campo | Tipo | Chave | Descrição / Restrições |
 |---------|--------|------|--------|--------------------------|
@@ -387,7 +387,7 @@ A aplicação disponibiliza uma API RESTful que permite o acesso aos principais 
 
 ---
 
-## 11.4 Guia de Dados (Estrutura da BD Exemplo)
+## 12.4 Guia de Dados (Estrutura da BD Exemplo)
 
 | Tabela | Nº Registos | Exemplos |
 |---|---:|---|
@@ -403,7 +403,7 @@ A aplicação disponibiliza uma API RESTful que permite o acesso aos principais 
 
 ---
 
-## 11. Bibliografia
+## 13. Bibliografia
 AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
 
 Bring! Labs AG. (2025). *Bring! Shopping list & recipes*. Recuperado de https://www.getbring.com/  
