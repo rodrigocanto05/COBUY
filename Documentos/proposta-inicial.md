@@ -296,11 +296,13 @@ Assim, este projeto não só cumpre os objetivos inicialmente propostos, como ta
 
 # 12.Base de Dados
 
-## 12.1 Diagrama Conceptual
+## 12.1 Diagrama Conceptual (MER)
 
 O sistema **CoBuy** baseia-se num conjunto de entidades relacionadas entre si, que representam os utilizadores, grupos e listas de compras, bem como receitas e ingredientes de referência que os utilizadores podem consultar.  
-A figura seguinte apresenta o **diagrama conceptual (MER)** com as principais relações entre as entidades
+A figura seguinte apresenta o **diagrama conceptual (MER)** com as principais relações entre as entidades:
+
 ![BD_MER_small](https://github.com/user-attachments/assets/869a9b99-0062-46b1-814b-7bd5151dce13)
+
 As principais relações são:
 - **Um utilizador** pode pertencer a vários **grupos** (`memberships`);
 - **Cada grupo** pode ter várias **listas de compras**;
