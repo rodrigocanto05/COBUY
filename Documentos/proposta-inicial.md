@@ -1,7 +1,7 @@
 ## 1. Identificação
 - Universidade: Universidade Europeia  
 - Faculdade: IADE  
-- Elementos do grupo: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca e Luís Quirim   
+- Elementos do grupo: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca e Luís Quirin
 - Nome do projeto: COBUY  
 - Repositório GitHub: https://github.com/rodrigocanto05/COBUY.git  
 
@@ -191,19 +191,19 @@ O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 #### Tela de Registo
-<img width="100" height="201" alt="496150741-56d07bb9-e5a6-4c48-aaba-b8eec8ddca87" src="https://github.com/user-attachments/assets/17a9398c-7abc-4196-8ee2-9e67da1eada7" />
+<img width="100" height="201" alt="tela inicial" src="https://github.com/user-attachments/assets/cc15472d-c143-448b-af0c-00b28a1426df" />
 
 #### Tela de Início
-<img width="100" height="201" alt="movel1_1" src="https://github.com/user-attachments/assets/ade32d78-ff8c-49e2-b427-d34669883868" />
+<img width="100" height="201" alt="tela inicial1" src="https://github.com/user-attachments/assets/10d6dde8-a488-474d-9466-2ab04e22233c" />
 
 #### Tela de Perfil
-<img width="100" height="201" alt="movel2_1" src="https://github.com/user-attachments/assets/60957cbc-090f-4ad7-8b03-f4c1581bf104" />
+<img width="100" height="201" alt="Screenshot_181" src="https://github.com/user-attachments/assets/547384b1-f526-4ac7-9847-99e3d4a4c80a" />
 
 #### Tela de Mapa 
-<img width="100" height="201" alt="movel4_1" src="https://github.com/user-attachments/assets/10ff8a65-34a4-4f8e-a163-0002e65d9b19" />
+<img width="100" height="201" alt="tela superr" src="https://github.com/user-attachments/assets/be92f9cc-f387-46d1-8518-ae31e3c19f0e" />
 
 #### Tela Lista 
-<img width="100" height="201" alt="movel5_small" src="https://github.com/user-attachments/assets/34a7bca0-dfa9-4338-9b0d-fb213f7e81f7" />
+<img width="100" height="201" alt="Screenshot_182" src="https://github.com/user-attachments/assets/10d5614c-71a2-45a3-b8bc-25a95666bb22" />
 
 ---
 
@@ -300,9 +300,7 @@ Assim, este projeto não só cumpre os objetivos inicialmente propostos, como ta
 
 O sistema **CoBuy** baseia-se num conjunto de entidades relacionadas entre si, que representam os utilizadores, grupos e listas de compras, bem como receitas e ingredientes de referência que os utilizadores podem consultar.  
 A figura seguinte apresenta o **diagrama conceptual (MER)** com as principais relações entre as entidades
-
 ![BD_MER_small](https://github.com/user-attachments/assets/869a9b99-0062-46b1-814b-7bd5151dce13)
-
 As principais relações são:
 - **Um utilizador** pode pertencer a vários **grupos** (`memberships`);
 - **Cada grupo** pode ter várias **listas de compras**;
