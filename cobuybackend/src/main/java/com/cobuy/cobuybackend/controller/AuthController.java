@@ -33,7 +33,7 @@ public class AuthController {
     User u = new User();
     u.setName(req.name());
     u.setEmail(req.email());
-    u.setPassword(req.password()); // em dev, simples (ideal: BCrypt)
+    u.setPassword(req.password());
     u.setCreatedAt(LocalDateTime.now());
     u = userRepository.save(u);
 
