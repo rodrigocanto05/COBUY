@@ -1,31 +1,42 @@
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.Group;
-import com.cobuy.cobuybackend.repository.GroupRepository;
+import com.cobuy.cobuybackend.service.GroupService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/groups") //ola mjundo ja deu
+@RequestMapping("/api/groups")
 public class GroupController {
 
-    private final GroupRepository groupRepository;
+    private final GroupService groupService;
 
-    // injeção via construtor
-    public GroupController(GroupRepository groupRepository) {
-        this.groupRepository = groupRepository;
+    public GroupController(GroupService groupService) {
+        this.groupService = groupService;
     }
 
-    // GET /groups
     @GetMapping
     public List<Group> getAllGroups() {
-        return groupRepository.findAll();
+        return groupService.getAllGroups();
     }
 
-    // GET /groups/{id}
     @GetMapping("/{id}")
-    public Group getGroupById(@PathVariable Integer id) {
-        return groupRepository.findById(id).orElse(null);
+    public ResponseEntity<Group> getGroupById(@PathVariable Integer id) {
+        return groupService.getGroupById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Group createGroup(@RequestBody Group group) {
+        return groupService.createGroup(group);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGroup(@PathVariable Integer id) {
+        groupService.deleteGroup(id);
+        return ResponseEntity.noContent().build();
     }
 }
