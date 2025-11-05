@@ -1,14 +1,14 @@
 ## 1. Identificação
 - Universidade: Universidade Europeia  
 - Faculdade: IADE  
-- Elementos do grupo: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca e Luís Quirim   
+- Elementos do grupo: Rodrigo Canto, Rodrigo Daibert, Marco Fonseca e Luís Quirin
 - Nome do projeto: COBUY  
 - Repositório GitHub: https://github.com/rodrigocanto05/COBUY.git  
 
 ---
 
 ## 2. Palavras-chave
-- listas de compras;  
+- listas de compras;
 - localização;  
 - rotas;  
 - refeições práticas;  
@@ -191,23 +191,21 @@ O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
 Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 #### Tela de Registo
-<img width="205" height="412" alt="Captura de ecrã 2025-10-01, às 13 28 41" src="https://github.com/user-attachments/assets/56d07bb9-e5a6-4c48-aaba-b8eec8ddca87" />
+<img width="100" height="201" alt="tela inicial" src="https://github.com/user-attachments/assets/cc15472d-c143-448b-af0c-00b28a1426df" />
 
 #### Tela de Início
-<img width="385" height="779" alt="movel1_1" src="https://github.com/user-attachments/assets/ade32d78-ff8c-49e2-b427-d34669883868" />
+<img width="100" height="201" alt="tela inicial1" src="https://github.com/user-attachments/assets/10d6dde8-a488-474d-9466-2ab04e22233c" />
 
 #### Tela de Perfil
-<img width="403" height="778" alt="movel2_1" src="https://github.com/user-attachments/assets/60957cbc-090f-4ad7-8b03-f4c1581bf104" />
+<img width="100" height="201" alt="Screenshot_181" src="https://github.com/user-attachments/assets/547384b1-f526-4ac7-9847-99e3d4a4c80a" />
 
 #### Tela de Mapa 
-<img width="446" height="869" alt="movel4_1" src="https://github.com/user-attachments/assets/10ff8a65-34a4-4f8e-a163-0002e65d9b19" />
+<img width="100" height="201" alt="tela superr" src="https://github.com/user-attachments/assets/be92f9cc-f387-46d1-8518-ae31e3c19f0e" />
 
 #### Tela Lista 
-<img width="466" height="858" alt="movel5_1" src="https://github.com/user-attachments/assets/6238358f-b440-41f1-b7d9-1e2dd7d34952" />
-
+<img width="100" height="201" alt="Screenshot_182" src="https://github.com/user-attachments/assets/10d5614c-71a2-45a3-b8bc-25a95666bb22" />
 
 ---
-
 
 ### 9.3 WBS (Work Breakdown Structure)
 
@@ -280,7 +278,7 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 - Vídeo de apresentação
   
 - Submissão e defesa do projeto
-  
+
 ---
 
 ## 10. Conclusão
@@ -293,8 +291,6 @@ A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataform
 Futuramente, a COBUY poderá integrar-se com supermercados locais para permitir compras online, gerar listas a partir de comandos de voz e até sugerir menus semanais completos com base em restrições alimentares.  
 
 Assim, este projeto não só cumpre os objetivos inicialmente propostos, como também abre caminho para evolução futura em direção a uma solução de **smart shopping**.  
-
----
 
 ## 11. Bibliografia
 AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
