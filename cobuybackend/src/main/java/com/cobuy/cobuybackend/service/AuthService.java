@@ -2,6 +2,7 @@ package com.cobuy.cobuybackend.service;
 
 import com.cobuy.cobuybackend.model.User;
 import com.cobuy.cobuybackend.repository.UserRepository;
+import com.cobuy.cobuybackend.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,29 +12,32 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+  public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtService = jwtService;
+  }
 
-    public Optional<User> login(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-            return user;
-        }
-        return Optional.empty();
+  public String register(String name, String email, String rawPassword) {
+    if (userRepository.existsByEmail(email)) {
+      throw new IllegalStateException("Email já existe");
     }
+    User u = new User();
+    u.setName(name);
+    u.setEmail(email);
+    u.setPassword(passwordEncoder.encode(rawPassword)); // <<< HASH aqui
+    u.setCreatedAt(LocalDateTime.now());
+    u = userRepository.save(u);
+    return jwtService.generateToken(u.getId(), u.getEmail());
+  }
 
-    public User register(String name, String email, String password) {
-        User u = new User();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(passwordEncoder.encode(password));
-        u.setCreatedAt(LocalDateTime.now());
-        return userRepository.save(u);
-    }
+  public Optional<String> login(String email, String rawPassword) {
+    return userRepository.findByEmail(email)
+      .filter(u -> passwordEncoder.matches(rawPassword, u.getPassword())) // <<< validação
+      .map(u -> jwtService.generateToken(u.getId(), u.getEmail()));
+  }
 }
-

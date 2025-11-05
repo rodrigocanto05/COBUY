@@ -16,7 +16,7 @@ public class UserController {
     private final UserRepository userRepository;
     public UserController(UserRepository userRepository) { this.userRepository = userRepository; }
 
-    @GetMapping
+    @GetMapping("")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
