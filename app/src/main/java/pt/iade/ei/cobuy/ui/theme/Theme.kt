@@ -1,20 +1,34 @@
 package pt.iade.ei.cobuy.ui.theme
 
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+
+private val LightColors = lightColorScheme(
+    primary = OrangePrimary,
+    onPrimary = TextLight,
+    background = BackgroundLight,
+    onBackground = TextDark
+)
+
+private val DarkColors = darkColorScheme(
+    primary = OrangePrimary,
+    onPrimary = TextLight,
+    background = BackgroundDark,
+    onBackground = TextLight
+)
 
 @Composable
-fun COBUYTheme(content: @Composable () -> Unit) {
-    val colors = lightColorScheme(
-        primary = Color(0xFFE86307),
-        secondary = Color(0xFF000000),
-        background = Color(0xFFEBEFEA)
-    )
+fun COBUYTheme(
+    darkTheme: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) DarkColors else LightColors
 
     MaterialTheme(
         colorScheme = colors,
-        typography = Typography(),
+        typography = COBUYTypography, // <- isto compila quando Typography.kt está OK
         content = content
     )
 }
