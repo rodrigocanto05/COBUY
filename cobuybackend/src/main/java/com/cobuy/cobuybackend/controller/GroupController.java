@@ -1,42 +1,38 @@
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.Group;
-import com.cobuy.cobuybackend.service.GroupService;
-import org.springframework.http.ResponseEntity;
+import com.cobuy.cobuybackend.repository.GroupRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/groups")
+@RequestMapping("/groups")
 public class GroupController {
 
-    private final GroupService groupService;
+    private final GroupRepository groupRepository;
 
-    public GroupController(GroupService groupService) {
-        this.groupService = groupService;
+    public GroupController(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
     }
 
+    // GET /groups
     @GetMapping
     public List<Group> getAllGroups() {
-        return groupService.getAllGroups();
+        return groupRepository.findAll();
     }
 
+    // GET /groups/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Group> getGroupById(@PathVariable Integer id) {
-        return groupService.getGroupById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Group getGroupById(@PathVariable Integer id) {
+        return groupRepository.findById(id).orElse(null);
     }
 
+    // POST /groups -> criar grupo
     @PostMapping
     public Group createGroup(@RequestBody Group group) {
-        return groupService.createGroup(group);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGroup(@PathVariable Integer id) {
-        groupService.deleteGroup(id);
-        return ResponseEntity.noContent().build();
+        group.setCreatedAt(LocalDateTime.now()); // atribui timestamp
+        return groupRepository.save(group);
     }
 }
