@@ -132,7 +132,7 @@ Relações:
 |---|---:|---|
 | users | 8 | Rodrigo, Daibert, Marco… |
 | groupss | 4 | Casa A, Festa… |
-| memberships | 9 | owner/member relações |
+| memberships | 9 | owner/member |
 | shopping_lists | 5 | Compras Semanais… |
 | list_items | 12 | Leite, Pão, Arroz… |
 | recipes | 4 | Massa com atum… |
@@ -150,7 +150,7 @@ Relações:
 
 ---
 
-### 7.5 Conclusão
+### 1.5 Conclusão
 
 A base de dados do projeto CoBuy foi desenhada de forma relacional, garantindo integridade e escalabilidade.  
 Esta primeira versão cumpre os requisitos para a entrega intermédia e será expandida ao longo do desenvolvimento do projeto.
