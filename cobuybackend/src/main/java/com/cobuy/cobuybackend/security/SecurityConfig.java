@@ -22,16 +22,18 @@ public class SecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain securityFilterChain(HttpSecurity http,
-      JwtAuthFilter jwtAuthFilter) throws Exception {
+  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(csrf -> csrf.disable())
-        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/supermarkets").permitAll()
-            .anyRequest().authenticated())
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+      .csrf(csrf -> csrf.disable())
+      .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+      .authorizeHttpRequests(auth -> auth
+          .requestMatchers("/api/auth/**").permitAll()
+          .requestMatchers(HttpMethod.GET, "/supermarkets").permitAll()
+          .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+          .anyRequest().authenticated()
+      )
+      .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
   }
 
@@ -40,9 +42,9 @@ public class SecurityConfig {
     return cfg.getAuthenticationManager();
   }
 
-  // >>> AQUI: o bean que falta <<<
   @Bean
   public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+    // custo 12 = mais seguro (podes manter 10 se preferires)
+    return new BCryptPasswordEncoder(12);
   }
 }

@@ -3,26 +3,25 @@ package com.cobuy.cobuybackend.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "users")
 public class User {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usr_id")
     private Integer id;
-
+    
     @Column(name = "usr_name", nullable = false, length = 80)
     private String name;
-
+    
     @Column(name = "usr_email", nullable = false, length = 120, unique = true)
     private String email;
-
+    
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "usr_password", nullable = false, length = 200)
     private String password;
-
+    
     @Column(name = "usr_created_at", nullable = false)
     private LocalDateTime createdAt;
 

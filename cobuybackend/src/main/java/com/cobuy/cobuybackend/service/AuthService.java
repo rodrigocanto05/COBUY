@@ -36,8 +36,19 @@ public class AuthService {
   }
 
   public Optional<String> login(String email, String rawPassword) {
-    return userRepository.findByEmail(email)
-      .filter(u -> passwordEncoder.matches(rawPassword, u.getPassword())) // <<< validação
-      .map(u -> jwtService.generateToken(u.getId(), u.getEmail()));
+    return userRepository.findByEmail(email).flatMap(u -> {
+      boolean ok = passwordEncoder.matches(rawPassword, u.getPassword())
+          || rawPassword.equals(u.getPassword()); // compat com legacy
+
+      if (!ok)
+        return Optional.empty();
+
+      // se ainda estava em claro, migrar para hash agora
+      if (rawPassword.equals(u.getPassword())) {
+        u.setPassword(passwordEncoder.encode(rawPassword));
+        userRepository.save(u);
+      }
+      return Optional.of(jwtService.generateToken(u.getId(), u.getEmail()));
+    });
   }
 }
