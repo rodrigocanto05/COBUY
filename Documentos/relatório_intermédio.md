@@ -283,26 +283,108 @@ Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
 
 ## 10 Documentação REST 
 
-A aplicação disponibiliza uma API RESTful que permite o acesso aos principais recursos da base de dados.
+A### 📌 Documentação da API REST – CoBuy
 
-| Entidade | Método | Endpoint | Descrição | Exemplo de Resposta |
-|-----------|---------|-----------|------------|----------------------|
-| **Users** | `GET` | `/users` | Lista todos os utilizadores | `[{"id":1,"name":"João","email":"joao@gmail.com"}]` |
-|  | `POST` | `/users` | Cria um novo utilizador | `{"name":"Sofia","email":"sofia@gmail.com","password":"****"}` |
-| **Groups** | `GET` | `/groups` | Lista todos os grupos existentes | `[{"id":1,"name":"Casa A"}]` |
-|  | `POST` | `/groups` | Cria um novo grupo | `{"name":"Festa de Verão"}` |
-| **Memberships** | `GET` | `/memberships` | Lista todos os membros e respetivos grupos | `[{"user":"João","group":"Casa A"}]` |
-| **Shopping Lists** | `GET` | `/lists` | Lista as listas de compras criadas pelos grupos | `[{"id":1,"title":"Compras Semanais"}]` |
-|  | `POST` | `/lists` | Cria nova lista de compras | `{"group_id":1,"title":"Churrasco sábado"}` |
-| **List Items** | `GET` | `/lists/{id}/items` | Mostra os itens de uma lista específica | `[{"name":"Leite","qty":2,"unit":"L"}]` |
-|  | `POST` | `/lists/{id}/items` | Adiciona item à lista | `{"name":"Pão","qty":10,"unit":"un"}` |
-|  | `PATCH` | `/items/{id}` | Atualiza estado do item (feito/não feito) | `{"done":true}` |
-| **Recipes** | `GET` | `/recipes` | Lista todas as receitas disponíveis para consulta | `[{"id":1,"name":"Lasanha"}]` |
-| **Recipe Ingredients** | `GET` | `/recipes/{id}/ingredients` | Mostra os ingredientes necessários para uma receita | `[{"name":"Carne picada","qty_serving":100,"unit":"g"}]` |
-| **Supermarkets** | `GET` | `/supermarkets` | Lista supermercados registados | `[{"name":"Continente","rating":4.3}]` |
-| **Saved Places** | `GET` | `/saved-places` | Mostra locais guardados pelo utilizador | `[{"user":"João","supermarket":"Lidl","label":"Perto de casa"}]` |
-|  | `POST` | `/saved-places` | Guarda supermercado como favorito | `{"user_id":1,"supermarket_id":2,"label":"Lidl - Centro"}` |
+A API segue o estilo REST e permite a interação com utilizadores, grupos, listas de compras, receitas e supermercados.
 
+| Recurso | Método | Endpoint | Descrição | Corpo de Exemplo / Resposta |
+|--------|--------|----------|-----------|------------------------------|
+| **Auth** | `POST` | `/api/auth/register` | Registar novo utilizador | `{ "name":"Ana", "email":"ana@gmail.com", "password":"****" }` |
+| | `POST` | `/api/auth/login` | Autenticar utilizador | `{ "email":"ana@gmail.com", "password":"****" }` → `{ "token":"xxxxx" }` |
+
+### 👥 Users
+
+| Método | Endpoint | Descrição | Exemplo de Resposta |
+|--------|---------|-----------|----------------------|
+| `GET` | `/users` | Listar utilizadores | `[ { "id":1, "name":"Ana", "email":"ana@gmail.com" } ]` |
+
+---
+
+### 👪 Groups
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|---------------|
+| `GET` | `/groups` | Listar grupos | `[{"id":1,"name":"Casa"}]` |
+| `POST` | `/groups` | Criar grupo | `{ "name":"Casa Nova" }` |
+
+---
+
+### 🧑‍🤝‍🧑 Memberships (utilizadores em grupos)
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/groups/{groupId}/members` | Listar membros do grupo | `[{"id":2,"name":"João","role":"member"}]` |
+| `POST` | `/memberships/{groupId}/add/{userId}?role=member` | Adicionar membro ao grupo | `201 Created` |
+| `DELETE` | `/memberships/{groupId}/remove/{userId}` | Remover membro do grupo | `204 No Content` |
+
+---
+
+### 🛒 Shopping Lists
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/lists` | Listar listas | `[{"id":1,"title":"Supermercado"}]` |
+| `POST` | `/lists` | Criar lista | `{ "groupId":1, "title":"Domingo compras" }` |
+
+---
+
+### ✅ List Items 
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/lists/{listId}/items` | Listar itens | `[ { "name":"Leite", "qty":2 } ]` |
+| `POST` | `/lists/{listId}/items` | Adicionar item | `{ "name":"Ovos", "qty":12, "unit":"un" }` |
+| `PATCH` | `/items/{itemId}` | Marcar/desmarcar item comprado | `{ "done":true }` |
+| `DELETE` | `/items/{itemId}` | Remover item | `204 No Content` |
+
+---
+
+### 🍽️ Recipes
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/recipes` | Listar receitas | `[ { "id":1, "name":"Lasanha" } ]` |
+
+---
+
+### 🧂 Recipe Ingredients
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/recipes/{id}/ingredients` | Ingredientes da receita | `[{"name":"Carne","qty":300,"unit":"g"}]` |
+| `POST` | `/recipes/{id}/ingredients` | Adicionar ingrediente | `{ "name":"Tomate", "qty":100, "unit":"g" }` |
+| `DELETE` | `/recipes/{id}/ingredients/{ingredientId}` | Remover ingrediente | `204 No Content` |
+
+---
+
+### 🛍 Supermarkets
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/supermarkets` | Listar supermercados | `[{"id":1,"name":"Continente","rating":4.5}]` |
+
+---
+
+### 📍 Saved Places (Favoritos do utilizador)
+
+| Método | Endpoint | Descrição | Corpo/Resposta |
+|--------|---------|-----------|----------------|
+| `GET` | `/saved-places` | Listar favoritos | `[{"label":"Perto de casa","supermarket":"Lidl"}]` |
+| `POST` | `/saved-places` | Guardar supermercado como favorito | `{ "supermarketId":2, "label":"Lidl Centro" }` |
+| `DELETE` | `/saved-places/{id}` | Apagar favorito | `204 No Content` |
+
+### 🔐 Autorização
+
+- Endpoints com criação, edição e delete exigem **JWT Bearer Token**
+- Header exemplo:
+
+ ### 📎 Notas Técnicas
+
+- Respostas seguem formato JSON
+- Passwords são **hashes Bcrypt**
+- API stateless com **Spring Security + JWT**
+
+---
 
 ## 12. Base de Dados (BD report)
 
