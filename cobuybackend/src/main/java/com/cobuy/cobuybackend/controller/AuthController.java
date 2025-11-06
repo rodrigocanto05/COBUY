@@ -1,4 +1,3 @@
-// src/main/java/com/cobuy/cobuybackend/controller/AuthController.java
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.User;

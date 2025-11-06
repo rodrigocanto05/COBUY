@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-    // Gera um “token” simples só para desenvolvimento
     public String generateToken(Integer userId, String email) {
-        // formato: uid:<id>|email:<email>
         return "uid:" + userId + "|email:" + email;
     }
 
