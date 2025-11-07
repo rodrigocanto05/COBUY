@@ -386,42 +386,19 @@ A API segue o estilo REST e permite a interação com utilizadores, grupos, list
 
 ---
 
-## 12. Base de Dados (BD report)
+# 11. Diagrama de Classes
 
-Este capítulo apresenta o modelo de dados utilizado no projeto **CoBuy**, incluindo o diagrama conceptual, a definição das entidades e relações, o dicionário de dados e os exemplos que compõem a base de dados de referência para testes.
+O diagrama de classes representa a estrutura principal da aplicação CoBuy, descrevendo as entidades do sistema, os seus atributos e as relações entre elas.
+O modelo inclui utilizadores, grupos, listas de compras, itens, receitas, ingredientes e supermercados, bem como tabelas associativas para gerir relações como Memberships e Saved Places.
 
-A base de dados reflete os requisitos funcionais da aplicação, permitindo gerir utilizadores, grupos, listas de compras partilhadas, itens, receitas pré-definidas e locais de compras favoritos.
+<img width="800" height="1200" alt="Untitled diagram-2025-11-07-123824" src="https://github.com/user-attachments/assets/de67fe9a-cf63-4504-8e0c-ed381e1b3955" />
 
----
-
-### 12.1 Modelo Conceptual (MER)
-
-O sistema assenta nas seguintes entidades principais:
-
-- User
-- Groupss
-- Memberships (ligação N:N entre Users e Groups)
-- Shopping Lists
-- List Items
-- Recipes
-- Recipe Ingredients
-- Supermarkets
-- Saved Places (ligação N:N entre Users e Supermarkets)
-
-#### Diagrama MER
-
-<img width="500" height="1000" alt="MER drawio-1" src="https://github.com/user-attachments/assets/1d3b1e0f-cec7-45d3-bf12-db9834fd9514" />
-
-Relações:
-
-- Um utilizador pode pertencer a vários grupos e cada grupo tem varios utilizadores(`memberships`);
-- Um grupo pode ter várias listas de compras;
-- Cada lista contém vários itens;
-- O utilizador pode consultar receitas pré-definidas e guardar supermercados como favoritos para referência rápida.
+As ligações mostram relações 1-para-N (ex.: um grupo possui várias listas) e N-para-N (ex.: utilizadores pertencem a vários grupos).
+Este diagrama assegura uma organização clara dos dados e serve como base para a implementação da base de dados e da API.
 
 ---
 
-### 13.2 Dicionário de Dados
+# 12. Dicionário de Dados
 
 #### Tabela: users
 
@@ -513,7 +490,7 @@ Relações:
 
 ---
 
-### 12.3 Guia de Dados (exemplo)
+# 13.3 Guia de Dados (exemplo)
 
 | Tabela | Nº Registos | Exemplos |
 |---|---:|---|
@@ -529,15 +506,7 @@ Relações:
 
 ---
 
-### 12.4 Scripts SQL
-
-> Scripts completos incluídos na entrega da tarefa:
-- `creates.sql`
-- `populate.sql`
-
----
-
-## 11. Conclusão
+## 14. Conclusão
 A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataforma colaborativa e inteligente**. O seu impacto pode ser sentido em três níveis:  
 
 - **Social:** fortalece a colaboração entre membros de famílias, casais e grupos de amigos, criando um hábito mais organizado e participativo.  
@@ -548,7 +517,7 @@ Futuramente, a COBUY poderá integrar-se com supermercados locais para permitir 
 
 Assim, este projeto não só cumpre os objetivos inicialmente propostos, como também abre caminho para evolução futura em direção a uma solução de **smart shopping**.  
 
-## 12. Bibliografia
+## 15. Bibliografia
 AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
 
 Bring! Labs AG. (2025). *Bring! Shopping list & recipes*. Recuperado de https://www.getbring.com/  
