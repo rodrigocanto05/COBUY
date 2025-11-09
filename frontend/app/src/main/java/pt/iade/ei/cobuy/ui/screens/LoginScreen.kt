@@ -2,37 +2,47 @@ package pt.iade.ei.cobuy.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.R
+import pt.iade.ei.cobuy.model.AuthRequest
+import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
+import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
+import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
+import pt.iade.ei.cobuy.viewmodels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, viewModel: UserViewModel = viewModel()) {
     var emailOrPhone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val authResponse by viewModel.authResponse.collectAsState()
+
+    LaunchedEffect(authResponse) {
+        if (authResponse != null) {
+            navController.navigate(NavPath.Dashboard.route) {
+                popUpTo(NavPath.Login.route) { inclusive = true }
+            }
+        }
+    }
+
     Scaffold(
         containerColor = BackgroundLight,
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {},
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundLight)
-            )
-        }
+        topBar = { CoBuyTopBar("", navController = navController, showBackButton = false) } // Back button hidden
     ) { padding ->
         Column(
             modifier = Modifier
@@ -40,7 +50,7 @@ fun LoginScreen(navController: NavController) {
                 .padding(padding)
                 .padding(horizontal = 32.dp, vertical = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
             // LOGO
             Image(
@@ -48,10 +58,8 @@ fun LoginScreen(navController: NavController) {
                 contentDescription = "Logo CoBuy",
                 modifier = Modifier
                     .size(140.dp)
-                    .padding(top = 10.dp)
+                    .padding(bottom = 20.dp)
             )
-
-            Spacer(Modifier.height(10.dp))
 
             // TÍTULO
             Text(
@@ -70,48 +78,25 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                OutlinedTextField(
+                CustomTextField(
                     value = emailOrPhone,
                     onValueChange = { emailOrPhone = it },
-                    label = { Text("Email ou Telefone") },
-                    singleLine = true,
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp)
+                    label = "Email ou Telefone"
                 )
 
-                OutlinedTextField(
+                CustomTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Palavra-passe") },
-                    singleLine = true,
-                    shape = RoundedCornerShape(20.dp),
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp)
+                    label = "Palavra-passe",
+                    visualTransformation = PasswordVisualTransformation()
                 )
             }
 
             Spacer(Modifier.height(32.dp))
 
             // BOTÃO DE LOGIN
-            Button(
-                onClick = {
-                    // Aqui podes adicionar a validação do login
-                    navController.navigate(NavPath.Dashboard.route) {
-                        popUpTo(NavPath.Login.route) { inclusive = true } // evita voltar ao login
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(30.dp)
-            ) {
-                Text(
-                    text = "Entrar",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
+            PrimaryButton("Entrar") {
+                viewModel.login(AuthRequest(emailOrPhone, password))
             }
 
             Spacer(Modifier.height(12.dp))
@@ -124,8 +109,12 @@ fun LoginScreen(navController: NavController) {
                     fontSize = 14.sp
                 )
             }
-
-            Spacer(Modifier.height(10.dp))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(navController = NavController(LocalContext.current))
 }

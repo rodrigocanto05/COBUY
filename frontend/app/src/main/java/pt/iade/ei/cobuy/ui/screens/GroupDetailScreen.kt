@@ -1,72 +1,58 @@
 package pt.iade.ei.cobuy.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import pt.iade.ei.cobuy.ui.theme.*
-import androidx.compose.material3.TopAppBarDefaults
-
-
-data class ShoppingItem(
-    val id: Int,
-    val name: String,
-    var done: Boolean = false
-)
+import androidx.navigation.compose.rememberNavController
+import pt.iade.ei.cobuy.ui.components.cards.ShoppingItemCard
+import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.theme.BackgroundLight
+import pt.iade.ei.cobuy.ui.theme.OrangePrimary
+import pt.iade.ei.cobuy.ui.theme.TextLight
+import pt.iade.ei.cobuy.viewmodels.GroupDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupDetailScreen(navController: NavController) {
-    var items by remember {
-        mutableStateOf(
-            listOf(
-                ShoppingItem(1, "Carne"),
-                ShoppingItem(2, "Arroz"),
-                ShoppingItem(3, "Minis"),
-                ShoppingItem(4, "Batatas"),
-                ShoppingItem(5, "Pão")
-            )
-        )
+fun GroupDetailScreen(
+    navController: NavController,
+    groupId: String?,
+    viewModel: GroupDetailViewModel = viewModel()
+) {
+    // Fetch group items when the screen is first composed
+    LaunchedEffect(groupId) {
+        groupId?.toIntOrNull()?.let {
+            viewModel.fetchGroupItems(it)
+        }
     }
+
+    val items by viewModel.items.collectAsState()
+
+    val groupName = "Grupo ${groupId ?: "Desconhecido"}"
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Lista do Grupo",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextLight,
-                            fontSize = 20.sp
-                        )
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Voltar",
-                            tint = TextLight
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = OrangePrimary
-                )
+            CoBuyTopBar(
+                title = groupName,
+                navController = navController
             )
         },
         containerColor = BackgroundLight,
@@ -91,7 +77,7 @@ fun GroupDetailScreen(navController: NavController) {
                 .padding(horizontal = 16.dp, vertical = 10.dp)
         ) {
             Text(
-                text = "Churrasco dos Amigos 🍖",
+                text = "Churrasco dos Amigos 🍖", // This could also be dynamic
                 style = MaterialTheme.typography.headlineSmall.copy(
                     color = OrangePrimary,
                     fontSize = 19.sp,
@@ -105,50 +91,15 @@ fun GroupDetailScreen(navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(items) { item ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(70.dp),
-                        shape = RoundedCornerShape(18.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
-                        colors = CardDefaults.cardColors(containerColor = TextLight)
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 20.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                IconButton(onClick = {
-                                    items = items.map {
-                                        if (it.id == item.id) it.copy(done = !item.done)
-                                        else it
-                                    }
-                                }) {
-                                    Icon(
-                                        imageVector = if (item.done)
-                                            Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
-                                        contentDescription = "Marcar como feito",
-                                        tint = if (item.done) OrangePrimary else Color.Gray,
-                                        modifier = Modifier.size(26.dp)
-                                    )
-                                }
-                                Spacer(Modifier.width(8.dp))
-                                Text(
-                                    text = item.name,
-                                    style = MaterialTheme.typography.bodyLarge.copy(
-                                        color = if (item.done) Color.Gray else TextDark,
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                )
-                            }
-                        }
-                    }
+                    ShoppingItemCard(item = item) { /* No-op for now */ }
                 }
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GroupDetailScreenPreview() {
+    GroupDetailScreen(navController = rememberNavController(), groupId = "1")
 }

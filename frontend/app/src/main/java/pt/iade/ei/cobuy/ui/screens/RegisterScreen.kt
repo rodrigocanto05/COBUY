@@ -2,37 +2,41 @@ package pt.iade.ei.cobuy.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.R
+import pt.iade.ei.cobuy.model.AuthRequest
+import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
+import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
+import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
+import pt.iade.ei.cobuy.viewmodels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navController: NavController) {
+fun RegisterScreen(navController: NavController, viewModel: UserViewModel = viewModel()) {
     var email by remember { mutableStateOf("") }
-    var phone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirm by remember { mutableStateOf("") }
 
+    val scope = rememberCoroutineScope() // 👈 Necessário para chamadas suspensas
+
+
     Scaffold(
         containerColor = BackgroundLight,
-        topBar = {
-            TopAppBar(
-                title = {},
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundLight)
-            )
-        }
+        topBar = { CoBuyTopBar("", navController = navController, showBackButton = false) } // Back button hidden
     ) { padding ->
         Column(
             modifier = Modifier
@@ -40,7 +44,7 @@ fun RegisterScreen(navController: NavController) {
                 .padding(padding)
                 .padding(horizontal = 32.dp, vertical = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
             // LOGO
             Image(
@@ -48,10 +52,8 @@ fun RegisterScreen(navController: NavController) {
                 contentDescription = "Logo CoBuy",
                 modifier = Modifier
                     .size(140.dp)
-                    .padding(top = 10.dp)
+                    .padding(bottom = 20.dp)
             )
-
-            Spacer(Modifier.height(10.dp))
 
             // TÍTULO
             Text(
@@ -70,68 +72,29 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
-                    singleLine = true,
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp)
-                )
-
-                OutlinedTextField(
-                    value = phone,
-                    onValueChange = { phone = it },
-                    label = { Text("Telefone") },
-                    singleLine = true,
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp)
-                )
-
-                OutlinedTextField(
+                CustomTextField(value = email, onValueChange = { email = it }, label = "Email")
+                CustomTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Palavra-passe") },
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp)
+                    label = "Palavra-passe",
+                    visualTransformation = PasswordVisualTransformation()
                 )
-
-                OutlinedTextField(
+                CustomTextField(
                     value = confirm,
                     onValueChange = { confirm = it },
-                    label = { Text("Confirmar Palavra-passe") },
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 15.sp)
+                    label = "Confirmar Palavra-passe",
+                    visualTransformation = PasswordVisualTransformation()
                 )
             }
 
             Spacer(Modifier.height(32.dp))
 
             // BOTÃO DE REGISTO
-            Button(
-                onClick = {
-                    // TODO: Implementar registo (ViewModel + Retrofit)
+            PrimaryButton("Registar") {
+                if (password == confirm) {
+                    viewModel.register(AuthRequest(email, password))
                     navController.navigate(NavPath.Login.route)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-                shape = RoundedCornerShape(40.dp),
-                elevation = ButtonDefaults.buttonElevation(6.dp)
-            ) {
-                Text(
-                    text = "Registar",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
+                }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -144,8 +107,12 @@ fun RegisterScreen(navController: NavController) {
                     fontSize = 14.sp
                 )
             }
-
-            Spacer(Modifier.height(10.dp))
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RegisterScreenPreview() {
+    RegisterScreen(navController = NavController(LocalContext.current))
 }

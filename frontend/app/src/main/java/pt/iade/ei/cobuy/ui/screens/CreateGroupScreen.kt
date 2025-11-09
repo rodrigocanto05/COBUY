@@ -1,20 +1,37 @@
 package pt.iade.ei.cobuy.ui.screens
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import pt.iade.ei.cobuy.ui.theme.*
+import androidx.navigation.compose.rememberNavController
+import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
+import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
+import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.theme.BackgroundLight
+import pt.iade.ei.cobuy.ui.theme.OrangePrimary
+import pt.iade.ei.cobuy.ui.theme.TextDark
 import kotlin.random.Random
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.TopAppBarDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,28 +40,7 @@ fun CreateGroupScreen(navController: NavController) {
     var generatedCode by remember { mutableStateOf(generateCode()) }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Criar Novo Grupo",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            color = TextLight,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 20.sp
-                        )
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar", tint = TextLight)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = OrangePrimary
-                )
-            )
-        },
+        topBar = { CoBuyTopBar("Criar Grupo", navController = navController) },
         containerColor = BackgroundLight
     ) { padding ->
         Column(
@@ -55,19 +51,10 @@ fun CreateGroupScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            OutlinedTextField(
-                value = groupName,
-                onValueChange = { groupName = it },
-                label = { Text("Nome do Grupo") },
-                singleLine = true,
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier.fillMaxWidth()
-            )
+            CustomTextField(value = groupName, onValueChange = { groupName = it }, label = "Nome do Grupo")
 
             Surface(
-                color = TextLight,
                 shadowElevation = 4.dp,
-                shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp)
@@ -92,18 +79,9 @@ fun CreateGroupScreen(navController: NavController) {
                 }
             }
 
-            Button(
-                onClick = {
-                    // TODO: criar grupo
-                    generatedCode = generateCode()
-                },
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = OrangePrimary),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp)
-            ) {
-                Text("Criar Grupo", color = TextLight, fontSize = 16.sp)
+            PrimaryButton("Criar Grupo") {
+                // TODO: criar grupo
+                generatedCode = generateCode()
             }
 
             Text(
@@ -118,4 +96,10 @@ fun CreateGroupScreen(navController: NavController) {
 private fun generateCode(): String {
     val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     return (1..5).map { chars.random(Random(System.nanoTime())) }.joinToString("")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreateGroupScreenPreview() {
+    CreateGroupScreen(navController = rememberNavController())
 }

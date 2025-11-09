@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,37 +17,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.ui.theme.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.material3.TopAppBarDefaults
-
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
+import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
+import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.navigation.NavPath
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Perfil",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextLight,
-                            fontSize = 20.sp
-                        )
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar", tint = TextLight)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = OrangePrimary
-                )
-            )
-        },
+        topBar = { CoBuyTopBar("Perfil", navController = navController) },
         containerColor = BackgroundLight
     ) { padding ->
         Column(
@@ -82,29 +62,15 @@ fun ProfileScreen(navController: NavController) {
 
             Spacer(Modifier.height(20.dp))
 
-            Button(
-                onClick = { /* TODO: Editar Perfil */ },
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = OrangePrimary),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Text("Editar Perfil", color = TextLight, fontSize = 16.sp)
-            }
+            PrimaryButton("Editar Perfil") { navController.navigate(NavPath.EditProfile.route) }
 
-            OutlinedButton(
-                onClick = { /* TODO: Logout */ },
-                shape = RoundedCornerShape(30.dp),
-                border = BorderStroke(2.dp, OrangePrimary),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                Icon(Icons.Default.Logout, contentDescription = null, tint = OrangePrimary)
-                Spacer(Modifier.width(6.dp))
-                Text("Terminar Sessão", color = OrangePrimary, fontSize = 15.sp)
-            }
+            CustomOutlinedButton("Terminar Sessão") { /* TODO: Logout */ }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    ProfileScreen(navController = NavController(LocalContext.current))
 }

@@ -7,6 +7,15 @@ sealed class NavPath(val route: String) {
     object Dashboard : NavPath("dashboard")
     object Map : NavPath("map")
     object Profile : NavPath("profile")
-    object Welcome : NavPath("welcome")
+    object CreateGroup : NavPath("create_group")
+    object JoinGroup : NavPath("join_group")
+    object GroupList : NavPath("group_list")
+    object EditProfile : NavPath("edit_profile")
+    object SavedLocations : NavPath("saved_locations")
 
+    object GroupDetail : NavPath("group_detail/{groupId}") {
+        fun withArgs(groupId: String): String {
+            return this.route.replace("{groupId}", groupId)
+        }
+    }
 }
