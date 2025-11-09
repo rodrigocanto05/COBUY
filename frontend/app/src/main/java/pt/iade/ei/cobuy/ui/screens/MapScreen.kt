@@ -63,7 +63,7 @@ fun MapScreen(navController: NavController) {
                 modifier = Modifier.padding(vertical = 20.dp)
             )
 
-            val iade = LatLng(38.7162, -9.1423) // Coordenadas do IADE
+            val iade = LatLng(38.78167, -9.10239) // Coordenadas do IADE
             val cameraPositionState = rememberCameraPositionState {
                 position = CameraPosition.fromLatLngZoom(iade, 15f)
             }
