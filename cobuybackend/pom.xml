@@ -18,8 +18,9 @@
     <description>Servidor REST para a app CoBuy</description>
 
     <properties>
-        <java.version>25</java.version>
-    </properties>
+    <java.version>21</java.version>
+    <maven.compiler.release>21</maven.compiler.release>
+</properties>
 
     <dependencies>
         <!-- SPRING WEB -->
