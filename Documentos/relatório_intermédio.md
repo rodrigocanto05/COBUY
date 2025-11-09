@@ -146,7 +146,7 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 1. Menu → **“Mapa”**
 2. Ativar permissões de localização (se pedido)
 3. Ver pins no mapa com supermercados
-4. Tocar num pin → ver nome, distância, rating
+4. Tocar num pin → ver nome, distância
 5. Tocar em **“Ver rota”** → abre navegação
 
 **Resultado esperado:**
@@ -229,15 +229,15 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 - **Competências Comunicacionais**: relatório, poster e vídeo.  
 - **Matemática Discreta**: quantidades em receitas (proporções).  
 
-### 8.3 Requisitos técnicos (provisórios)
+### 8.3 Requisitos técnicos 
 
 **Funcionais:**  
-Login, Registo, Mapas, Listas, Grupos.
+Login, Registo, Mapas(ainda nao da para guardar supermecados favoritos), Grupos.
 
 **Não funcionais:**  
-Receitas
+Listas, Mapas (guardar sup. fav.), consultar receitas, dar igredientes de receitas.
 
-### 8.4 Arquitetura da solução (provisória)
+### 8.4 Arquitetura da solução 
 
 - Arquitetura **MVC**  
 - **View**: Android (Kotlin, Jetpack Compose)  
