@@ -256,10 +256,10 @@ Listas, Mapas (guardar sup. fav.), consultar receitas, dar igredientes de receit
 
 ---
 
-## 9. Planeamento e Calendarização
+## 9. Planeamento e Calendarização (Atualizado)
 
 O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
-![Planeamento](https://github.com/user-attachments/assets/108108e9-cb38-4fbd-a61c-4435c0a1ff59)
+<img width="911" height="500" alt="image" src="https://github.com/user-attachments/assets/2d2c6906-5add-49da-8994-024d595d5d0c" />
 
 ---
 
