@@ -97,56 +97,130 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 
 ---
 
-## 7. Guiões de teste
+# Guiões de Teste 
 
-### Caso Core — Gerir lista partilhada
-- **Ator:** Membro do grupo  
-- **Pré-condição:** Grupo criado; utilizador autenticado.  
-1. Utilizador abre a app e seleciona o Grupo “Casa”.  
-2. Adiciona item à lista.  
-3. A lista sincroniza e todos veem o estado atualizado.  
-- **Pós-condição:** Lista atualizada e visível para todos.  
+## 1) Registo
+**Objetivo:** Criar uma conta nova.
 
-### Caso 2 — Supermercados próximos e rota
-- **Ator:** Utilizador  
-- **Pré-condição:** Permissões de GPS ativas.  
-1. Utilizador seleciona a opção “Encontrar Supermercado”.  
-2. A app mostra os supermercados mais próximos (ex.: “Continente a 2 km”).  
-3. O utilizador seleciona um supermercado e a app apresenta a rota no mapa.  
-4. O utilizador segue a rota até ao supermercado.  
-- **Pós-condição:** O utilizador encontra o supermercado e acede à rota.  
+**Passos:**
+1. Abrir a app → ecrã “Entrar”
+2. Tocar em **“Criar conta”**
+3. Preencher Nome, Email, Password
+4. Tocar em **“Registar”**
+5. App entra automaticamente no dashboard
 
-### Caso 3 — Refeição → ingredientes e quantidades
-- **Ator:** Utilizador  
-- **Pré-condição:** Grupo criado; utilizador autenticado.  
-1. Utilizador escreve “Massa com atum” e indica “4 pessoas”.  
-2. A app devolve lista de ingredientes com quantidades ajustadas (ex.: 400g massa, 2 latas atum, azeite, sal).  
-3. Utilizador verifica se tem os ingredientes e adiciona os que faltam à lista.  
-- **Pós-condição:** Refeição concluída.  
+**Resultado esperado:**
+- Conta criada e sessão iniciada
+- Password nunca visível
+- Nome e email aparecem no perfil
 
-### Caso 4 — Edição em tempo real
-- **Ator:** Membro do grupo  
-- **Pré-condição:** Grupo criado; lista já existente.  
-1. Utilizador 1 adiciona “leite” à lista.  
-2. Utilizador 2 remove “leite” ao mesmo tempo.  
-3. O sistema resolve conflito e apresenta estado atualizado em ambos os dispositivos.  
-- **Pós-condição:** Lista final sincronizada.  
+**Erros a validar:**
+- Email já existe → *“Email já registado”*
+- Campos inválidos → mensagem junto ao campo
 
-### Caso 5 — Erro de autenticação
-- **Ator:** Utilizador  
-- **Pré-condição:** Sem ligação à internet.  
-1. Utilizador tenta entrar.  
-2. A aplicação apresenta mensagem de erro: *“Sem conexão. Tente novamente mais tarde.”*  
-- **Pós-condição:** Utilizador informado e tentativa guardada em cache.  
+---
+
+## 2) Login
+**Objetivo:** Autenticar utilizador existente.
+
+**Passos:**
+1. Ecrã “Entrar”
+2. Preencher Email e Password
+3. Tocar em **“Entrar”**
+4. App abre dashboard com nome do utilizador
+
+**Resultado esperado:**
+- Sessão iniciada
+- Mantém login se app fechar e reabrir
+
+**Erros a validar:**
+- Credenciais erradas → *“Email ou password inválidos”*
+- Sem internet → *“Sem ligação. Tente novamente”*
+
+---
+
+## 3) Mapas (Supermercados Próximos)
+**Objetivo:** Encontrar supermercados próximos e navegar até um.
+
+**Passos:**
+1. Menu → **“Mapa”**
+2. Ativar permissões de localização (se pedido)
+3. Ver pins no mapa com supermercados
+4. Tocar num pin → ver nome, distância, rating
+5. Tocar em **“Ver rota”** → abre navegação
+
+**Resultado esperado:**
+- Localização centralizada
+- Pins clicáveis
+- Rota aberta no mapa/navegador do telemóvel
+
+**Erros a validar:**
+- GPS desligado → *“Ative o GPS para ver supermercados próximos”*
+- Sem supermercados → *“Sem locais perto de si”*
+
+---
+
+## 4) Grupos
+**Objetivo:** Criar e navegar grupos.
+
+**Passos:**
+1. Menu → **“Grupos”**
+2. Ver lista de grupos
+3. Tocar em **“+ Criar grupo”**
+4. Inserir nome → confirmar
+5. Abrir grupo para ver membros e listas
+
+**Resultado esperado:**
+- Grupo aparece imediatamente
+- Visualização de membros e listas do grupo
+
+**Erros a validar:**
+- Nome vazio → *“Indique um nome para o grupo”*
+- Ação sem permissões → aviso claro
+
+---
+
+## 5) Listas de Compras (no Grupo)
+**Objetivo:** Criar listas e gerir itens.
+
+**Passos:**
+1. Abrir um grupo
+2. Secção **“Listas”**
+3. **“+ Nova lista”** → “Compras semanais”
+4. Abrir lista recém-criada
+5. **“+ Adicionar item”** → “Leite”, 6 unidades
+6. Ver item na lista
+7. Marcar item como concluído
+8. Usar filtro **“Por comprar”**
+
+**Resultado esperado:**
+- Lista criada com sucesso
+- Item visível com quantidade e unidade
+- Checkbox altera estado do item
+- Filtro esconde itens concluídos
+
+**Erros a validar:**
+- Item sem nome → *“Indique o nome do item”*
+- Lista sem título → *“Indique o título da lista”*
+- Falha de internet → mensagem e retry
+
+---
+
+### Notas
+- Exceto registo/login, todos os guiões assumem utilizador autenticado
+- App deve mostrar loaders durante sincronização
+- Todas as mensagens de erro devem ser claras e perto do campo
 
 ---
 
 ## 8. Project Charter
 
 ### 8.1 Descrição genérica
+
 A aplicação **COBUY** é uma solução mobile colaborativa que pretende facilitar a organização das compras em grupo. Os utilizadores partilham uma lista de compras em tempo real, podem visualizar os supermercados mais próximos através de localização e visualizar ingredientes e quantidades a partir de refeições introduzidas.  
 
 ### 8.2 Enquadramento nas diversas Unidades Curriculares
+
 O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em várias Unidades Curriculares do 3.º semestre:  
 
 - **Programação de Dispositivos Móveis**: desenvolvimento da aplicação.  
@@ -158,11 +232,13 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 ### 8.3 Requisitos técnicos (provisórios)
 
 **Funcionais:**  
+Login, Registo, Mapas, Listas, Grupos.
 
 **Não funcionais:**  
-
+Receitas
 
 ### 8.4 Arquitetura da solução (provisória)
+
 - Arquitetura **MVC**  
 - **View**: Android (Kotlin, Jetpack Compose)  
 - **Controller**: Serviços locais + API REST (Spring Boot)  
@@ -171,6 +247,7 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 - **Receitas**: Inteligência Artificial (provisório)  
 
 ### 8.5 Tecnologias a utilizar
+
 - **Frontend:** Android Studio  
 - **Backend:** Spring Boot  
 - **Base de Dados:** MySQLWorkbench  
