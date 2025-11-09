@@ -103,7 +103,7 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 **Objetivo:** Criar uma conta nova.
 
 **Passos:**
-1. Abrir a app → ecrã “Entrar”
+1. Abrir a app 
 2. Tocar em **“Criar conta”**
 3. Preencher Nome, Email, Password
 4. Tocar em **“Registar”**
@@ -124,7 +124,7 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 **Objetivo:** Autenticar utilizador existente.
 
 **Passos:**
-1. Ecrã “Entrar”
+1. Clicar em **Iniciar Sessão**
 2. Preencher Email e Password
 3. Tocar em **“Entrar”**
 4. App abre dashboard com nome do utilizador
@@ -146,7 +146,7 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 1. Menu → **“Mapa”**
 2. Ativar permissões de localização (se pedido)
 3. Ver pins no mapa com supermercados
-4. Tocar num pin → ver nome, distância, rating
+4. Tocar num pin → ver nome, distância
 5. Tocar em **“Ver rota”** → abre navegação
 
 **Resultado esperado:**
@@ -229,15 +229,15 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 - **Competências Comunicacionais**: relatório, poster e vídeo.  
 - **Matemática Discreta**: quantidades em receitas (proporções).  
 
-### 8.3 Requisitos técnicos (provisórios)
+### 8.3 Requisitos técnicos 
 
 **Funcionais:**  
-Login, Registo, Mapas, Listas, Grupos.
+Login, Registo, Mapas(ainda nao da para guardar supermecados favoritos), Grupos.
 
 **Não funcionais:**  
-Receitas
+Listas, Mapas (guardar sup. fav.), consultar receitas, dar igredientes de receitas.
 
-### 8.4 Arquitetura da solução (provisória)
+### 8.4 Arquitetura da solução 
 
 - Arquitetura **MVC**  
 - **View**: Android (Kotlin, Jetpack Compose)  
@@ -256,10 +256,10 @@ Receitas
 
 ---
 
-## 9. Planeamento e Calendarização
+## 9. Planeamento e Calendarização (Atualizado)
 
 O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
-![Planeamento](https://github.com/user-attachments/assets/108108e9-cb38-4fbd-a61c-4435c0a1ff59)
+<img width="911" height="500" alt="image" src="https://github.com/user-attachments/assets/2d2c6906-5add-49da-8994-024d595d5d0c" />
 
 ---
 
@@ -453,7 +453,7 @@ A API segue o estilo REST e permite a interação com utilizadores, grupos, list
 ### 🔐 Autorização
 
 - Endpoints com criação, edição e delete exigem **JWT Bearer Token**
-- Header exemplo:
+- Header exemplo: uid:1|email:rodrigo.canto@hotmail.com
 
  ### 📎 Notas Técnicas
 
