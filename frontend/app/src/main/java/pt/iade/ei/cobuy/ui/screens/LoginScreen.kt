@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -16,29 +17,23 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.R
-import pt.iade.ei.cobuy.model.AuthRequest
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
-import pt.iade.ei.cobuy.viewmodels.UserViewModel
+import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel
+import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController, viewModel: UserViewModel = viewModel()) {
+fun LoginScreen(navController: NavController) {
+    val context = LocalContext.current
+    val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(context))
+
     var emailOrPhone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val authResponse by viewModel.authResponse.collectAsState()
-
-    LaunchedEffect(authResponse) {
-        if (authResponse != null) {
-            navController.navigate(NavPath.Dashboard.route) {
-                popUpTo(NavPath.Login.route) { inclusive = true }
-            }
-        }
-    }
 
     Scaffold(
         containerColor = BackgroundLight,
@@ -95,9 +90,16 @@ fun LoginScreen(navController: NavController, viewModel: UserViewModel = viewMod
             Spacer(Modifier.height(32.dp))
 
             // BOTÃO DE LOGIN
-            PrimaryButton("Entrar") {
-                viewModel.login(AuthRequest(emailOrPhone, password))
+            PrimaryButton(text = "Entrar") {
+                viewModel.login(emailOrPhone, password) { ok, err ->
+                    if (ok) {
+                        navController.navigate(NavPath.Dashboard.route)
+                    } else {
+                        Log.e("LOGIN", "Erro: $err")
+                    }
+                }
             }
+
 
             Spacer(Modifier.height(12.dp))
 

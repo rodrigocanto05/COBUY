@@ -1,91 +1,126 @@
 package pt.iade.ei.cobuy.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
-import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.navigation.NavPath
-import pt.iade.ei.cobuy.ui.theme.BackgroundLight
-import pt.iade.ei.cobuy.ui.theme.OrangePrimary
-import pt.iade.ei.cobuy.ui.theme.TextDark
+import pt.iade.ei.cobuy.ui.theme.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    Scaffold(containerColor = BackgroundLight) { padding ->
+    Scaffold(
+        containerColor = BackgroundLight
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(horizontal = 32.dp, vertical = 40.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(Modifier.height(40.dp))
+
+            // Logo
             Image(
                 painter = painterResource(id = R.drawable.image),
                 contentDescription = "CoBuy Logo",
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier
+                    .size(160.dp)
+                    .padding(top = 24.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Bem-vindo ao CoBuy!",
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    color = OrangePrimary,
-                    fontWeight = FontWeight.Bold
+            // Nome e slogan
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(
+                    text = "CoBuy",
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        color = OrangePrimary,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
-            )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(Modifier.height(8.dp))
 
-            Text(
-                text = "A sua nova forma de fazer compras em grupo, de forma mais inteligente e eficiente.",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = TextDark,
-                    textAlign = TextAlign.Center,
-                    lineHeight = 22.sp
-                ),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            PrimaryButton(text = "Começar") {
-                navController.navigate(NavPath.Register.route)
+                Text(
+                    text = "Do GPS ao carrinho - tudo numa app!",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = TextDark.copy(alpha = 0.8f),
+                        fontSize = 15.sp
+                    ),
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    lineHeight = 20.sp
+                )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            // Botões principais
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(
+                    onClick = { navController.navigate(NavPath.Register.route) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = OrangePrimary,
+                        contentColor = TextLight
+                    )
+                ) {
+                    Text(
+                        text = "Criar conta",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
+                }
 
-            TextButton(onClick = { navController.navigate(NavPath.Login.route) }) {
-                Text("Já tem conta? Iniciar Sessão", color = OrangePrimary, fontSize = 15.sp)
+                Spacer(Modifier.height(16.dp))
+
+                OutlinedButton(
+                    onClick = { navController.navigate(NavPath.Login.route) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    border = BorderStroke(2.dp, OrangePrimary),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = OrangePrimary
+                    )
+                ) {
+                    Text(
+                        text = "Iniciar sessão",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                }
             }
         }
     }
 }
-
-@Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
-    HomeScreen(navController = rememberNavController())
-}
+@Preview(showBackground = true)
+fun HomeScreen() {
+        HomeScreen(navController = NavController(LocalContext.current))
+    }
+

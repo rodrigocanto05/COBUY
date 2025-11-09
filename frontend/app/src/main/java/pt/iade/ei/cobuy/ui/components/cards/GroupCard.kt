@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import pt.iade.ei.cobuy.model.Group
+import pt.iade.ei.cobuy.storage.model.Group
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
@@ -47,6 +47,7 @@ fun GroupCard(group: Group, navController: NavController) {
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
+                // Nome do grupo
                 Text(
                     text = group.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -55,12 +56,17 @@ fun GroupCard(group: Group, navController: NavController) {
                         fontWeight = FontWeight.SemiBold
                     )
                 )
-                Text(
-                    text = group.description,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = TextDark.copy(alpha = 0.7f)
+
+                // Data de criação (opcional)
+                group.createdAt?.let {
+                    Text(
+                        text = "Criado em: ${it.substring(0, 10)}", // mostra só YYYY-MM-DD
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = TextDark.copy(alpha = 0.7f),
+                            fontSize = 13.sp
+                        )
                     )
-                )
+                }
             }
 
             Button(

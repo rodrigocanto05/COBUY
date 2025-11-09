@@ -1,11 +1,9 @@
 package pt.iade.ei.cobuy.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import pt.iade.ei.cobuy.ui.screens.*
 
 @Composable
@@ -21,15 +19,7 @@ fun appNavigation() {
         composable(NavPath.Profile.route) { ProfileScreen(navController) }
         composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
         composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
-        composable(NavPath.GroupList.route) { GroupListScreen(navController) }
         composable(NavPath.EditProfile.route) { EditProfileScreen(navController) }
-        composable(NavPath.SavedLocations.route) { SavedLocationsScreen(navController) }
-        composable(
-            route = NavPath.GroupDetail.route,
-            arguments = listOf(navArgument("groupId") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val groupId = backStackEntry.arguments?.getString("groupId")
-            GroupDetailScreen(navController, groupId)
+
         }
     }
-}

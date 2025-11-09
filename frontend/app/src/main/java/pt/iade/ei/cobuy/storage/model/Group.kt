@@ -1,11 +1,11 @@
-package pt.iade.ei.cobuy.model
+package pt.iade.ei.cobuy.storage.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(
+data class Group(
     val id: Int,
     val name: String,
-    val email: String,
-    val phone: String
+    val createdAt: String? = null
 )
+
