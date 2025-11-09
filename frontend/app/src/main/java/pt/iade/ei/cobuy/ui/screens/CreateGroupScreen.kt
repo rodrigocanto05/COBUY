@@ -1,30 +1,20 @@
 package pt.iade.ei.cobuy.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -36,8 +26,12 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateGroupScreen(navController: NavController) {
+    val context = LocalContext.current
+    val viewModel: GroupViewModel = viewModel()   // 👈 conecta ao ViewModel
+
     var groupName by remember { mutableStateOf("") }
     var generatedCode by remember { mutableStateOf(generateCode()) }
+    var isLoading by remember { mutableStateOf(false) }   // 👈 agora o compilador reconhece
 
     Scaffold(
         topBar = { CoBuyTopBar("Criar Grupo", navController = navController) },
@@ -51,7 +45,11 @@ fun CreateGroupScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            CustomTextField(value = groupName, onValueChange = { groupName = it }, label = "Nome do Grupo")
+            CustomTextField(
+                value = groupName,
+                onValueChange = { groupName = it },
+                label = "Nome do Grupo"
+            )
 
             Surface(
                 shadowElevation = 4.dp,
@@ -79,14 +77,47 @@ fun CreateGroupScreen(navController: NavController) {
                 }
             }
 
-            PrimaryButton("Criar Grupo") {
-                // TODO: criar grupo
-                generatedCode = generateCode()
-            }
+            PrimaryButton(
+                text = if (isLoading) "A criar..." else "Criar Grupo",
+                onClick = {
+                    if (isLoading) return@PrimaryButton
+
+                    if (groupName.isBlank()) {
+                        Toast.makeText(
+                            context,
+                            "O nome do grupo não pode estar vazio.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@PrimaryButton
+                    }
+
+                    isLoading = true
+                    viewModel.createGroup(groupName) { success, error ->
+                        isLoading = false
+                        if (success) {
+                            Toast.makeText(
+                                context,
+                                "Grupo criado com sucesso!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            generatedCode = generateCode()
+                            groupName = ""
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Erro: $error",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+            )
 
             Text(
                 text = "Partilha o código com os teus amigos para entrarem no grupo.",
-                style = MaterialTheme.typography.bodyMedium.copy(color = TextDark.copy(alpha = 0.7f)),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = TextDark.copy(alpha = 0.7f)
+                ),
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
