@@ -453,7 +453,7 @@ A API segue o estilo REST e permite a interação com utilizadores, grupos, list
 ### 🔐 Autorização
 
 - Endpoints com criação, edição e delete exigem **JWT Bearer Token**
-- Header exemplo:
+- Header exemplo: uid:1|email:rodrigo.canto@hotmail.com
 
  ### 📎 Notas Técnicas
 
