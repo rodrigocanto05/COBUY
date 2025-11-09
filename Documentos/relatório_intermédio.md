@@ -97,120 +97,120 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 
 ---
 
-# 7.Guiões de Teste
+# Guiões de Teste 
 
-## 7.1) Registo
+## 1) Registo
+**Objetivo:** Criar uma conta nova.
 
-Objetivo: criar conta nova.
+**Passos:**
+1. Abrir a app → ecrã “Entrar”
+2. Tocar em **“Criar conta”**
+3. Preencher Nome, Email, Password
+4. Tocar em **“Registar”**
+5. App entra automaticamente no dashboard
 
-Passos (app):
-	1.	Abrir app → ecrã “Entrar”.
-	2.	Tocar em “Criar conta”.
-	3.	Preencher Nome, Email, Password.
-	4.	Tocar em “Registar”.
-	5.	App mostra mensagem “Conta criada” e entra automaticamente no dashboard.
+**Resultado esperado:**
+- Conta criada e sessão iniciada
+- Password nunca visível
+- Nome e email aparecem no perfil
 
-Resultado esperado:
-	•	Utilizador autenticado e sessão iniciada.
-	•	Password não aparece em lado nenhum.
-	•	Nome e email visíveis no perfil.
+**Erros a validar:**
+- Email já existe → *“Email já registado”*
+- Campos inválidos → mensagem junto ao campo
 
-Erros a validar:
-	•	Email já existente → mensagem clara “Email já registado”.
-	•	Campos vazios/invalidos → realce do campo e mensagem junto ao campo.
+---
 
-⸻
+## 2) Login
+**Objetivo:** Autenticar utilizador existente.
 
-## 7.2) Login
+**Passos:**
+1. Ecrã “Entrar”
+2. Preencher Email e Password
+3. Tocar em **“Entrar”**
+4. App abre dashboard com nome do utilizador
 
-Objetivo: entrar com conta existente.
+**Resultado esperado:**
+- Sessão iniciada
+- Mantém login se app fechar e reabrir
 
-Passos (app):
-	1.	Ecrã “Entrar”.
-	2.	Preencher Email e Password.
-	3.	Tocar em “Entrar”.
-	4.	App abre dashboard com o nome do utilizador no topo.
+**Erros a validar:**
+- Credenciais erradas → *“Email ou password inválidos”*
+- Sem internet → *“Sem ligação. Tente novamente”*
 
-Resultado esperado:
-	•	Sessão iniciada e dashboard carregado.
-	•	Permanecer autenticado se fechar e abrir a app (lembrar sessão).
+---
 
-Erros a validar:
-	•	Credenciais erradas → “Email ou password inválidos”.
-	•	Sem internet → “Sem ligação. Tente novamente”.
+## 3) Mapas (Supermercados Próximos)
+**Objetivo:** Encontrar supermercados próximos e navegar até um.
 
-⸻
+**Passos:**
+1. Menu → **“Mapa”**
+2. Ativar permissões de localização (se pedido)
+3. Ver pins no mapa com supermercados
+4. Tocar num pin → ver nome, distância, rating
+5. Tocar em **“Ver rota”** → abre navegação
 
-## 7.3) Mapas (supermercados próximos)
+**Resultado esperado:**
+- Localização centralizada
+- Pins clicáveis
+- Rota aberta no mapa/navegador do telemóvel
 
-Objetivo: ver supermercados no mapa e abrir rota.
+**Erros a validar:**
+- GPS desligado → *“Ative o GPS para ver supermercados próximos”*
+- Sem supermercados → *“Sem locais perto de si”*
 
-Passos (app):
-	1.	No menu, entrar em “Mapa”.
-	2.	Conceder permissão de localização se pedido.
-	3.	Ver pins de supermercados perto (ex.: Continente, Lidl).
-	4.	Tocar num pin → abre cartão com nome, distância, classificação.
-	5.	Tocar em “Ver rota” → abre navegação (mapa/sistema).
+---
 
-Resultado esperado:
-	•	Posição atual centrada.
-	•	Pins carregados e selecionáveis.
-	•	Ação “Ver rota” abre navegação do dispositivo.
+## 4) Grupos
+**Objetivo:** Criar e navegar grupos.
 
-Erros a validar:
-	•	Localização desativada → aviso “Ative o GPS para ver supermercados próximos”.
-	•	Sem resultados perto → mensagem “Sem supermercados perto. Aumente o raio”.
+**Passos:**
+1. Menu → **“Grupos”**
+2. Ver lista de grupos
+3. Tocar em **“+ Criar grupo”**
+4. Inserir nome → confirmar
+5. Abrir grupo para ver membros e listas
 
-(Opcional) Guardar favorito a partir do cartão: botão “Guardar” → aparece em “Favoritos”.
+**Resultado esperado:**
+- Grupo aparece imediatamente
+- Visualização de membros e listas do grupo
 
-⸻
+**Erros a validar:**
+- Nome vazio → *“Indique um nome para o grupo”*
+- Ação sem permissões → aviso claro
 
-## 7.4) Grupos
+---
 
-Objetivo: ver e gerir grupos.
+## 5) Listas de Compras (no Grupo)
+**Objetivo:** Criar listas e gerir itens.
 
-Passos (app):
-	1.	Menu → “Grupos”.
-	2.	Ver lista de grupos onde o utilizador está (ex.: Casa A, Erasmus).
-	3.	Tocar em “+ Criar grupo”, escrever nome, confirmar.
-	4.	Entrar num grupo para ver detalhes (membros, listas).
+**Passos:**
+1. Abrir um grupo
+2. Secção **“Listas”**
+3. **“+ Nova lista”** → “Compras semanais”
+4. Abrir lista recém-criada
+5. **“+ Adicionar item”** → “Leite”, 6 unidades
+6. Ver item na lista
+7. Marcar item como concluído
+8. Usar filtro **“Por comprar”**
 
-Resultado esperado:
-	•	Lista de grupos do utilizador visível.
-	•	Grupo novo aparece imediatamente na lista.
-	•	Ao abrir um grupo, ver nome, data de criação e membros.
+**Resultado esperado:**
+- Lista criada com sucesso
+- Item visível com quantidade e unidade
+- Checkbox altera estado do item
+- Filtro esconde itens concluídos
 
-Erros a validar:
-	•	Nome em branco → “Indique um nome de grupo”.
-	•	Sem permissões (se aplicável) → feedback “Ação não permitida”.
+**Erros a validar:**
+- Item sem nome → *“Indique o nome do item”*
+- Lista sem título → *“Indique o título da lista”*
+- Falha de internet → mensagem e retry
 
-⸻
+---
 
-## 7.5) Listas (dentro de um grupo)
+### Notas
+- Exceto registo/login, todos os guiões assumem utilizador autenticado
+- App deve mostrar loaders durante sincronização
+- Todas as mensagens de erro devem ser claras e perto do campo
 
-Objetivo: criar lista, adicionar itens e marcar como feitos.
-
-Passos (app):
-	1.	Abrir um grupo (ex.: “Casa A”).
-	2.	Ver secção “Listas”.
-	3.	Tocar em “+ Nova lista”, escrever “Compras semanais”, confirmar.
-	4.	Entrar na lista criada.
-	5.	Tocar em “+ Adicionar item”, escrever “Leite”, Quantidade 6, Unidade “un”, confirmar.
-	6.	Ver item “Leite” na lista.
-	7.	Tocar no checkbox de “Leite” para marcar como “feito”.
-	8.	Usar filtro “Por comprar” para ver só os itens pendentes.
-
-Resultado esperado:
-	•	Lista aparece na secção do grupo.
-	•	Item surge com quantidade/unidade corretas.
-	•	Checkbox muda estado e “Por comprar” esconde os concluídos.
-	•	Timestamp de atualização (se exibido) atualiza após cada alteração.
-
-Erros a validar:
-	•	Tentar adicionar item sem nome → “Indique o nome do item”.
-	•	Criar lista sem título → “Indique o título da lista”.
-	•	Perda de ligação durante ação → mensagem de falha e tentativa posterior.
-  
 ---
 
 ## 8. Project Charter
