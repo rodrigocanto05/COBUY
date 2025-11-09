@@ -103,7 +103,7 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 **Objetivo:** Criar uma conta nova.
 
 **Passos:**
-1. Abrir a app → ecrã “Entrar”
+1. Abrir a app 
 2. Tocar em **“Criar conta”**
 3. Preencher Nome, Email, Password
 4. Tocar em **“Registar”**
@@ -124,7 +124,7 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 **Objetivo:** Autenticar utilizador existente.
 
 **Passos:**
-1. Ecrã “Entrar”
+1. Clicar em **Iniciar Sessão**
 2. Preencher Email e Password
 3. Tocar em **“Entrar”**
 4. App abre dashboard com nome do utilizador
