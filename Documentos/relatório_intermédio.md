@@ -97,56 +97,130 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 
 ---
 
-## 7. Guiões de teste
+# 7.Guiões de Teste
 
-### Caso Core — Gerir lista partilhada
-- **Ator:** Membro do grupo  
-- **Pré-condição:** Grupo criado; utilizador autenticado.  
-1. Utilizador abre a app e seleciona o Grupo “Casa”.  
-2. Adiciona item à lista.  
-3. A lista sincroniza e todos veem o estado atualizado.  
-- **Pós-condição:** Lista atualizada e visível para todos.  
+## 7.1) Registo
 
-### Caso 2 — Supermercados próximos e rota
-- **Ator:** Utilizador  
-- **Pré-condição:** Permissões de GPS ativas.  
-1. Utilizador seleciona a opção “Encontrar Supermercado”.  
-2. A app mostra os supermercados mais próximos (ex.: “Continente a 2 km”).  
-3. O utilizador seleciona um supermercado e a app apresenta a rota no mapa.  
-4. O utilizador segue a rota até ao supermercado.  
-- **Pós-condição:** O utilizador encontra o supermercado e acede à rota.  
+Objetivo: criar conta nova.
 
-### Caso 3 — Refeição → ingredientes e quantidades
-- **Ator:** Utilizador  
-- **Pré-condição:** Grupo criado; utilizador autenticado.  
-1. Utilizador escreve “Massa com atum” e indica “4 pessoas”.  
-2. A app devolve lista de ingredientes com quantidades ajustadas (ex.: 400g massa, 2 latas atum, azeite, sal).  
-3. Utilizador verifica se tem os ingredientes e adiciona os que faltam à lista.  
-- **Pós-condição:** Refeição concluída.  
+Passos (app):
+	1.	Abrir app → ecrã “Entrar”.
+	2.	Tocar em “Criar conta”.
+	3.	Preencher Nome, Email, Password.
+	4.	Tocar em “Registar”.
+	5.	App mostra mensagem “Conta criada” e entra automaticamente no dashboard.
 
-### Caso 4 — Edição em tempo real
-- **Ator:** Membro do grupo  
-- **Pré-condição:** Grupo criado; lista já existente.  
-1. Utilizador 1 adiciona “leite” à lista.  
-2. Utilizador 2 remove “leite” ao mesmo tempo.  
-3. O sistema resolve conflito e apresenta estado atualizado em ambos os dispositivos.  
-- **Pós-condição:** Lista final sincronizada.  
+Resultado esperado:
+	•	Utilizador autenticado e sessão iniciada.
+	•	Password não aparece em lado nenhum.
+	•	Nome e email visíveis no perfil.
 
-### Caso 5 — Erro de autenticação
-- **Ator:** Utilizador  
-- **Pré-condição:** Sem ligação à internet.  
-1. Utilizador tenta entrar.  
-2. A aplicação apresenta mensagem de erro: *“Sem conexão. Tente novamente mais tarde.”*  
-- **Pós-condição:** Utilizador informado e tentativa guardada em cache.  
+Erros a validar:
+	•	Email já existente → mensagem clara “Email já registado”.
+	•	Campos vazios/invalidos → realce do campo e mensagem junto ao campo.
 
+⸻
+
+## 7.2) Login
+
+Objetivo: entrar com conta existente.
+
+Passos (app):
+	1.	Ecrã “Entrar”.
+	2.	Preencher Email e Password.
+	3.	Tocar em “Entrar”.
+	4.	App abre dashboard com o nome do utilizador no topo.
+
+Resultado esperado:
+	•	Sessão iniciada e dashboard carregado.
+	•	Permanecer autenticado se fechar e abrir a app (lembrar sessão).
+
+Erros a validar:
+	•	Credenciais erradas → “Email ou password inválidos”.
+	•	Sem internet → “Sem ligação. Tente novamente”.
+
+⸻
+
+## 7.3) Mapas (supermercados próximos)
+
+Objetivo: ver supermercados no mapa e abrir rota.
+
+Passos (app):
+	1.	No menu, entrar em “Mapa”.
+	2.	Conceder permissão de localização se pedido.
+	3.	Ver pins de supermercados perto (ex.: Continente, Lidl).
+	4.	Tocar num pin → abre cartão com nome, distância, classificação.
+	5.	Tocar em “Ver rota” → abre navegação (mapa/sistema).
+
+Resultado esperado:
+	•	Posição atual centrada.
+	•	Pins carregados e selecionáveis.
+	•	Ação “Ver rota” abre navegação do dispositivo.
+
+Erros a validar:
+	•	Localização desativada → aviso “Ative o GPS para ver supermercados próximos”.
+	•	Sem resultados perto → mensagem “Sem supermercados perto. Aumente o raio”.
+
+(Opcional) Guardar favorito a partir do cartão: botão “Guardar” → aparece em “Favoritos”.
+
+⸻
+
+## 7.4) Grupos
+
+Objetivo: ver e gerir grupos.
+
+Passos (app):
+	1.	Menu → “Grupos”.
+	2.	Ver lista de grupos onde o utilizador está (ex.: Casa A, Erasmus).
+	3.	Tocar em “+ Criar grupo”, escrever nome, confirmar.
+	4.	Entrar num grupo para ver detalhes (membros, listas).
+
+Resultado esperado:
+	•	Lista de grupos do utilizador visível.
+	•	Grupo novo aparece imediatamente na lista.
+	•	Ao abrir um grupo, ver nome, data de criação e membros.
+
+Erros a validar:
+	•	Nome em branco → “Indique um nome de grupo”.
+	•	Sem permissões (se aplicável) → feedback “Ação não permitida”.
+
+⸻
+
+## 7.5) Listas (dentro de um grupo)
+
+Objetivo: criar lista, adicionar itens e marcar como feitos.
+
+Passos (app):
+	1.	Abrir um grupo (ex.: “Casa A”).
+	2.	Ver secção “Listas”.
+	3.	Tocar em “+ Nova lista”, escrever “Compras semanais”, confirmar.
+	4.	Entrar na lista criada.
+	5.	Tocar em “+ Adicionar item”, escrever “Leite”, Quantidade 6, Unidade “un”, confirmar.
+	6.	Ver item “Leite” na lista.
+	7.	Tocar no checkbox de “Leite” para marcar como “feito”.
+	8.	Usar filtro “Por comprar” para ver só os itens pendentes.
+
+Resultado esperado:
+	•	Lista aparece na secção do grupo.
+	•	Item surge com quantidade/unidade corretas.
+	•	Checkbox muda estado e “Por comprar” esconde os concluídos.
+	•	Timestamp de atualização (se exibido) atualiza após cada alteração.
+
+Erros a validar:
+	•	Tentar adicionar item sem nome → “Indique o nome do item”.
+	•	Criar lista sem título → “Indique o título da lista”.
+	•	Perda de ligação durante ação → mensagem de falha e tentativa posterior.
+  
 ---
 
 ## 8. Project Charter
 
 ### 8.1 Descrição genérica
+
 A aplicação **COBUY** é uma solução mobile colaborativa que pretende facilitar a organização das compras em grupo. Os utilizadores partilham uma lista de compras em tempo real, podem visualizar os supermercados mais próximos através de localização e visualizar ingredientes e quantidades a partir de refeições introduzidas.  
 
 ### 8.2 Enquadramento nas diversas Unidades Curriculares
+
 O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em várias Unidades Curriculares do 3.º semestre:  
 
 - **Programação de Dispositivos Móveis**: desenvolvimento da aplicação.  
@@ -158,11 +232,13 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 ### 8.3 Requisitos técnicos (provisórios)
 
 **Funcionais:**  
+Login, Registo, Mapas, Listas, Grupos.
 
 **Não funcionais:**  
-
+Receitas
 
 ### 8.4 Arquitetura da solução (provisória)
+
 - Arquitetura **MVC**  
 - **View**: Android (Kotlin, Jetpack Compose)  
 - **Controller**: Serviços locais + API REST (Spring Boot)  
@@ -171,6 +247,7 @@ O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em vár
 - **Receitas**: Inteligência Artificial (provisório)  
 
 ### 8.5 Tecnologias a utilizar
+
 - **Frontend:** Android Studio  
 - **Backend:** Spring Boot  
 - **Base de Dados:** MySQLWorkbench  
