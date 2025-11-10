@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,19 +22,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
+import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 import pt.iade.ei.cobuy.ui.theme.TextLight
+import androidx.compose.runtime.*
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController) {
+fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona o userId aqui
+    val viewModel: GroupViewModel = viewModel()
+    var groupCount by remember { mutableStateOf(0) }
+
+    // Chamada à API para contar os grupos
+    LaunchedEffect(Unit) {
+        viewModel.getUserGroups(userId) { result, error ->
+            if (error == null) {
+                groupCount = result?.size ?: 0
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -148,8 +167,9 @@ fun DashboardScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                StatusCard(title = "Grupos", value = "3")
+                StatusCard(title = "Grupos", value = groupCount.toString())
                 StatusCard(title = "Locais Salvos", value = "5")
+
             }
 
             Spacer(modifier = Modifier.height(48.dp))
@@ -161,6 +181,7 @@ fun DashboardScreen(navController: NavController) {
 
             // BOTÃO “CRIAR NOVO GRUPO”
             CustomOutlinedButton("Criar Novo Grupo") { navController.navigate(NavPath.CreateGroup.route) }
+
         }
     }
 }

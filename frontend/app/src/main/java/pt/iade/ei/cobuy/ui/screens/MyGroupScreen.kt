@@ -15,7 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
-import pt.iade.ei.cobuy.storage.model.Membership
+import pt.iade.ei.cobuy.storage.model.UserGroup
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
@@ -26,15 +26,15 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 @Composable
 fun MyGroupsScreen(navController: NavController, userId: Int) {
     val viewModel: GroupViewModel = viewModel()
-    var memberships by remember { mutableStateOf<List<Membership>>(emptyList()) }
+    var userGroups by remember { mutableStateOf<List<UserGroup>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     // Chamada ao backend
     LaunchedEffect(Unit) {
-        viewModel.getUserMemberships(userId) { result, error ->
+        viewModel.getUserGroups(userId) { result, error ->
             if (error != null) errorMessage = error
-            else memberships = result ?: emptyList()
+            else userGroups = result ?: emptyList()
             isLoading = false
         }
     }
@@ -51,19 +51,13 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
         ) {
             when {
                 isLoading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
+                    Box(Modifier.fillMaxSize(), Alignment.Center) {
                         CircularProgressIndicator(color = OrangePrimary)
                     }
                 }
 
                 errorMessage != null -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
+                    Box(Modifier.fillMaxSize(), Alignment.Center) {
                         Text(
                             text = "Erro: $errorMessage",
                             color = MaterialTheme.colorScheme.error,
@@ -72,11 +66,8 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                     }
                 }
 
-                memberships.isEmpty() -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
+                userGroups.isEmpty() -> {
+                    Box(Modifier.fillMaxSize(), Alignment.Center) {
                         Text(
                             text = "Ainda não estás em nenhum grupo.",
                             style = MaterialTheme.typography.bodyLarge.copy(
@@ -92,8 +83,8 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(memberships) { membership ->
-                            GroupCard(membership = membership)
+                        items(userGroups) { group ->
+                            GroupCard(group)
                         }
                     }
                 }
@@ -103,26 +94,27 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
 }
 
 @Composable
-fun GroupCard(membership: Membership) {
+fun GroupCard(group: UserGroup) {
     Card(
         colors = CardDefaults.cardColors(containerColor = OrangePrimary.copy(alpha = 0.08f)),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = membership.group?.name ?: "Grupo sem nome",
+                text = group.name,
                 color = OrangePrimary,
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = "Cargo: ${membership.role}",
+                text = "Cargo: ${group.role}",
                 color = TextDark.copy(alpha = 0.7f),
                 style = MaterialTheme.typography.bodySmall
             )
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun MyGroupsScreenPreview() {

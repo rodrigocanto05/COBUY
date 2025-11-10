@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.GroupApi
 import pt.iade.ei.cobuy.storage.model.Group
 import pt.iade.ei.cobuy.storage.model.Membership
+import pt.iade.ei.cobuy.storage.model.UserGroup
 import retrofit2.Response
 
 class GroupViewModel : ViewModel() {
@@ -42,30 +43,20 @@ class GroupViewModel : ViewModel() {
     }
 
     // 🔹 Buscar todos os grupos em que o utilizador está inserido
-    fun getUserMemberships(userId: Int, callback: (List<Membership>?, String?) -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun getUserGroups(
+        userId: Int,
+        onResult: (List<UserGroup>?, String?) -> Unit
+    ) {
+        viewModelScope.launch {
             try {
-                Log.d("GROUP", "🔄 A obter memberships para userId=$userId ...")
-                val response: Response<List<Membership>> = GroupApi.service.getUserMemberships(userId)
-
+                val response = GroupApi.service.getUserGroups(userId)
                 if (response.isSuccessful) {
-                    val memberships = response.body()
-                    Log.d("GROUP", "✅ Memberships obtidos: ${memberships?.size ?: 0}")
-                    withContext(Dispatchers.Main) {
-                        callback(memberships, null)
-                    }
+                    onResult(response.body(), null)
                 } else {
-                    val errorMsg = "Erro HTTP: ${response.code()}"
-                    Log.e("GROUP", errorMsg)
-                    withContext(Dispatchers.Main) {
-                        callback(null, errorMsg)
-                    }
+                    onResult(null, "Erro ${response.code()}: ${response.message()}")
                 }
             } catch (e: Exception) {
-                Log.e("GROUP", "❌ Erro ao obter memberships: ${e.message}", e)
-                withContext(Dispatchers.Main) {
-                    callback(null, e.message)
-                }
+                onResult(null, e.localizedMessage ?: "Erro desconhecido")
             }
         }
     }

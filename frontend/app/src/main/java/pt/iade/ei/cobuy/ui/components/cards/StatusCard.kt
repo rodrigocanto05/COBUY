@@ -21,14 +21,18 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 import pt.iade.ei.cobuy.ui.theme.TextLight
 
 @Composable
-fun StatusCard(title: String, value: String) {
+fun StatusCard(
+    title: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .width(140.dp)
             .height(85.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = TextLight),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -45,7 +49,8 @@ fun StatusCard(title: String, value: String) {
             Text(
                 text = title,
                 color = TextDark.copy(alpha = 0.8f),
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
             )
         }
     }
