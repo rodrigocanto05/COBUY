@@ -20,6 +20,10 @@ fun appNavigation() {
         composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
         composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
         composable(NavPath.EditProfile.route) { EditProfileScreen(navController) }
-
+        composable(NavPath.MyGroups.route) {
+            MyGroupsScreen(navController = navController, userId = 1)
         }
+
+
+    }
     }

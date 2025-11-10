@@ -1,15 +1,16 @@
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.Membership;
-import com.cobuy.cobuybackend.model.User; // <-- FALTAVA
+import com.cobuy.cobuybackend.model.User;
 import com.cobuy.cobuybackend.repository.GroupRepository;
 import com.cobuy.cobuybackend.repository.MembershipRepository;
 import com.cobuy.cobuybackend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal; // <-- FALTAVA
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -27,7 +28,28 @@ public class MembershipController {
         this.userRepo = userRepo;
     }
 
-    // GET /groups/{groupId}/members
+    // --- NOVO ENDPOINT ---
+    @GetMapping("/users/{userId}/memberships")
+    public ResponseEntity<List<GroupDTO>> getUserGroups(@PathVariable Integer userId) {
+        if (!userRepo.existsById(userId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var memberships = membershipRepo.findByUserId(userId);
+        var dto = memberships.stream()
+                .map(m -> new GroupDTO(
+                        m.getGroup().getId(),
+                        m.getGroup().getName(),
+                        m.getRole()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dto);
+    }
+
+    public record GroupDTO(Integer id, String name, String role) {}
+
+    // --- RESTO IGUAL ---
     @GetMapping("/groups/{groupId}/members")
     public ResponseEntity<List<MemberDTO>> getMembers(@PathVariable Integer groupId) {
         if (!groupRepo.existsById(groupId)) {
@@ -39,21 +61,19 @@ public class MembershipController {
                         m.getUser().getName(),
                         m.getUser().getEmail(),
                         m.getRole()))
-                .toList();
+                .collect(Collectors.toList());
         return ResponseEntity.ok(dto);
     }
 
-    // POST /memberships/{groupId}/add/{userId}?role=member|owner
     @PostMapping("/memberships/{groupId}/add/{userId}")
     public ResponseEntity<?> addMember(@AuthenticationPrincipal User requester,
                                        @PathVariable Integer groupId,
                                        @PathVariable Integer userId,
                                        @RequestParam(defaultValue = "member") String role) {
 
-        // requester tem de ser 'owner' do grupo
         var owner = membershipRepo.findByUserIdAndGroupId(requester.getId(), groupId)
-                                  .filter(m -> "owner".equalsIgnoreCase(m.getRole()));
-        if (!owner.isPresent()) { // usa isPresent() para evitar o erro com Java 8
+                .filter(m -> "owner".equalsIgnoreCase(m.getRole()));
+        if (!owner.isPresent()) {
             return ResponseEntity.status(403).build();
         }
 
@@ -74,7 +94,6 @@ public class MembershipController {
         return ResponseEntity.status(201).build();
     }
 
-    // DELETE /memberships/{groupId}/remove/{userId}
     @DeleteMapping("/memberships/{groupId}/remove/{userId}")
     public ResponseEntity<Void> remove(@PathVariable Integer groupId,
                                        @PathVariable Integer userId) {

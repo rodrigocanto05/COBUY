@@ -40,7 +40,7 @@ fun DashboardScreen(navController: NavController) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable {
-                            navController.navigate(NavPath.GroupList.route)
+                            navController.navigate(NavPath.MyGroups.route)
                         }
                     ) {
                         Icon(

@@ -1,6 +1,7 @@
 package pt.iade.ei.cobuy.network.api
 
 import pt.iade.ei.cobuy.storage.model.Group
+import pt.iade.ei.cobuy.storage.model.Membership
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,6 +20,12 @@ interface GroupApi {
 
     @POST("groups")
     suspend fun createGroup(@Body group: Group): Response<Group>
+
+    @GET("users/{userId}/memberships")
+    suspend fun getUserMemberships(
+        @Path("userId") userId: Int
+    ): Response<List<Membership>>
+
 
     companion object {
         private const val BASE_URL = "http://10.0.2.2:8082/"  // 👈 backend local no emulador Android
