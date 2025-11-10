@@ -28,6 +28,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    
     @PostMapping
     public ResponseEntity<?> create(@RequestBody User user) {
         try {
