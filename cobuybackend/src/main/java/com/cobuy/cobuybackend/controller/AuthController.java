@@ -13,8 +13,7 @@ public class AuthController {
   public AuthController(AuthService authService) {
     this.authService = authService;
   }
-
-  // DTOs compactos
+  
   record RegisterRequest(String name, String email, String password) {
   }
 
