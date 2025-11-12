@@ -10,6 +10,5 @@ public interface ListItemRepository extends JpaRepository<ListItem, Integer> {
     // todos os itens de uma lista
     List<ListItem> findByList(ShoppingList list);
 
-    // só os itens ainda não comprados (done = false)
     List<ListItem> findByListAndDone(ShoppingList list, Boolean done);
 }
