@@ -28,7 +28,6 @@ public class MembershipController {
         this.userRepo = userRepo;
     }
 
-    // --- NOVO ENDPOINT ---
     @GetMapping("/users/{userId}/memberships")
     public ResponseEntity<List<GroupDTO>> getUserGroups(@PathVariable Integer userId) {
         if (!userRepo.existsById(userId)) {
@@ -49,7 +48,6 @@ public class MembershipController {
 
     public record GroupDTO(Integer id, String name, String role) {}
 
-    // --- RESTO IGUAL ---
     @GetMapping("/groups/{groupId}/members")
     public ResponseEntity<List<MemberDTO>> getMembers(@PathVariable Integer groupId) {
         if (!groupRepo.existsById(groupId)) {

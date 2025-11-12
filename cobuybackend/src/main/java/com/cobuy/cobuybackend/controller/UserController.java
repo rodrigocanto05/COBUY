@@ -35,7 +35,6 @@ public class UserController {
             User saved = userRepository.save(user);
             return ResponseEntity.created(URI.create("/users/" + saved.getId())).body(saved);
         } catch (DataIntegrityViolationException e) {
-            // e.g., email duplicado (constraint UNIQUE)
             return ResponseEntity.status(409).body("Email já existe.");
         }
     }

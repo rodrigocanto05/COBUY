@@ -13,7 +13,7 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name = "rec_usr_id", referencedColumnName = "usr_id", nullable = true)
-    private User user;         // pode ser null (ON DELETE SET NULL)
+    private User user;        
 
     @Column(name = "rec_name", nullable = false, length = 120)
     private String name;

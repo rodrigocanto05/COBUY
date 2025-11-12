@@ -21,7 +21,7 @@ public class Membership {
     private Group group;
 
     @Column(name = "mem_role")
-    private String role; // 'owner' / 'member'
+    private String role; 
 
     @Column(name = "mem_joined_at")
     private LocalDateTime joinedAt;

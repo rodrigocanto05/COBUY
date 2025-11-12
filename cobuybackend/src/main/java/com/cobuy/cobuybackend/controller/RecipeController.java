@@ -23,7 +23,6 @@ public class RecipeController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    // GET /recipes  (opcional: filtrar por userId)
     @GetMapping
     public List<Recipe> getAll(@RequestParam(value = "userId", required = false) Integer userId) {
         if (userId == null) return recipeRepository.findAll();
@@ -31,7 +30,6 @@ public class RecipeController {
         return (u == null) ? List.of() : recipeRepository.findByUser(u);
     }
 
-    // GET /recipes/{id}/ingredients
     @GetMapping("/{id}/ingredients")
     public ResponseEntity<?> getIngredients(@PathVariable Integer id) {
         Recipe r = recipeRepository.findById(id).orElse(null);

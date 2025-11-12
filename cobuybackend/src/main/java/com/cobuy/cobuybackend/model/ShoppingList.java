@@ -14,7 +14,7 @@ public class ShoppingList {
 
     @ManyToOne
     @JoinColumn(name = "lst_grp_id", referencedColumnName = "grp_id")
-    private Group group; // relação com o grupo
+    private Group group; 
 
     @Column(name = "lst_title")
     private String title;

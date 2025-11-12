@@ -14,13 +14,13 @@ public class ListItem {
 
     @ManyToOne
     @JoinColumn(name = "itm_lst_id", referencedColumnName = "lst_id")
-    private ShoppingList list; // a que lista este item pertence
+    private ShoppingList list; 
 
     @Column(name = "itm_name")
     private String name;
 
     @Column(name = "itm_qty")
-    private Double qty; // DECIMAL(10,2) -> usamos Double
+    private Double qty; 
 
     @Column(name = "itm_unit")
     private String unit; // un, kg, ml...
@@ -31,7 +31,6 @@ public class ListItem {
     @Column(name = "itm_updated_at")
     private LocalDateTime updatedAt;
 
-    // GETTERS & SETTERS
     public Integer getId() {
         return id;
     }

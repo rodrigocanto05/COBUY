@@ -30,26 +30,22 @@ public class GroupController {
         this.userRepository = userRepository;
     }
 
-    // GET /groups
     @GetMapping
     public List<Group> getAllGroups() {
         return groupRepository.findAll();
     }
 
-    // GET /groups/{id}
     @GetMapping("/{id}")
     public Group getGroupById(@PathVariable Integer id) {
         return groupRepository.findById(id).orElse(null);
     }
 
-    // POST /groups -> criar grupo + membership owner automático
     @PostMapping
     public ResponseEntity<Group> createGroup(@RequestBody Group group,
                                              @AuthenticationPrincipal User requester) {
         group.setCreatedAt(LocalDateTime.now());
         Group savedGroup = groupRepository.save(group);
 
-        // Se houver um utilizador autenticado, criar membership automaticamente
         if (requester != null) {
             Membership membership = new Membership();
             membership.setGroup(savedGroup);

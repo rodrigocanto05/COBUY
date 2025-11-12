@@ -15,12 +15,12 @@ public class Supermarket {
     private String name;
 
     @Column(name = "sup_rating")
-    private Double rating;      // ou BigDecimal se preferires
+    private Double rating;      
 
     @Column(name = "sup_distance")
-    private Double distance;    // idem
+    private Double distance;  
 
-    public Supermarket() {}     // construtor vazio
+    public Supermarket() {}   
 
     // GETTERS
     public Integer getId() { return id; }

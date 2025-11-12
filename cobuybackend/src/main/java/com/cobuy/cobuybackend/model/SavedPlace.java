@@ -24,7 +24,7 @@ public class SavedPlace {
     private String label;
 
     @Column(name = "sav_distance")
-    private Double distance;           // DECIMAL(6,2) -> Double chega
+    private Double distance;       
 
     @Column(name = "sav_created_at")
     private LocalDateTime createdAt;

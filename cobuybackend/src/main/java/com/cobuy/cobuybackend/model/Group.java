@@ -18,7 +18,6 @@ public class Group {
     @Column(name = "grp_created_at")
     private LocalDateTime createdAt;
 
-    // GETTERS & SETTERS
     public Integer getId() {
         return id;
     }

@@ -19,7 +19,7 @@ public class RecipeIngredient {
     private String name;
 
     @Column(name = "rin_qty_serving", nullable = false)
-    private Double qtyServing;     // DECIMAL(10,2) → Double para simplificar
+    private Double qtyServing;   
 
     @Column(name = "rin_unit", length = 16)
     private String unit;

@@ -22,7 +22,6 @@ public class RecipeIngredientController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    // POST /recipes/{id}/ingredients
     @PostMapping("/{id}/ingredients")
     public ResponseEntity<?> addIngredient(@PathVariable Integer id,
                                            @RequestBody AddRecipeIngredientRequest req) {
@@ -42,7 +41,6 @@ public class RecipeIngredientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ingredientRepository.save(ing));
     }
 
-    // DELETE /recipes/{id}/ingredients/{ingredientId}
     @DeleteMapping("/{id}/ingredients/{ingredientId}")
     public ResponseEntity<?> deleteIngredient(@PathVariable Integer id,
                                               @PathVariable Integer ingredientId) {

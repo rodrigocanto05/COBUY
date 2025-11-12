@@ -23,13 +23,11 @@ public class ShoppingListController {
         this.groupRepository = groupRepository;
     }
 
-    // GET /lists
     @GetMapping
     public List<ShoppingList> getAllLists() {
         return shoppingListRepository.findAll();
     }
 
-    // GET /lists/group/{groupId}
     @GetMapping("/group/{groupId}")
     public List<ShoppingList> getListsByGroup(@PathVariable Integer groupId) {
         Group group = groupRepository.findById(groupId).orElse(null);
@@ -40,7 +38,6 @@ public class ShoppingListController {
 
     @PostMapping
     public ShoppingList createList(@RequestBody CreateListDTO body) {
-        // validar existência do grupo
         Group group = groupRepository.findById(body.groupId())
                 .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
                         org.springframework.http.HttpStatus.NOT_FOUND, "Group not found: " + body.groupId()));
@@ -53,7 +50,6 @@ public class ShoppingListController {
         return shoppingListRepository.save(sl);
     }
 
-    // DTO simples para o POST
     public record CreateListDTO(@com.fasterxml.jackson.annotation.JsonProperty("group_id") Integer groupId,
             String title) {
     }

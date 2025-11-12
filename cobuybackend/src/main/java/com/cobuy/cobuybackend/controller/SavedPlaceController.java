@@ -25,13 +25,11 @@ public class SavedPlaceController {
         this.marketRepo = marketRepo;
     }
 
-    // GET /saved-places
     @GetMapping
     public List<SavedPlace> myPlaces(@AuthenticationPrincipal User user) {
         return savedRepo.findByUser(user);
     }
 
-    // POST /saved-places
     @PostMapping
     public ResponseEntity<?> save(@AuthenticationPrincipal User user,
                                   @RequestBody SavePlaceRequest req) {
@@ -60,7 +58,6 @@ public class SavedPlaceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedRepo.save(sp));
     }
 
-    // DELETE /saved-places/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> remove(@AuthenticationPrincipal User user,
                                     @PathVariable Integer id) {
