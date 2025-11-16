@@ -8,18 +8,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.GroupApi
 import pt.iade.ei.cobuy.storage.model.Group
-import pt.iade.ei.cobuy.storage.model.Membership
 import pt.iade.ei.cobuy.storage.model.UserGroup
-import retrofit2.Response
 
 class GroupViewModel : ViewModel() {
 
-    // 🔸 Criar grupo
-    fun createGroup(groupName: String, callback: (Boolean, String?) -> Unit) {
+    // 🔸 Criar grupo (AGORA COM userId)
+    fun createGroup(
+        userId: Int,
+        groupName: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val group = Group(name = groupName)
-                val response = GroupApi.service.createGroup(group)
+                val response = GroupApi.service.createGroup(userId, group)
 
                 if (response.isSuccessful) {
                     Log.d("GROUP", "✅ Grupo criado com sucesso: ${response.body()}")
@@ -42,7 +44,7 @@ class GroupViewModel : ViewModel() {
         }
     }
 
-    // 🔹 Buscar todos os grupos em que o utilizador está inserido
+    // 🔹 Buscar grupos do utilizador
     fun getUserGroups(
         userId: Int,
         onResult: (List<UserGroup>?, String?) -> Unit

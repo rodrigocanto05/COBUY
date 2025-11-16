@@ -27,11 +27,14 @@ import kotlin.random.Random
 @Composable
 fun CreateGroupScreen(navController: NavController) {
     val context = LocalContext.current
-    val viewModel: GroupViewModel = viewModel()   // 👈 conecta ao ViewModel
+    val viewModel: GroupViewModel = viewModel()
 
     var groupName by remember { mutableStateOf("") }
     var generatedCode by remember { mutableStateOf(generateCode()) }
-    var isLoading by remember { mutableStateOf(false) }   // 👈 agora o compilador reconhece
+    var isLoading by remember { mutableStateOf(false) }
+
+    // 🔸 por agora hardcode (depois ligamos ao login)
+    val userId = 1
 
     Scaffold(
         topBar = { CoBuyTopBar("Criar Grupo", navController = navController) },
@@ -92,7 +95,7 @@ fun CreateGroupScreen(navController: NavController) {
                     }
 
                     isLoading = true
-                    viewModel.createGroup(groupName) { success, error ->
+                    viewModel.createGroup(userId, groupName) { success, error ->
                         isLoading = false
                         if (success) {
                             Toast.makeText(
@@ -102,6 +105,11 @@ fun CreateGroupScreen(navController: NavController) {
                             ).show()
                             generatedCode = generateCode()
                             groupName = ""
+
+                            // se quiseres, navegar para MyGroups:
+                            // navController.popBackStack()
+                            // navController.navigate(NavPath.MyGroups.route)
+
                         } else {
                             Toast.makeText(
                                 context,
@@ -123,11 +131,14 @@ fun CreateGroupScreen(navController: NavController) {
         }
     }
 }
-
 private fun generateCode(): String {
     val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    return (1..5).map { chars.random(Random(System.nanoTime())) }.joinToString("")
+    return (1..5)
+        .map { chars.random(Random(System.nanoTime())) }
+        .joinToString("")
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
