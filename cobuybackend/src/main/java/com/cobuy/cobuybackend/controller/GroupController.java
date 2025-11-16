@@ -8,7 +8,6 @@ import com.cobuy.cobuybackend.repository.MembershipRepository;
 import com.cobuy.cobuybackend.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -36,24 +35,35 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    public Group getGroupById(@PathVariable Integer id) {
-        return groupRepository.findById(id).orElse(null);
+    public ResponseEntity<Group> getGroupById(@PathVariable Integer id) {
+        return groupRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
+    // POST /groups?userId=1
     @PostMapping
-    public ResponseEntity<Group> createGroup(@RequestBody Group group,
-                                             @AuthenticationPrincipal User requester) {
+    public ResponseEntity<?> createGroup(
+            @RequestParam Integer userId,
+            @RequestBody Group group) {
+
+        // 1) Criar o grupo
         group.setCreatedAt(LocalDateTime.now());
         Group savedGroup = groupRepository.save(group);
 
-        if (requester != null) {
-            Membership membership = new Membership();
-            membership.setGroup(savedGroup);
-            membership.setUser(requester);
-            membership.setRole("owner");
-            membershipRepository.save(membership);
-        }
+        // 2) Buscar o utilizador que criou
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
+        // 3) Criar a membership como "owner"
+        Membership membership = new Membership();
+        membership.setGroup(savedGroup);
+        membership.setUser(user);
+        membership.setRole("owner");
+
+        membershipRepository.save(membership);
+
+        // 4) Devolver o grupo criado
         return ResponseEntity.status(HttpStatus.CREATED).body(savedGroup);
     }
 }
