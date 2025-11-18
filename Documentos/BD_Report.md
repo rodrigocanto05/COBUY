@@ -19,12 +19,13 @@ O sistema assenta nas seguintes entidades:
 - Recipes
 - Recipe Ingredients
 - Ingredients
+- Unit
 - Supermarkets
 - Saved Places 
   
 #### Diagrama MER
 
-<img width="621" height="556" alt="Diagrama sem nome drawio-2" src="https://github.com/user-attachments/assets/06af0789-f85d-45ea-85cc-e5402803edc1" />
+<img width="700" height="700" alt="Captura de ecrã 2025-11-18, às 10 22 53" src="https://github.com/user-attachments/assets/9eb1af67-40ff-4304-8bf2-5da28465d5c0" />
 
 ---
 
