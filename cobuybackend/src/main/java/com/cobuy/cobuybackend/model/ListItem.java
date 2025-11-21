@@ -1,7 +1,7 @@
 package com.cobuy.cobuybackend.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "list_items")
@@ -9,28 +9,32 @@ public class ListItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "itm_id")
+    @Column(name = "li_id")
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "itm_lst_id", referencedColumnName = "lst_id")
-    private ShoppingList list; 
+    @JoinColumn(name = "li_lst_id", referencedColumnName = "lst_id", nullable = false)
+    private ShoppingList list;
 
-    @Column(name = "itm_name")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "li_item_id", referencedColumnName = "it_id", nullable = false)
+    private Item item;
 
-    @Column(name = "itm_qty")
-    private Double qty; 
+    @ManyToOne
+    @JoinColumn(name = "li_usr_id", referencedColumnName = "usr_id", nullable = false)
+    private User user;
 
-    @Column(name = "itm_unit")
-    private String unit; // un, kg, ml...
+    @Column(name = "li_qty", precision = 10, scale = 2)
+    private BigDecimal qty;
 
-    @Column(name = "itm_done")
-    private Boolean done; // 0/1 -> Boolean
+    @ManyToOne
+    @JoinColumn(name = "li_unit_id", referencedColumnName = "uni_id", nullable = false)
+    private Unit unit;
 
-    @Column(name = "itm_updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "li_done", nullable = false)
+    private Boolean done = false;
 
+    // GETTERS & SETTERS
     public Integer getId() {
         return id;
     }
@@ -47,27 +51,35 @@ public class ListItem {
         this.list = list;
     }
 
-    public String getName() {
-        return name;
+    public Item getItem() {
+        return item;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public Double getQty() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public BigDecimal getQty() {
         return qty;
     }
 
-    public void setQty(Double qty) {
+    public void setQty(BigDecimal qty) {
         this.qty = qty;
     }
 
-    public String getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 
@@ -77,13 +89,5 @@ public class ListItem {
 
     public void setDone(Boolean done) {
         this.done = done;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

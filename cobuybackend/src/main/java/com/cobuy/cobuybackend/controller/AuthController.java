@@ -8,31 +8,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  private final AuthService authService;
+    private final AuthService authService;
 
-  public AuthController(AuthService authService) {
-    this.authService = authService;
-  }
-  
-  record RegisterRequest(String name, String email, String password) {
-  }
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
-  record LoginRequest(String email, String password) {
-  }
+    public record RegisterRequest(String name, String email, String password, String gender) {}
 
-  record AuthResponse(String token) {
-  }
+    public record LoginRequest(String email, String password) {}
 
-  @PostMapping("/register")
-  public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest req) {
-    String token = authService.register(req.name(), req.email(), req.password());
-    return ResponseEntity.ok(new AuthResponse(token));
-  }
+    public record AuthResponse(String token) {}
 
-  @PostMapping("/login")
-  public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest req) {
-    return authService.login(req.email(), req.password())
-        .map(t -> ResponseEntity.ok(new AuthResponse(t)))
-        .orElse(ResponseEntity.status(401).build());
-  }
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest req) {
+        String token = authService.register(
+                req.name(),
+                req.email(),
+                req.password(),
+                req.gender()   
+        );
+        return ResponseEntity.ok(new AuthResponse(token));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest req) {
+        return authService.login(req.email(), req.password())
+                .map(t -> ResponseEntity.ok(new AuthResponse(t)))
+                .orElse(ResponseEntity.status(401).build());
+    }
 }

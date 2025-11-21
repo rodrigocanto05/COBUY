@@ -3,16 +3,16 @@ package com.cobuy.cobuybackend.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "recipes")
-public class Recipe {
+@Table(name = "unit")
+public class Unit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rec_id")
+    @Column(name = "uni_id")
     private Integer id;
 
-    @Column(name = "rec_name", nullable = false, length = 120)
-    private String name;
+    @Column(name = "uni_name", nullable = false, length = 16)
+    private String name;  
 
     public Integer getId() {
         return id;

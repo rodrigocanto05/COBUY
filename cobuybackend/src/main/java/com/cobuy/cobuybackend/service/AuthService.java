@@ -12,42 +12,50 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-  private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
-  private final JwtService jwtService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-  public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-    this.jwtService = jwtService;
-  }
-
-  public String register(String name, String email, String rawPassword) {
-    if (userRepository.existsByEmail(email)) {
-      throw new IllegalStateException("Email já existe");
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
-    User u = new User();
-    u.setName(name);
-    u.setEmail(email);
-    u.setPassword(passwordEncoder.encode(rawPassword)); // <<< HASH aqui
-    u.setCreatedAt(LocalDateTime.now());
-    u = userRepository.save(u);
-    return jwtService.generateToken(u.getId(), u.getEmail());
-  }
 
-  public Optional<String> login(String email, String rawPassword) {
-    return userRepository.findByEmail(email).flatMap(u -> {
-      boolean ok = passwordEncoder.matches(rawPassword, u.getPassword())
-          || rawPassword.equals(u.getPassword()); 
+    public String register(String name, String email, String rawPassword, String gender) {
 
-      if (!ok)
-        return Optional.empty();
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalStateException("Email já existe");
+        }
 
-      if (rawPassword.equals(u.getPassword())) {
+        User u = new User();
+        u.setName(name);
+        u.setEmail(email);
         u.setPassword(passwordEncoder.encode(rawPassword));
-        userRepository.save(u);
-      }
-      return Optional.of(jwtService.generateToken(u.getId(), u.getEmail()));
-    });
-  }
+        u.setGender(gender);
+        u.setCreatedAt(LocalDateTime.now());
+
+        u = userRepository.save(u);
+
+        return jwtService.generateToken(u.getId(), u.getEmail());
+    }
+
+    public Optional<String> login(String email, String rawPassword) {
+
+        return userRepository.findByEmail(email).flatMap(u -> {
+
+            boolean ok = passwordEncoder.matches(rawPassword, u.getPassword())
+                    || rawPassword.equals(u.getPassword());
+
+            if (!ok) return Optional.empty();
+
+            // caso em que a password ainda não está hashada
+            if (rawPassword.equals(u.getPassword())) {
+                u.setPassword(passwordEncoder.encode(rawPassword));
+                userRepository.save(u);
+            }
+
+            return Optional.of(jwtService.generateToken(u.getId(), u.getEmail()));
+        });
+    }
 }

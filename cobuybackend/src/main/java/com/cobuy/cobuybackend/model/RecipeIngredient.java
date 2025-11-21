@@ -1,6 +1,7 @@
 package com.cobuy.cobuybackend.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "recipe_ingredients")
@@ -8,31 +9,61 @@ public class RecipeIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rin_id")
+    @Column(name = "rgi_id")
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "rin_rec_id", referencedColumnName = "rec_id", nullable = false)
+    @JoinColumn(name = "rgi_rec_id", referencedColumnName = "rec_id", nullable = false)
     private Recipe recipe;
 
-    @Column(name = "rin_name", nullable = false, length = 120)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "rgi_ing_id", referencedColumnName = "ing_id", nullable = false)
+    private Ingredient ingredient;
 
-    @Column(name = "rin_qty_serving", nullable = false)
-    private Double qtyServing;   
+    @Column(name = "rgi_qty", nullable = false, precision = 10, scale = 2)
+    private BigDecimal qty;
 
-    @Column(name = "rin_unit", length = 16)
-    private String unit;
+    @ManyToOne
+    @JoinColumn(name = "rgi_unit_id", referencedColumnName = "uni_id", nullable = false)
+    private Unit unit;
 
-    // getters/setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-    public Recipe getRecipe() { return recipe; }
-    public void setRecipe(Recipe recipe) { this.recipe = recipe; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public Double getQtyServing() { return qtyServing; }
-    public void setQtyServing(Double qtyServing) { this.qtyServing = qtyServing; }
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public BigDecimal getQty() {
+        return qty;
+    }
+
+    public void setQty(BigDecimal qty) {
+        this.qty = qty;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 }

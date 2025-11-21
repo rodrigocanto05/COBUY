@@ -11,26 +11,22 @@ public class Supermarket {
     @Column(name = "sup_id")
     private Integer id;
 
-    @Column(name = "sup_name")
+    @Column(name = "sup_name", nullable = false)
     private String name;
 
-    @Column(name = "sup_rating")
-    private Double rating;      
+    public Integer getId() {
+        return id;
+    }
 
-    @Column(name = "sup_distance")
-    private Double distance;  
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public Supermarket() {}   
+    public String getName() {
+        return name;
+    }
 
-    // GETTERS
-    public Integer getId() { return id; }
-    public String getName() { return name; }
-    public Double getRating() { return rating; }
-    public Double getDistance() { return distance; }
-
-    // SETTERS
-    public void setId(Integer id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setRating(Double rating) { this.rating = rating; }
-    public void setDistance(Double distance) { this.distance = distance; }
+    public void setName(String name) {
+        this.name = name;
+    }
 }

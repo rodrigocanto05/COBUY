@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "shopping_lists")
+@Table(name = "lists")
 public class ShoppingList {
 
     @Id
@@ -13,16 +13,22 @@ public class ShoppingList {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "lst_grp_id", referencedColumnName = "grp_id")
-    private Group group; 
+    @JoinColumn(name = "lst_grp_id", referencedColumnName = "grp_id", nullable = false)
+    private Group group;
 
-    @Column(name = "lst_title")
+    @Column(name = "lst_title", nullable = false, length = 80)
     private String title;
 
-    @Column(name = "lst_created_at")
+    @Column(name = "lst_created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    // GETTERS & SETTERS
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
+
     public Integer getId() {
         return id;
     }

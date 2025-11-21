@@ -4,6 +4,7 @@ import com.cobuy.cobuybackend.model.User;
 import com.cobuy.cobuybackend.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -14,7 +15,13 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
-    public UserController(UserRepository userRepository) { this.userRepository = userRepository; }
+    private final PasswordEncoder passwordEncoder;
+
+    public UserController(UserRepository userRepository,
+                          PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("")
     public List<User> getAllUsers() {
@@ -28,12 +35,17 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    
     @PostMapping
     public ResponseEntity<?> create(@RequestBody User user) {
         try {
+            if (user.getPassword() != null && !user.getPassword().isBlank()) {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+
             User saved = userRepository.save(user);
-            return ResponseEntity.created(URI.create("/users/" + saved.getId())).body(saved);
+            return ResponseEntity.created(URI.create("/users/" + saved.getId()))
+                    .body(saved);
+
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(409).body("Email já existe.");
         }
@@ -44,9 +56,15 @@ public class UserController {
         return userRepository.findById(id).map(u -> {
             u.setName(in.getName());
             u.setEmail(in.getEmail());
-            if (in.getPassword() != null && !in.getPassword().isBlank()) {
-                u.setPassword(in.getPassword());
+
+            if (in.getGender() != null && !in.getGender().isBlank()) {
+                u.setGender(in.getGender());
             }
+
+            if (in.getPassword() != null && !in.getPassword().isBlank()) {
+                u.setPassword(passwordEncoder.encode(in.getPassword()));
+            }
+
             return ResponseEntity.ok(userRepository.save(u));
         }).orElse(ResponseEntity.notFound().build());
     }

@@ -12,10 +12,17 @@ public class Group {
     @Column(name = "grp_id")
     private Integer id;
 
-    @Column(name = "grp_name")
+    @Column(name = "grp_name", nullable = false, length = 80)
     private String name;
 
-    @Column(name = "grp_created_at")
+    @ManyToOne
+    @JoinColumn(name = "grp_owner_usr_id", referencedColumnName = "usr_id", nullable = false)
+    private User owner;
+
+    @Column(name = "grp_code", nullable = false, unique = true, length = 5)
+    private String code;
+
+    @Column(name = "grp_created_at", nullable = false)
     private LocalDateTime createdAt;
 
     public Integer getId() {
@@ -32,6 +39,22 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public LocalDateTime getCreatedAt() {

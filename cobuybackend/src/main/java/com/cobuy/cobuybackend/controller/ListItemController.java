@@ -1,14 +1,11 @@
 package com.cobuy.cobuybackend.controller;
 
-import com.cobuy.cobuybackend.dto.AddItemRequest;
-import com.cobuy.cobuybackend.model.ListItem;
-import com.cobuy.cobuybackend.model.ShoppingList;
-import com.cobuy.cobuybackend.repository.ListItemRepository;
-import com.cobuy.cobuybackend.repository.ShoppingListRepository;
-import org.springframework.http.HttpStatus;
+import com.cobuy.cobuybackend.model.*;
+import com.cobuy.cobuybackend.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,123 +15,102 @@ public class ListItemController {
 
     private final ListItemRepository listItemRepository;
     private final ShoppingListRepository shoppingListRepository;
+    private final ItemRepository itemRepository;
+    private final UnitRepository unitRepository;
+    private final UserRepository userRepository;
 
-    public ListItemController(ListItemRepository listItemRepository,
-                              ShoppingListRepository shoppingListRepository) {
+    public ListItemController(
+            ListItemRepository listItemRepository,
+            ShoppingListRepository shoppingListRepository,
+            ItemRepository itemRepository,
+            UnitRepository unitRepository,
+            UserRepository userRepository
+    ) {
         this.listItemRepository = listItemRepository;
         this.shoppingListRepository = shoppingListRepository;
+        this.itemRepository = itemRepository;
+        this.unitRepository = unitRepository;
+        this.userRepository = userRepository;
     }
 
-    @GetMapping("/{listId}/items")
-    public List<ListItem> getItemsForList(
-            @PathVariable Integer listId,
-            @RequestParam(name = "onlyOpen", required = false) Boolean onlyOpen,
-            @RequestParam(name = "onlyDone", required = false) Boolean onlyDone
-    ) {
-        ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
-        if (list == null) return List.of();
+    // DTO para criar item
+    public record AddItemDTO(Integer itemId, BigDecimal qty, Integer unitId, Integer userId) {}
 
-        if (Boolean.TRUE.equals(onlyOpen)) {
-            return listItemRepository.findByListAndDone(list, false);
-        }
-        if (Boolean.TRUE.equals(onlyDone)) {
-            return listItemRepository.findByListAndDone(list, true);
-        }
-        return listItemRepository.findByList(list);
+    @GetMapping("/{listId}/items")
+    public ResponseEntity<List<ListItem>> getItems(@PathVariable Integer listId) {
+        ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
+        if (list == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(listItemRepository.findByList(list));
     }
 
     @PostMapping("/{listId}/items")
-    public ResponseEntity<?> addItemToList(
+    public ResponseEntity<?> addItem(
             @PathVariable Integer listId,
-            @RequestBody AddItemRequest req) {
-
+            @RequestBody AddItemDTO dto
+    ) {
         ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
-        if (list == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("List with id " + listId + " not found");
-        }
-        if (req == null || req.name == null || req.name.isBlank()) {
-            return ResponseEntity.badRequest().body("Field 'name' is required");
-        }
+        if (list == null)
+            return ResponseEntity.status(404).body("Lista não encontrada");
 
-        ListItem item = new ListItem();
-        item.setList(list);
-        item.setName(req.name.trim());
-        item.setQty(req.qty != null ? req.qty : 1.0);
-        item.setUnit(req.unit != null ? req.unit : "un");
-        item.setDone(false);
-        item.setUpdatedAt(LocalDateTime.now());
+        Item item = itemRepository.findById(dto.itemId()).orElse(null);
+        if (item == null)
+            return ResponseEntity.status(404).body("Item não encontrado");
 
-        ListItem saved = listItemRepository.save(item);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        Unit unit = unitRepository.findById(dto.unitId()).orElse(null);
+        if (unit == null)
+            return ResponseEntity.status(404).body("Unidade não encontrada");
+
+        User user = userRepository.findById(dto.userId()).orElse(null);
+        if (user == null)
+            return ResponseEntity.status(404).body("Utilizador não encontrado");
+
+        ListItem li = new ListItem();
+        li.setList(list);
+        li.setItem(item);
+        li.setUnit(unit);
+        li.setUser(user);
+        li.setQty(dto.qty() != null ? dto.qty() : BigDecimal.ONE);
+        li.setDone(false);
+
+        ListItem saved = listItemRepository.save(li);
+        return ResponseEntity.status(201).body(saved);
     }
 
-    @PatchMapping("/{listId}/items/{itemId}/toggle")
-    public ResponseEntity<?> toggleItem(
+    @PatchMapping("/{listId}/items/{itemId}/done")
+    public ResponseEntity<?> toggleDone(
             @PathVariable Integer listId,
-            @PathVariable Integer itemId) {
-
+            @PathVariable Integer itemId
+    ) {
         ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
-        if (list == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("List not found");
+        if (list == null) return ResponseEntity.notFound().build();
 
         return listItemRepository.findById(itemId)
                 .map(item -> {
-                    if (!item.getList().getId().equals(list.getId())) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body("Item doesn't belong to this list");
-                    }
-                    item.setDone(Boolean.TRUE.equals(item.getDone()) ? false : true);
-                    item.setUpdatedAt(LocalDateTime.now());
+                    if (!item.getList().getId().equals(listId))
+                        return ResponseEntity.badRequest().body("Item não pertence à lista");
+
+                    item.setDone(!item.getDone());
                     return ResponseEntity.ok(listItemRepository.save(item));
                 })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item not found"));
-    }
-
-    public static class DoneDTO {
-        public Boolean done;
-        public Boolean getDone() { return done; }
-        public void setDone(Boolean done) { this.done = done; }
-    }
-
-    @PatchMapping("/{listId}/items/{itemId}")
-    public ResponseEntity<?> setDone(
-            @PathVariable Integer listId,
-            @PathVariable Integer itemId,
-            @RequestBody DoneDTO body) {
-
-        ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
-        if (list == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("List not found");
-
-        return listItemRepository.findById(itemId)
-                .map(item -> {
-                    if (!item.getList().getId().equals(list.getId())) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body("Item doesn't belong to this list");
-                    }
-                    item.setDone(Boolean.TRUE.equals(body.done));
-                    item.setUpdatedAt(LocalDateTime.now());
-                    return ResponseEntity.ok(listItemRepository.save(item));
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item not found"));
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{listId}/items/{itemId}")
     public ResponseEntity<?> deleteItem(
             @PathVariable Integer listId,
-            @PathVariable Integer itemId) {
-
+            @PathVariable Integer itemId
+    ) {
         ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
-        if (list == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("List not found");
+        if (list == null) return ResponseEntity.notFound().build();
 
         return listItemRepository.findById(itemId)
                 .map(item -> {
-                    if (!item.getList().getId().equals(list.getId())) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body("Item doesn't belong to this list");
-                    }
+                    if (!item.getList().getId().equals(listId))
+                        return ResponseEntity.badRequest().body("Item não pertence à lista");
                     listItemRepository.delete(item);
                     return ResponseEntity.noContent().build();
                 })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Item not found"));
+                .orElse(ResponseEntity.notFound().build());
     }
 }

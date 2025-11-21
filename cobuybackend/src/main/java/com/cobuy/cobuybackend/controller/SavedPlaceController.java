@@ -20,7 +20,8 @@ public class SavedPlaceController {
     private final SavedPlaceRepository savedRepo;
     private final SupermarketRepository marketRepo;
 
-    public SavedPlaceController(SavedPlaceRepository savedRepo, SupermarketRepository marketRepo) {
+    public SavedPlaceController(SavedPlaceRepository savedRepo,
+                                SupermarketRepository marketRepo) {
         this.savedRepo = savedRepo;
         this.marketRepo = marketRepo;
     }
@@ -33,6 +34,7 @@ public class SavedPlaceController {
     @PostMapping
     public ResponseEntity<?> save(@AuthenticationPrincipal User user,
                                   @RequestBody SavePlaceRequest req) {
+
         if (req == null || req.supermarketId == null) {
             return ResponseEntity.badRequest().body("supermarketId é obrigatório");
         }
@@ -52,8 +54,6 @@ public class SavedPlaceController {
         SavedPlace sp = new SavedPlace();
         sp.setUser(user);
         sp.setSupermarket(market);
-        sp.setLabel(req.label);
-        sp.setDistance(req.distance);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedRepo.save(sp));
     }

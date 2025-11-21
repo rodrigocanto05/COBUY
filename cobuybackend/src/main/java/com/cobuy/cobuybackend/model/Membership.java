@@ -21,30 +21,56 @@ public class Membership {
     private Group group;
 
     @Column(name = "mem_role")
-    private String role; 
+    private String role;
 
     @Column(name = "mem_joined_at")
     private LocalDateTime joinedAt;
 
     @PrePersist
     public void prePersist() {
-        if (joinedAt == null) joinedAt = LocalDateTime.now();
-        if (role == null) role = "member";
+        if (joinedAt == null)
+            joinedAt = LocalDateTime.now();
+        if (role == null)
+            role = "member";
     }
 
-    // Getters e Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getId() {
+        return id;
+    }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public Group getGroup() { return group; }
-    public void setGroup(Group group) { this.group = group; }
+    public User getUser() {
+        return user;
+    }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public LocalDateTime getJoinedAt() { return joinedAt; }
-    public void setJoinedAt(LocalDateTime joinedAt) { this.joinedAt = joinedAt; }
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public LocalDateTime getJoinedAt() {
+        return joinedAt;
+    }
+
+    public void setJoinedAt(LocalDateTime joinedAt) {
+        this.joinedAt = joinedAt;
+    }
 }
