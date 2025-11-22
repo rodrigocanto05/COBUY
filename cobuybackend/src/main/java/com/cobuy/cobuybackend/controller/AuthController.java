@@ -14,11 +14,14 @@ public class AuthController {
         this.authService = authService;
     }
 
-    public record RegisterRequest(String name, String email, String password, String gender) {}
+    public record RegisterRequest(String name, String email, String password, String gender) {
+    }
 
-    public record LoginRequest(String email, String password) {}
+    public record LoginRequest(String email, String password) {
+    }
 
-    public record AuthResponse(String token) {}
+    public record AuthResponse(String token) {
+    }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest req) {
@@ -26,15 +29,14 @@ public class AuthController {
                 req.name(),
                 req.email(),
                 req.password(),
-                req.gender()   
-        );
+                req.gender());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest req) {
         return authService.login(req.email(), req.password())
-                .map(t -> ResponseEntity.ok(new AuthResponse(t)))
+                .map(token -> ResponseEntity.ok(new AuthResponse(token)))
                 .orElse(ResponseEntity.status(401).build());
     }
 }

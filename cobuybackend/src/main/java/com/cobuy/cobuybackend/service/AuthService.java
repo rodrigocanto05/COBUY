@@ -16,7 +16,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -37,7 +39,7 @@ public class AuthService {
 
         u = userRepository.save(u);
 
-        return jwtService.generateToken(u.getId(), u.getEmail());
+        return jwtService.generateToken(u);
     }
 
     public Optional<String> login(String email, String rawPassword) {
@@ -47,15 +49,15 @@ public class AuthService {
             boolean ok = passwordEncoder.matches(rawPassword, u.getPassword())
                     || rawPassword.equals(u.getPassword());
 
-            if (!ok) return Optional.empty();
+            if (!ok)
+                return Optional.empty();
 
-            // caso em que a password ainda não está hashada
             if (rawPassword.equals(u.getPassword())) {
                 u.setPassword(passwordEncoder.encode(rawPassword));
                 userRepository.save(u);
             }
 
-            return Optional.of(jwtService.generateToken(u.getId(), u.getEmail()));
+            return Optional.of(jwtService.generateToken(u));
         });
     }
 }
