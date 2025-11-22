@@ -28,10 +28,11 @@ public class SecurityConfig {
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/supermarkets").permitAll()
             .requestMatchers("/groups/**").authenticated()
             .requestMatchers("/memberships/**").authenticated()
             .requestMatchers("/users/**").authenticated()
+            .requestMatchers("/lists/**").authenticated()
+            .requestMatchers("/items/**").authenticated()
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated())
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

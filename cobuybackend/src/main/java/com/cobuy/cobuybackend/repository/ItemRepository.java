@@ -1,14 +1,12 @@
 package com.cobuy.cobuybackend.repository;
 
 import com.cobuy.cobuybackend.model.Item;
-import com.cobuy.cobuybackend.model.Unit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
-    List<Item> findByNameContainingIgnoreCase(String name);
+    Optional<Item> findByName(String name);
 
-    List<Item> findByUnit(Unit unit);
 }

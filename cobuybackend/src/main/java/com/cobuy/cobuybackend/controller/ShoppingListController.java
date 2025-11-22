@@ -1,10 +1,13 @@
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.Group;
+import com.cobuy.cobuybackend.model.Membership;
 import com.cobuy.cobuybackend.model.ShoppingList;
 import com.cobuy.cobuybackend.repository.GroupRepository;
+import com.cobuy.cobuybackend.repository.MembershipRepository;
 import com.cobuy.cobuybackend.repository.ShoppingListRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -12,45 +15,80 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/shopping-lists")
+@RequestMapping("/lists")
 public class ShoppingListController {
 
     private final ShoppingListRepository shoppingListRepository;
     private final GroupRepository groupRepository;
+    private final MembershipRepository membershipRepository;
 
-    public ShoppingListController(ShoppingListRepository shoppingListRepository,
-            GroupRepository groupRepository) {
+    public ShoppingListController(
+            ShoppingListRepository shoppingListRepository,
+            GroupRepository groupRepository,
+            MembershipRepository membershipRepository) {
         this.shoppingListRepository = shoppingListRepository;
         this.groupRepository = groupRepository;
-    }
-
-    @GetMapping
-    public List<ShoppingList> getAllShoppingList() {
-        return shoppingListRepository.findAll();
+        this.membershipRepository = membershipRepository;
     }
 
     @GetMapping("/group/{groupId}")
-    public List<ShoppingList> getShoppingListByGroup(@PathVariable Integer groupId) {
-        Group group = groupRepository.findById(groupId).orElse(null);
-        if (group == null)
-            return List.of();
+    public ResponseEntity<?> getListsByGroup(
+            @PathVariable Integer groupId,
+            @RequestParam Integer userId) {
 
-        return shoppingListRepository.findByGroup(group);
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        var membership = membershipRepository.findByUserIdAndGroupId(userId, groupId);
+
+        if (membership.isEmpty())
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem acesso ao grupo");
+
+        List<ShoppingList> lists = shoppingListRepository.findByGroup(group);
+        return ResponseEntity.ok(lists);
     }
 
     @PostMapping
-    public ShoppingList createList(@RequestBody CreateListDTO body) {
+    public ResponseEntity<?> createList(
+            @RequestBody CreateListDTO body,
+            @RequestParam Integer userId) {
 
         Group group = groupRepository.findById(body.groupId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Group not found: " + body.groupId()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        var membership = membershipRepository.findByUserIdAndGroupId(userId, group.getId());
+        if (membership.isEmpty())
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem acesso ao grupo");
 
         ShoppingList sl = new ShoppingList();
         sl.setGroup(group);
         sl.setTitle(body.title());
         sl.setCreatedAt(LocalDateTime.now());
 
-        return shoppingListRepository.save(sl);
+        return ResponseEntity.status(HttpStatus.CREATED).body(shoppingListRepository.save(sl));
+    }
+
+    @DeleteMapping("/{listId}")
+    public ResponseEntity<?> deleteList(
+            @PathVariable Integer listId,
+            @RequestParam Integer userId) {
+
+        ShoppingList list = shoppingListRepository.findById(listId)
+                .orElse(null);
+
+        if (list == null)
+            return ResponseEntity.notFound().build();
+
+        Group group = list.getGroup();
+
+        var membership = membershipRepository.findByUserIdAndGroupId(userId, group.getId());
+
+        if (membership.isEmpty())
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Sem acesso ao grupo");
+
+        shoppingListRepository.delete(list);
+
+        return ResponseEntity.noContent().build();
     }
 
     public record CreateListDTO(
