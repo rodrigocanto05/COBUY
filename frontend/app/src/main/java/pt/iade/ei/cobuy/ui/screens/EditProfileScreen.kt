@@ -27,7 +27,7 @@ import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 fun EditProfileScreen(navController: NavController) {
     var name by remember { mutableStateOf("João Silva") }
     var email by remember { mutableStateOf("joao@example.com") }
-    var phone by remember { mutableStateOf("+351 912 345 678") }
+    var phone by remember { mutableStateOf("género") }
 
     Scaffold(
         topBar = { CoBuyTopBar("Editar Perfil", navController = navController) },
@@ -43,7 +43,7 @@ fun EditProfileScreen(navController: NavController) {
         ) {
             CustomTextField(value = name, onValueChange = { name = it }, label = "Nome")
             CustomTextField(value = email, onValueChange = { email = it }, label = "Email")
-            CustomTextField(value = phone, onValueChange = { phone = it }, label = "Telefone")
+            CustomTextField(value = phone, onValueChange = { phone = it }, label = "Género")
 
             PrimaryButton("Guardar Alterações") {
                 // TODO: Update user profile
