@@ -23,6 +23,8 @@ fun appNavigation() {
         composable(NavPath.MyGroups.route) {
             MyGroupsScreen(navController = navController, userId = 1)
         }
+        composable(NavPath.EditSettings.route) { EditSettingsScreen(navController) }
+
 
 
     }
