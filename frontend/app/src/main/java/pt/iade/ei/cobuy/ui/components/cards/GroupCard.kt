@@ -72,7 +72,7 @@ fun GroupCard(group: Group, navController: NavController) {
             Button(
                 onClick = {
                     navController.navigate(
-                        NavPath.GroupDetail.withArgs(group.id.toString())
+                        NavPath.GroupDetail.withArgs(group.id ?: 0)
                     )
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = OrangePrimary),
@@ -81,6 +81,7 @@ fun GroupCard(group: Group, navController: NavController) {
             ) {
                 Text("Abrir", fontSize = 14.sp, color = TextLight)
             }
+
         }
     }
 }

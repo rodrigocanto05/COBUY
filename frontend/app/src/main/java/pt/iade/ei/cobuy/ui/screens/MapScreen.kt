@@ -22,6 +22,7 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar   // ⭐ ADICIONADO
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
@@ -32,6 +33,10 @@ import pt.iade.ei.cobuy.ui.theme.TextLight
 fun MapScreen(navController: NavController) {
     Scaffold(
         topBar = { CoBuyTopBar("Supermercados Próximos", navController = navController) },
+
+        // ⭐ ADICIONADO: a tua bottom bar global
+        bottomBar = { CoBuyBottomBar(navController) },
+
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { /* TODO: Atualizar localização */ },
@@ -82,7 +87,9 @@ fun MapScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            PrimaryButton("Ver Locais Salvos") { navController.navigate(NavPath.SavedLocations.route) }
+            PrimaryButton("Ver Locais Salvos") {
+                navController.navigate(NavPath.SavedLocations.route)
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
         }

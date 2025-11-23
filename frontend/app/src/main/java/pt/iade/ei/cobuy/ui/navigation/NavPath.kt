@@ -10,16 +10,19 @@ sealed class NavPath(val route: String) {
     object Map : NavPath("map")
     object Profile : NavPath("profile")
     object EditProfile : NavPath("edit_profile")
+
     object SavedLocations : NavPath("saved_locations")
 
     object CreateGroup : NavPath("create_group")
     object JoinGroup : NavPath("join_group")
-
     object MyGroups : NavPath("my_groups")
 
+
     object GroupDetail : NavPath("group_detail/{groupId}") {
-        fun withArgs(groupId: String): String {
-            return this.route.replace("{groupId}", groupId)
+        fun withArgs(groupId: Int): String {
+            return "group_detail/$groupId"
         }
     }
+
+    object Recipes : NavPath("recipes")
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -29,21 +28,19 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard
+import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 import pt.iade.ei.cobuy.ui.theme.TextLight
 import androidx.compose.runtime.*
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona o userId aqui
+fun DashboardScreen(navController: NavController, userId: Int = 1) {
     val viewModel: GroupViewModel = viewModel()
     var groupCount by remember { mutableStateOf(0) }
 
-    // Chamada à API para contar os grupos
     LaunchedEffect(Unit) {
         viewModel.getUserGroups(userId) { result, error ->
             if (error == null) {
@@ -99,32 +96,13 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona
                 )
             )
         },
+
         bottomBar = {
-            BottomAppBar(
-                containerColor = Color.White,
-                modifier = Modifier.height(64.dp)
-            ) {
-                // O BottomAppBar fica vazio para criar espaço para o FAB
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigate(NavPath.Map.route) },
-                containerColor = OrangePrimary,
-                shape = CircleShape,
-                modifier = Modifier
-                    .size(64.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Place,
-                    contentDescription = "Mapa",
-                    tint = TextLight,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center
+            CoBuyBottomBar(navController)
+        }
+
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -133,7 +111,7 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // LOGO
+
             Image(
                 painter = painterResource(id = R.drawable.image),
                 contentDescription = "App Logo",
@@ -142,7 +120,6 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona
                     .padding(bottom = 16.dp)
             )
 
-            // TÍTULO
             Text(
                 text = "Bem-vindo, João!",
                 fontWeight = FontWeight.Bold,
@@ -161,7 +138,6 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            // STATUS CARDS
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
@@ -169,19 +145,19 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) { // adiciona
             ) {
                 StatusCard(title = "Grupos", value = groupCount.toString())
                 StatusCard(title = "Locais Salvos", value = "5")
-
             }
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // BOTÃO “ENTRAR EM GRUPO”
-            CustomOutlinedButton("Entrar em grupo") { navController.navigate(NavPath.JoinGroup.route) }
+            CustomOutlinedButton("Entrar em grupo") {
+                navController.navigate(NavPath.JoinGroup.route)
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // BOTÃO “CRIAR NOVO GRUPO”
-            CustomOutlinedButton("Criar Novo Grupo") { navController.navigate(NavPath.CreateGroup.route) }
-
+            CustomOutlinedButton("Criar Novo Grupo") {
+                navController.navigate(NavPath.CreateGroup.route)
+            }
         }
     }
 }
