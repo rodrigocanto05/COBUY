@@ -35,9 +35,11 @@ fun LoginScreen(navController: NavController) {
     var password by remember { mutableStateOf("") }
 
 
+    var errorMessage by remember { mutableStateOf("") }
+
     Scaffold(
         containerColor = BackgroundLight,
-        topBar = { CoBuyTopBar("", navController = navController, showBackButton = false) } // Back button hidden
+        topBar = { CoBuyTopBar("", navController = navController, showBackButton = false) }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -47,6 +49,7 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
             // LOGO
             Image(
                 painter = painterResource(id = R.drawable.image),
@@ -89,17 +92,29 @@ fun LoginScreen(navController: NavController) {
 
             Spacer(Modifier.height(32.dp))
 
+
+            if (errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+
             // BOTÃO DE LOGIN
             PrimaryButton(text = "Entrar") {
                 viewModel.login(emailOrPhone, password) { ok, err ->
                     if (ok) {
+                        errorMessage = ""
                         navController.navigate(NavPath.Dashboard.route)
                     } else {
+                        errorMessage = "Ups! Algo não está certo. Verifique os seus dados."
                         Log.e("LOGIN", "Erro: $err")
                     }
                 }
             }
-
 
             Spacer(Modifier.height(12.dp))
 
