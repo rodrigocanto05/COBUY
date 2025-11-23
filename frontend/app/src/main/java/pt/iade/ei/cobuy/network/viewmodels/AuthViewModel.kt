@@ -1,85 +1,113 @@
 package pt.iade.ei.cobuy.network.viewmodels
 
-import android.util.Log
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.*
+import pt.iade.ei.cobuy.storage.model.User
 import pt.iade.ei.cobuy.storage.utils.TokenManager
 
 class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
 
-    private val api = ApiClient.retrofit.create(AuthApi::class.java)
+    private val authApi = ApiClient.retrofit.create(AuthApi::class.java)
+    private val profileApi = ApiClient.retrofit.create(ProfileApi::class.java)
+
+    private val repository = ProfileRepository(profileApi, tokenManager)
+
+    private val _currentUser = mutableStateOf<User?>(null)
+    val currentUser: State<User?> = _currentUser
 
     // ---------------- LOGIN ----------------
-    fun login(email: String, password: String, onResult: (Boolean, String?) -> Unit = { _, _ -> }) {
+    fun login(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val res = api.login(LoginRequest(email, password))
-                if (res.isSuccessful) {
-                    val token = res.body()?.token
-                    if (!token.isNullOrEmpty()) {
-                        tokenManager.saveToken(token)
-                        Log.d("API", "Login OK — token guardado")
-                        withContext(Dispatchers.Main) {
-                            onResult(true, null)
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            onResult(false, "Token vazio")
-                        }
-                    }
+
+            val res = authApi.login(LoginRequest(email, password))
+
+            if (res.isSuccessful) {
+                val token = res.body()?.token
+                if (!token.isNullOrEmpty()) {
+                    tokenManager.saveToken(token)
+                    loadUser()
+                    withContext(Dispatchers.Main) { onResult(true, null) }
                 } else {
-                    withContext(Dispatchers.Main) {
-                        onResult(false, "HTTP ${res.code()} ${res.message()}")
-                    }
+                    withContext(Dispatchers.Main) { onResult(false, "Token vazio") }
                 }
-            } catch (e: Exception) {
-                Log.e("API", "Erro no login: ${e.message}")
-                withContext(Dispatchers.Main) {
-                    onResult(false, e.message)
-                }
+            } else {
+                withContext(Dispatchers.Main) { onResult(false, "Credenciais inválidas") }
             }
         }
     }
 
-    // ---------------- REGISTO ----------------
-    fun register(email: String, password: String, onResult: (Boolean, String?) -> Unit = { _, _ -> }) {
+    //  ---------------- PASSWORD ----------------------
+    fun updatePassword(oldPass: String, newPass: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val res = api.register(
-                    RegisterRequest(
-                        name = email.substringBefore("@"),
-                        email = email,
-                        password = password
-                    )
+
+            val success = repository.updatePassword(oldPass, newPass)
+
+            withContext(Dispatchers.Main) { onResult(success) }
+        }
+    }
+
+
+    //  ---------------- REGISTO ----------------
+    fun register(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val res = authApi.register(
+                RegisterRequest(
+                    name = email.substringBefore("@"),
+                    email = email,
+                    password = password
                 )
-                if (res.isSuccessful) {
-                    val token = res.body()?.token
-                    if (!token.isNullOrEmpty()) {
-                        tokenManager.saveToken(token)
-                        Log.d("API", "Registo OK — token guardado")
-                        withContext(Dispatchers.Main) {
-                            onResult(true, null)
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            onResult(false, "Token vazio")
-                        }
-                    }
+            )
+
+            if (res.isSuccessful) {
+                val token = res.body()?.token
+                if (!token.isNullOrEmpty()) {
+                    tokenManager.saveToken(token)
+
+                    // buscar perfil depois de registar
+                    loadUser()
+
+                    withContext(Dispatchers.Main) { onResult(true, null) }
                 } else {
-                    withContext(Dispatchers.Main) {
-                        onResult(false, "HTTP ${res.code()} ${res.message()}")
-                    }
+                    withContext(Dispatchers.Main) { onResult(false, "Token vazio") }
                 }
-            } catch (e: Exception) {
-                Log.e("API", "Erro no registo: ${e.message}")
-                withContext(Dispatchers.Main) {
-                    onResult(false, e.message)
-                }
+            } else {
+                withContext(Dispatchers.Main) { onResult(false, "Falha no registo") }
             }
+        }
+    }
+
+    // ---------------- BUSCAR PERFIL ----------------
+    fun loadUser() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val user = repository.loadUser()
+            _currentUser.value = user
+        }
+    }
+
+    // ---------------- EDITAR NOME + GÉNERO ----------------
+    fun updateUser(name: String?, gender: String?, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val success = repository.updateUser(name, gender)
+            if (success) loadUser()
+
+            withContext(Dispatchers.Main) { onResult(success) }
+        }
+    }
+
+    // ---------------- EDITAR EMAIL ----------------
+    fun updateEmail(email: String, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val success = repository.updateEmail(email)
+            if (success) loadUser()
+
+            withContext(Dispatchers.Main) { onResult(success) }
         }
     }
 }

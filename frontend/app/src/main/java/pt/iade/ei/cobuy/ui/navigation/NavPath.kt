@@ -16,6 +16,7 @@ sealed class NavPath(val route: String) {
     object CreateGroup : NavPath("create_group")
     object JoinGroup : NavPath("join_group")
     object MyGroups : NavPath("my_groups")
+    object EditSettings : NavPath("edit_settings")
 
 
     object GroupDetail : NavPath("group_detail/{groupId}") {

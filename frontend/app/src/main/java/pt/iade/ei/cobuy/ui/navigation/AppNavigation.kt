@@ -58,6 +58,8 @@ fun appNavigation() {
         composable(NavPath.SavedLocations.route) {
             SavedLocationsScreen(navController)
         }
+        composable(NavPath.EditSettings.route) { EditSettingsScreen(navController) }
+
 
 
         // *************** GROUP DETAIL ROUTE ***************

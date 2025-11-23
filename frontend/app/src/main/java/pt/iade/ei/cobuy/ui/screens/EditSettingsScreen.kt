@@ -21,7 +21,7 @@ import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditProfileScreen(
+fun EditSettingsScreen(
     navController: NavController,
     authViewModel: AuthViewModel = viewModel(
         factory = AuthViewModelFactory(LocalContext.current)
@@ -29,19 +29,18 @@ fun EditProfileScreen(
 ) {
     val user by authViewModel.currentUser
 
-    var name by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var oldPassword by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
 
-    // Preenche os campos com os dados do utilizador
     LaunchedEffect(user) {
         user?.let {
-            name = it.name
-            gender = it.gender ?: ""
+            email = it.email
         }
     }
 
     Scaffold(
-        topBar = { CoBuyTopBar("Editar Perfil", navController) },
+        topBar = { CoBuyTopBar("Definições de Conta", navController) },
         containerColor = BackgroundLight
     ) { padding ->
 
@@ -54,23 +53,38 @@ fun EditProfileScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
 
+            // -------- EMAIL --------
             CustomTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = "Nome"
+                value = email,
+                onValueChange = { email = it },
+                label = "Novo Email"
+            )
+
+            // -------- PASSWORD --------
+            CustomTextField(
+                value = oldPassword,
+                onValueChange = { oldPassword = it },
+                label = "Password atual"
             )
 
             CustomTextField(
-                value = gender,
-                onValueChange = { gender = it },
-                label = "Género"
+                value = newPassword,
+                onValueChange = { newPassword = it },
+                label = "Nova password"
             )
 
             PrimaryButton("Guardar Alterações") {
 
-                // Apenas atualiza nome e género
-                authViewModel.updateUser(name, gender) { ok ->
-                    if (ok) {
+                // 1 — atualizar email
+                authViewModel.updateEmail(email) { okEmail ->
+                    if (!okEmail) return@updateEmail
+
+                    // 2 — atualizar password (se o user preencheu)
+                    if (oldPassword.isNotBlank() && newPassword.isNotBlank()) {
+                        authViewModel.updatePassword(oldPassword, newPassword) { okPass ->
+                            if (okPass) navController.popBackStack()
+                        }
+                    } else {
                         navController.popBackStack()
                     }
                 }
@@ -81,6 +95,6 @@ fun EditProfileScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun EditProfileScreenPreview() {
-    EditProfileScreen(navController = rememberNavController())
+fun EditSettingsScreenPreview() {
+    EditSettingsScreen(navController = rememberNavController())
 }
