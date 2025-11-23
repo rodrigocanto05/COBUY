@@ -1,108 +1,108 @@
 package com.cobuy.cobuybackend.controller;
 
-import com.cobuy.cobuybackend.model.Ingredient;
-import com.cobuy.cobuybackend.model.Recipe;
-import com.cobuy.cobuybackend.model.RecipeIngredient;
-import com.cobuy.cobuybackend.model.Unit;
-import com.cobuy.cobuybackend.repository.IngredientRepository;
-import com.cobuy.cobuybackend.repository.RecipeIngredientRepository;
-import com.cobuy.cobuybackend.repository.RecipeRepository;
-import com.cobuy.cobuybackend.repository.UnitRepository;
-import org.springframework.http.HttpStatus;
+import com.cobuy.cobuybackend.model.*;
+import com.cobuy.cobuybackend.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/recipes")
 public class RecipeIngredientController {
 
     private final RecipeRepository recipeRepository;
-    private final RecipeIngredientRepository ingredientRepository;
-    private final IngredientRepository ingredientMasterRepository;
-    private final UnitRepository unitRepository;
+    private final RecipeIngredientRepository recipeIngredientRepository;
+    private final ShoppingListRepository shoppingListRepository;
+    private final ListItemRepository listItemRepository;
+    private final UserRepository userRepository;
+    private final MembershipRepository membershipRepository;
+    private final ItemRepository itemRepository;   // <-- ADICIONADO
 
     public RecipeIngredientController(
             RecipeRepository recipeRepository,
-            RecipeIngredientRepository ingredientRepository,
-            IngredientRepository ingredientMasterRepository,
-            UnitRepository unitRepository
+            RecipeIngredientRepository recipeIngredientRepository,
+            ShoppingListRepository shoppingListRepository,
+            ListItemRepository listItemRepository,
+            UserRepository userRepository,
+            MembershipRepository membershipRepository,
+            ItemRepository itemRepository
     ) {
         this.recipeRepository = recipeRepository;
-        this.ingredientRepository = ingredientRepository;
-        this.ingredientMasterRepository = ingredientMasterRepository;
-        this.unitRepository = unitRepository;
+        this.recipeIngredientRepository = recipeIngredientRepository;
+        this.shoppingListRepository = shoppingListRepository;
+        this.listItemRepository = listItemRepository;
+        this.userRepository = userRepository;
+        this.membershipRepository = membershipRepository;
+        this.itemRepository = itemRepository;
     }
 
-    // DTO para adicionar ingrediente à receita
-    public record AddRecipeIngredientRequest(
-            Integer ingredientId,
-            Integer unitId,
-            BigDecimal qty
-    ) {}
+    public record AddToListRequest(Integer userId, List<Integer> ingredients) {}
 
-    @PostMapping("/{id}/ingredients")
-    public ResponseEntity<?> addIngredient(
-            @PathVariable Integer id,
-            @RequestBody AddRecipeIngredientRequest req
-    ) {
+    @GetMapping("/{id}/ingredients")
+    public ResponseEntity<?> getIngredients(@PathVariable Integer id) {
+
         Recipe recipe = recipeRepository.findById(id).orElse(null);
-        if (recipe == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Recipe not found");
-        }
+        if (recipe == null)
+            return ResponseEntity.status(404).body("Recipe not found");
 
-        if (req == null || req.ingredientId() == null || req.unitId() == null || req.qty() == null) {
-            return ResponseEntity.badRequest()
-                    .body("Fields 'ingredientId', 'unitId' e 'qty' são obrigatórios");
-        }
+        List<RecipeIngredient> list = recipeIngredientRepository.findByRecipe(recipe);
 
-        Ingredient ingredient = ingredientMasterRepository.findById(req.ingredientId())
-                .orElse(null);
-        if (ingredient == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Ingredient not found: " + req.ingredientId());
-        }
-
-        Unit unit = unitRepository.findById(req.unitId())
-                .orElse(null);
-        if (unit == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Unit not found: " + req.unitId());
-        }
-
-        RecipeIngredient ri = new RecipeIngredient();
-        ri.setRecipe(recipe);
-        ri.setIngredient(ingredient);
-        ri.setUnit(unit);
-        ri.setQty(req.qty());
-
-        RecipeIngredient saved = ingredientRepository.save(ri);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.ok(
+                list.stream().map(ri -> new Object() {
+                    public final Integer id = ri.getId();
+                    public final String ingredient = ri.getIngredient().getName();
+                    public final String unit = ri.getUnit().getName();
+                    public final Number qty = ri.getQty();
+                }).toList()
+        );
     }
 
-    @DeleteMapping("/{id}/ingredients/{ingredientId}")
-    public ResponseEntity<?> deleteIngredient(
-            @PathVariable Integer id,
-            @PathVariable Integer ingredientId
+    @PostMapping("/{recipeId}/add-to-list/{listId}")
+    public ResponseEntity<?> addRecipeItemsToList(
+            @PathVariable Integer recipeId,
+            @PathVariable Integer listId,
+            @RequestBody AddToListRequest body
     ) {
-        Recipe recipe = recipeRepository.findById(id).orElse(null);
-        if (recipe == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Recipe not found");
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        if (recipe == null)
+            return ResponseEntity.status(404).body("Recipe not found");
+
+        ShoppingList list = shoppingListRepository.findById(listId).orElse(null);
+        if (list == null)
+            return ResponseEntity.status(404).body("List not found");
+
+        Integer groupId = list.getGroup().getId();
+
+        if (membershipRepository.findByUserIdAndGroupId(body.userId(), groupId).isEmpty())
+            return ResponseEntity.status(403).body("User not in group");
+
+        List<RecipeIngredient> selected = recipeIngredientRepository.findAllById(body.ingredients());
+
+        for (RecipeIngredient ri : selected) {
+
+            // 1. Converter Ingredient → Item
+            Item item = itemRepository.findByName(ri.getIngredient().getName()).orElse(null);
+
+            if (item == null) {
+                item = new Item();
+                item.setName(ri.getIngredient().getName());
+                item.setUnit(ri.getUnit());
+                item = itemRepository.save(item);
+            }
+
+            // 2. Criar ListItem
+            ListItem li = new ListItem();
+            li.setList(list);
+            li.setItem(item);
+            li.setQty(ri.getQty());
+            li.setUnit(ri.getUnit());
+            li.setUser(userRepository.findById(body.userId()).orElse(null));
+            li.setDone(false);
+
+            listItemRepository.save(li);
         }
 
-        return ingredientRepository.findById(ingredientId)
-                .map(ri -> {
-                    if (!ri.getRecipe().getId().equals(recipe.getId())) {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body("Ingredient doesn't belong to this recipe");
-                    }
-                    ingredientRepository.delete(ri);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("RecipeIngredient not found"));
+        return ResponseEntity.ok("Ingredients added to list");
     }
 }
