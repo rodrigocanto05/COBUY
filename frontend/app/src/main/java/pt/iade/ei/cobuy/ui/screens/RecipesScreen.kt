@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -63,16 +64,20 @@ fun RecipesScreen(navController: NavController) {
             CenterAlignedTopAppBar(
                 title = { Text("Receitas") }
             )
+        },
+        bottomBar = {
+            CoBuyBottomBar(navController)   // ← AQUI ESTÁ A CORRETA
         }
     ) { padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier
                 .padding(padding)
-                .padding(12.dp)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(bottom = 60.dp)
         ) {
             items(recipeList) { recipe ->
                 RecipeCard(recipe)
