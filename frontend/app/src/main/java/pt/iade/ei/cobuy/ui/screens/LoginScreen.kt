@@ -52,7 +52,7 @@ fun LoginScreen(navController: NavController) {
 
             // LOGO
             Image(
-                painter = painterResource(id = R.drawable.image),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo CoBuy",
                 modifier = Modifier
                     .size(140.dp)

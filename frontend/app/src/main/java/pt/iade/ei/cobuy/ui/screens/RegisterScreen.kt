@@ -1,6 +1,5 @@
 package pt.iade.ei.cobuy.ui.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -55,7 +54,7 @@ fun RegisterScreen(navController: NavController) {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.image),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo CoBuy",
                 modifier = Modifier
                     .size(140.dp)

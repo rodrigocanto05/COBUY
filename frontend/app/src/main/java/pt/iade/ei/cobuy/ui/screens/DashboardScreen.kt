@@ -133,7 +133,7 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) {
 
             // LOGO
             Image(
-                painter = painterResource(id = R.drawable.image),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "App Logo",
                 modifier = Modifier
                     .size(130.dp)
