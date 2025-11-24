@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,6 +21,10 @@ import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Groups
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,16 +72,62 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                 }
 
                 userGroups.isEmpty() -> {
-                    Box(Modifier.fillMaxSize(), Alignment.Center) {
-                        Text(
-                            text = "Ainda não estás em nenhum grupo.",
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = TextDark,
-                                fontSize = 16.sp
-                            )
-                        )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Card(
+                            shape = RoundedCornerShape(24.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
+                            ),
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .fillMaxWidth()
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(28.dp)
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                Icon(
+                                    imageVector = Icons.Default.Groups,
+                                    contentDescription = null,
+                                    tint = OrangePrimary.copy(alpha = 0.9f),
+                                    modifier = Modifier.size(46.dp)
+                                )
+
+                                Spacer(modifier = Modifier.height(14.dp))
+
+                                Text(
+                                    text = "Não pertences a nenhum grupo",
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        color = TextDark,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 18.sp
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+
+                                Spacer(modifier = Modifier.height(6.dp))
+
+                                Text(
+                                    text = "Cria ou junta-te a um grupo para começares!",
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        color = TextDark.copy(alpha = 0.6f),
+                                        fontSize = 14.sp
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
                     }
                 }
+
 
                 else -> {
                     LazyColumn(
