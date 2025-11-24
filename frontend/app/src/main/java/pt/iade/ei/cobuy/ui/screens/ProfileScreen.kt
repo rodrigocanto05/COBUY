@@ -61,7 +61,7 @@ fun ProfileScreen(
 
             // LOGO (igual ao Dashboard)
             Image(
-                painter = painterResource(id = R.drawable.image),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Foto de Perfil",
                 modifier = Modifier
                     .size(130.dp)

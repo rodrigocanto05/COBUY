@@ -37,7 +37,7 @@ fun HomeScreen(navController: NavController) {
 
             // Logo
             Image(
-                painter = painterResource(id = R.drawable.image),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "CoBuy Logo",
                 modifier = Modifier
                     .size(160.dp)
