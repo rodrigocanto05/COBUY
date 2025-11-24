@@ -54,16 +54,26 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
 
 
     //  ---------------- REGISTO ----------------
-    fun register(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
+    fun register(
+        name: String,
+        email: String,
+        password: String,
+        gender: String,
+        onResult: (Boolean, String?) -> Unit
+    )
+
+    {
         viewModelScope.launch(Dispatchers.IO) {
 
             val res = authApi.register(
                 RegisterRequest(
-                    name = email.substringBefore("@"),
+                    name = name,
                     email = email,
-                    password = password
+                    password = password,
+                    gender = gender
                 )
             )
+
 
             if (res.isSuccessful) {
                 val token = res.body()?.token

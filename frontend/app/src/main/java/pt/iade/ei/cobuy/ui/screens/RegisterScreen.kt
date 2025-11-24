@@ -23,7 +23,7 @@ import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
-import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel // 👈 usa o viewmodel certo
+import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel
 import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,25 +37,9 @@ fun RegisterScreen(navController: NavController) {
     var confirm by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    PrimaryButton(text = "Criar Conta") {
-        if (password == confirm) {
-            viewModel.register(email, password) { ok, err ->
-                if (ok) {
-                    navController.navigate(NavPath.Login.route)
-                } else {
-                    errorMessage = err ?: "Erro ao criar conta"
-                }
-            }
-        } else {
-            errorMessage = "As palavras-passe não coincidem"
-        }
-    }
 
-    errorMessage?.let {
-        Text(text = it, color = MaterialTheme.colorScheme.error)
-    }
-
-
+    var username by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("M") }
 
     Scaffold(
         containerColor = BackgroundLight,
@@ -69,7 +53,7 @@ fun RegisterScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // LOGO
+
             Image(
                 painter = painterResource(id = R.drawable.image),
                 contentDescription = "Logo CoBuy",
@@ -78,7 +62,6 @@ fun RegisterScreen(navController: NavController) {
                     .padding(bottom = 20.dp)
             )
 
-            // TÍTULO
             Text(
                 text = "Criar Conta",
                 style = MaterialTheme.typography.headlineSmall.copy(
@@ -90,47 +73,77 @@ fun RegisterScreen(navController: NavController) {
 
             Spacer(Modifier.height(28.dp))
 
-            // CAMPOS DE TEXTO
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
+
+
+                CustomTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = "Nome de Utilizador"
+                )
+
                 CustomTextField(value = email, onValueChange = { email = it }, label = "Email")
+
                 CustomTextField(
                     value = password,
                     onValueChange = { password = it },
                     label = "Palavra-passe",
                     visualTransformation = PasswordVisualTransformation()
                 )
+
                 CustomTextField(
                     value = confirm,
                     onValueChange = { confirm = it },
                     label = "Confirmar Palavra-passe",
                     visualTransformation = PasswordVisualTransformation()
                 )
+
+
+                Text(
+                    text = "Género",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    color = OrangePrimary
+                )
+
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    GenderRadio("Masculino", gender, "M") { gender = it }
+                    GenderRadio("Feminino", gender, "F") { gender = it }
+                    GenderRadio("Outro", gender, "O") { gender = it }
+
+                }
+
             }
 
             Spacer(Modifier.height(32.dp))
 
-            // BOTÃO DE REGISTO
             PrimaryButton(text = "Criar Conta") {
                 if (password == confirm) {
-                    viewModel.register(email, password) { success, error ->
+
+
+                    viewModel.register(username, email, password, gender) { success, error ->
                         if (success) {
                             Toast.makeText(context, "Conta criada com sucesso!", Toast.LENGTH_SHORT).show()
-                            Log.d("REGISTER", "Registo feito com sucesso!")
                             navController.navigate(NavPath.Login.route)
                         } else {
                             errorMessage = error ?: "Erro ao criar conta"
-                            Log.e("REGISTER", "Erro no registo: $error")
                         }
                     }
+
                 } else {
                     errorMessage = "As palavras-passe não coincidem"
                 }
             }
 
-            // Mostrar erro (se houver)
+
             errorMessage?.let {
                 Spacer(Modifier.height(12.dp))
                 Text(text = it, color = MaterialTheme.colorScheme.error, fontSize = 14.sp)
@@ -138,7 +151,6 @@ fun RegisterScreen(navController: NavController) {
 
             Spacer(Modifier.height(12.dp))
 
-            // TEXTO DE LOGIN
             TextButton(onClick = { navController.navigate(NavPath.Login.route) }) {
                 Text(
                     text = "Já tem conta? Iniciar Sessão",
@@ -149,6 +161,18 @@ fun RegisterScreen(navController: NavController) {
         }
     }
 }
+
+@Composable
+fun GenderRadio(label: String, selectedValue: String, value: String, onSelect: (String) -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        RadioButton(
+            selected = (value == selectedValue),
+            onClick = { onSelect(value) }
+        )
+        Text(label)
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

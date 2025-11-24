@@ -22,7 +22,7 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
-import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar   // ⭐ ADICIONADO
+import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
@@ -34,7 +34,7 @@ fun MapScreen(navController: NavController) {
     Scaffold(
         topBar = { CoBuyTopBar("Supermercados Próximos", navController = navController) },
 
-        // ⭐ ADICIONADO: a tua bottom bar global
+
         bottomBar = { CoBuyBottomBar(navController) },
 
         floatingActionButton = {

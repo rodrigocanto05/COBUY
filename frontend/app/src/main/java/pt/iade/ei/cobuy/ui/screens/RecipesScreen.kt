@@ -24,7 +24,7 @@ fun RecipesScreen(navController: NavController) {
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
-            Text("Página de receitas (em construção)")
+            Text("Página de receitas")
         }
     }
 }
