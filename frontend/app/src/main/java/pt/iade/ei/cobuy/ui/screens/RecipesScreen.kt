@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,7 +42,7 @@ private val recipeList = listOf(
     Recipe(4, "Arroz de Marisco", R.drawable.arroz_de_marsico),
     Recipe(5, "Bacalhau à Brás", R.drawable.bacalhauabras),
     Recipe(6, "Salmão no Forno com Batatas", R.drawable.salmaonoforno),
-    Recipe(7, "Salame de Chocolate", R.drawable.bolodechocolate),
+    Recipe(7, "Salame de Chocolate", R.drawable.salamedechocolate),
     Recipe(8, "Chili com Carne", R.drawable.chilicomcarne),
     Recipe(9, "Panquecas", R.drawable.panquecas),
     Recipe(10, "Omelete de Queijo e Fiambre", R.drawable.omelete),
@@ -52,7 +54,7 @@ private val recipeList = listOf(
     Recipe(16, "Esparguete à Bolonhesa", R.drawable.bolonhesa),
     Recipe(17, "Arroz Doce", R.drawable.arrozdoce),
     Recipe(18, "Gelatina com Iogurte", R.drawable.gelatinacomiogurte),
-    Recipe(19, "Salada Mediterrânica", R.drawable.saladamediterranea),
+    Recipe(19, "Salada Mediterrânia", R.drawable.saladamediterranea),
     Recipe(20, "Bolo de Chocolate", R.drawable.bolodechocolate)
 )
 
@@ -114,4 +116,9 @@ fun RecipeCard(recipe: Recipe) {
             textAlign = TextAlign.Center
         )
     }
+}
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun RecipesScreenPreview() {
+    RecipesScreen(navController = rememberNavController())
 }
