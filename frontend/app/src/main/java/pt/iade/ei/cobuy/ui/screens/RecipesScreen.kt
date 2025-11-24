@@ -31,32 +31,35 @@ import pt.iade.ei.cobuy.R
 data class Recipe(
     val id: Int,
     val name: String,
-    val imageRes: Int
+    val imageRes: Int,
+    val route: String
 )
 
-// Lista das 20 receitas (substitui as imagens pelas tuas)
+
+// Lista das 20 receitas
 private val recipeList = listOf(
-    Recipe(1, "Massa Carbonara", R.drawable.massa_carbonara),
-    Recipe(2, "Frango Grelhado", R.drawable.frangogrelhado),
-    Recipe(3, "Lasanha de Carne", R.drawable.lasanha),
-    Recipe(4, "Arroz de Marisco", R.drawable.arroz_de_marsico),
-    Recipe(5, "Bacalhau à Brás", R.drawable.bacalhauabras),
-    Recipe(6, "Salmão no Forno com Batatas", R.drawable.salmaonoforno),
-    Recipe(7, "Salame de Chocolate", R.drawable.salamedechocolate),
-    Recipe(8, "Chili com Carne", R.drawable.chilicomcarne),
-    Recipe(9, "Panquecas", R.drawable.panquecas),
-    Recipe(10, "Omelete de Queijo e Fiambre", R.drawable.omelete),
-    Recipe(11, "Sopa de Legumes", R.drawable.sopadelegumes),
-    Recipe(12, "Tosta Mista", R.drawable.tostamista),
-    Recipe(13, "Wrap de Frango com Alface", R.drawable.wrapdefrango),
-    Recipe(14, "Hambúrguer Caseiro", R.drawable.haumburguer),
-    Recipe(15, "Pizza Caseira", R.drawable.pizza),
-    Recipe(16, "Esparguete à Bolonhesa", R.drawable.bolonhesa),
-    Recipe(17, "Arroz Doce", R.drawable.arrozdoce),
-    Recipe(18, "Gelatina com Iogurte", R.drawable.gelatinacomiogurte),
-    Recipe(19, "Salada Mediterrânia", R.drawable.saladamediterranea),
-    Recipe(20, "Bolo de Chocolate", R.drawable.bolodechocolate)
+    Recipe(1, "Massa Carbonara", R.drawable.massa_carbonara, "massacarbonara"),
+    Recipe(2, "Frango Grelhado", R.drawable.frangogrelhado, "frangogrelhado"),
+    Recipe(3, "Lasanha de Carne", R.drawable.lasanha, "lasanhadecarne"),
+    Recipe(4, "Arroz de Marisco", R.drawable.arroz_de_marsico, "arrozmarisco"),
+    Recipe(5, "Bacalhau à Brás", R.drawable.bacalhauabras, "bacalhaabras"),
+    Recipe(6, "Salmão no Forno com Batatas", R.drawable.salmaonoforno, "salmaonoforno"),
+    Recipe(7, "Salame de Chocolate", R.drawable.salamedechocolate, "salamechocolate"),
+    Recipe(8, "Chili com Carne", R.drawable.chilicomcarne, "chilicomcarne"),
+    Recipe(9, "Panquecas", R.drawable.panquecas, "panquecas"),
+    Recipe(10, "Omelete de Queijo e Fiambre", R.drawable.omelete, "omeletequeijo"),
+    Recipe(11, "Sopa de Legumes", R.drawable.sopadelegumes, "sopadelegumes"),
+    Recipe(12, "Tosta Mista", R.drawable.tostamista, "tostamista"),
+    Recipe(13, "Wrap de Frango com Alface", R.drawable.wrapdefrango, "wrapfrangoalface"),
+    Recipe(14, "Hambúrguer Caseiro", R.drawable.haumburguer, "hamburgercaseiro"),
+    Recipe(15, "Pizza Caseira", R.drawable.pizza, "pizzacaseira"),
+    Recipe(16, "Esparguete à Bolonhesa", R.drawable.bolonhesa, "bolonhesa"),
+    Recipe(17, "Arroz Doce", R.drawable.arrozdoce, "arrozdoce"),
+    Recipe(18, "Gelatina com Iogurte", R.drawable.gelatinacomiogurte, "gelatinaiogurte"),
+    Recipe(19, "Salada Mediterrânica", R.drawable.saladamediterranea, "saladamediterranica"),
+    Recipe(20, "Bolo de Chocolate", R.drawable.bolodechocolate, "bolodechocolate")
 )
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -82,20 +85,23 @@ fun RecipesScreen(navController: NavController) {
             contentPadding = PaddingValues(bottom = 60.dp)
         ) {
             items(recipeList) { recipe ->
-                RecipeCard(recipe)
+                RecipeCard(recipe, navController)
             }
         }
     }
 }
 
 @Composable
-fun RecipeCard(recipe: Recipe) {
+fun RecipeCard(recipe: Recipe, navController: NavController) {
     Column(
         modifier = Modifier
-            .clickable { /* navController.navigate(...) */ }
+            .clickable {
+                navController.navigate(recipe.route)
+            }
             .background(Color(0xFFF3F3F3), RoundedCornerShape(12.dp))
             .padding(10.dp)
     ) {
+
         Image(
             painter = painterResource(recipe.imageRes),
             contentDescription = recipe.name,

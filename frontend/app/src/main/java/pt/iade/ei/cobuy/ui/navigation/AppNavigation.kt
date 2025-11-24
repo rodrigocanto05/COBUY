@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import pt.iade.ei.cobuy.ui.screens. recipesingredients.*
 import pt.iade.ei.cobuy.ui.screens.*
 
 @Composable
@@ -72,5 +73,33 @@ fun appNavigation() {
         composable(NavPath.Recipes.route) {
             RecipesScreen(navController)
         }
+        // *************** INDIVIDUAL RECIPE SCREENS ***************
+        composable("massacarbonara") { MassaCarbonaraSreen(navController) }
+        composable("frangogrelhado") { FrangoGrelhadoScreen(navController) }
+        composable("lasanhadecarne") { LasanhadeCarneScreen(navController) }
+        composable("arrozmarisco") { ArrozdeMarisco(navController) }
+        composable("bacalhaabras") { BacalhaaBrasScreen(navController) }
+        composable("salmaonoforno") { SalmãonoFornocomBatatasScreen(navController) }
+        composable("salamechocolate") { SalamedeChocolateScreen(navController) }
+        composable("chilicomcarne") { ChilicomCarneScreen(navController) }
+        composable("panquecas") { PanquecasScreen(navController) }
+        composable("omeletequeijo") { OmeletedeQueijoeFiambreScreen(navController) }
+        composable("sopadelegumes") { SopadeLegumesScreen(navController) }
+        composable("tostamista") { TostaMistaScreen(navController) }
+        composable("wrapfrangoalface") { WrapdeFrangocomAlfaceScreen(navController) }
+        composable("hamburgercaseiro") { HamburguerCaseiroScreen(navController) }
+        composable("pizzacaseira") { PizzaCaseiraScreen(navController) }
+        composable("bolonhesa") { EspargueteaBolonhesa(navController) }
+        composable("arrozdoce") { ArrozDoceScreen(navController) }
+        composable("gelatinaiogurte") { GelatinacomiogurteScreen(navController) }
+        composable("saladamediterranica") { SaladaMediterranicaScreen(navController) }
+        composable("bolodechocolate") { BolodeChocolateScreen(navController) }
+
+
+
+
+
+
     }
-}
+    }
+
