@@ -12,7 +12,9 @@ import pt.iade.ei.cobuy.storage.model.UserGroup
 
 class GroupViewModel : ViewModel() {
 
-    // 🔸 Criar grupo (AGORA COM userId)
+    // ----------------------------------------------------------
+    // CREATE GROUP
+    // ----------------------------------------------------------
     fun createGroup(
         userId: Int,
         groupName: String,
@@ -25,26 +27,23 @@ class GroupViewModel : ViewModel() {
 
                 if (response.isSuccessful) {
                     Log.d("GROUP", "✅ Grupo criado com sucesso: ${response.body()}")
-                    withContext(Dispatchers.Main) {
-                        callback(true, null)
-                    }
+                    withContext(Dispatchers.Main) { callback(true, null) }
                 } else {
-                    val errorMsg = "Erro HTTP: ${response.code()}"
-                    Log.e("GROUP", errorMsg)
-                    withContext(Dispatchers.Main) {
-                        callback(false, errorMsg)
-                    }
+                    val msg = "Erro HTTP: ${response.code()}"
+                    Log.e("GROUP", msg)
+                    withContext(Dispatchers.Main) { callback(false, msg) }
                 }
+
             } catch (e: Exception) {
-                Log.e("GROUP", "❌ Erro ao criar grupo: ${e.message}", e)
-                withContext(Dispatchers.Main) {
-                    callback(false, e.message)
-                }
+                Log.e("GROUP", "❌ Erro ao criar grupo: ${e.message}")
+                withContext(Dispatchers.Main) { callback(false, e.message) }
             }
         }
     }
 
-    // 🔹 Buscar grupos do utilizador
+    // ----------------------------------------------------------
+    // GET USER GROUPS
+    // ----------------------------------------------------------
     fun getUserGroups(
         userId: Int,
         onResult: (List<UserGroup>?, String?) -> Unit
@@ -52,13 +51,39 @@ class GroupViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = GroupApi.service.getUserGroups(userId)
+
                 if (response.isSuccessful) {
                     onResult(response.body(), null)
                 } else {
                     onResult(null, "Erro ${response.code()}: ${response.message()}")
                 }
+
             } catch (e: Exception) {
                 onResult(null, e.localizedMessage ?: "Erro desconhecido")
+            }
+        }
+    }
+
+    // ----------------------------------------------------------
+    // JOIN GROUP
+    // ----------------------------------------------------------
+    fun joinGroup(
+        code: String,
+        userId: Int,
+        callback: (Group?, String?) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = GroupApi.service.joinGroup(code, userId)
+
+                if (response.isSuccessful) {
+                    callback(response.body(), null)
+                } else {
+                    callback(null, "Código inválido ou já estás no grupo")
+                }
+
+            } catch (e: Exception) {
+                callback(null, e.message ?: "Erro desconhecido")
             }
         }
     }

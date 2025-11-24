@@ -27,14 +27,16 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/groups/**").authenticated()
-            .requestMatchers("/memberships/**").authenticated()
-            .requestMatchers("/users/**").authenticated()
-            .requestMatchers("/lists/**").authenticated()
-            .requestMatchers("/items/**").authenticated()
-            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .anyRequest().authenticated())
+    .requestMatchers("/api/auth/**").permitAll()
+    .requestMatchers("/api/groups/**").permitAll()
+    .requestMatchers("/api/memberships/**").authenticated()
+    .requestMatchers("/api/users/**").authenticated()
+    .requestMatchers("/api/lists/**").authenticated()
+    .requestMatchers("/api/items/**").authenticated()
+    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+    .anyRequest().permitAll()
+)
+
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
