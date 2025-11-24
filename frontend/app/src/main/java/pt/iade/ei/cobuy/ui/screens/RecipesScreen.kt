@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.R
 
-// Modelo de Receita (podes depois mover para outro ficheiro)
+
 data class Recipe(
     val id: Int,
     val name: String,
@@ -71,7 +71,7 @@ fun RecipesScreen(navController: NavController) {
             )
         },
         bottomBar = {
-            CoBuyBottomBar(navController)   // ← AQUI ESTÁ A CORRETA
+            CoBuyBottomBar(navController)
         }
     ) { padding ->
         LazyVerticalGrid(
