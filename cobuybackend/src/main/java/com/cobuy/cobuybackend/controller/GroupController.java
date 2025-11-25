@@ -6,7 +6,6 @@ import com.cobuy.cobuybackend.model.User;
 import com.cobuy.cobuybackend.repository.GroupRepository;
 import com.cobuy.cobuybackend.repository.MembershipRepository;
 import com.cobuy.cobuybackend.repository.UserRepository;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/groups")   // <- prefixo correto para o SecurityConfig
+@RequestMapping("/groups")
 public class GroupController {
 
     private final GroupRepository groupRepository;
@@ -25,8 +23,7 @@ public class GroupController {
     private final UserRepository userRepository;
     private final SecureRandom random = new SecureRandom();
 
-    public GroupController(
-            GroupRepository groupRepository,
+    public GroupController(GroupRepository groupRepository,
             MembershipRepository membershipRepository,
             UserRepository userRepository) {
         this.groupRepository = groupRepository;
@@ -34,80 +31,50 @@ public class GroupController {
         this.userRepository = userRepository;
     }
 
-    // -------------------------------------------------------
-    // GET ALL GROUPS
-    // -------------------------------------------------------
     @GetMapping
     public List<Group> getAllGroups() {
         return groupRepository.findAll();
     }
 
-    // -------------------------------------------------------
-    // GET GROUP BY ID
-    // -------------------------------------------------------
     @GetMapping("/{id}")
-    public ResponseEntity<?> getGroupById(@PathVariable Integer id) {
-        var opt = groupRepository.findById(id);
-
-        if (opt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Grupo não encontrado"));
-        }
-
-        return ResponseEntity.ok(opt.get());
+    public ResponseEntity<Group> getGroupById(@PathVariable Integer id) {
+        return groupRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // -------------------------------------------------------
-    // GET GROUP BY CODE
-    // -------------------------------------------------------
     @GetMapping("/code/{code}")
-    public ResponseEntity<?> getGroupByCode(@PathVariable String code) {
-        var opt = groupRepository.findByCode(code);
-
-        if (opt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Código inválido"));
-        }
-
-        return ResponseEntity.ok(opt.get());
+    public ResponseEntity<Group> getGroupByCode(@PathVariable String code) {
+        return groupRepository.findByCode(code)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // -------------------------------------------------------
-    // CREATE GROUP
-    // -------------------------------------------------------
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createGroup(
             @RequestParam Integer userId,
             @RequestBody Group groupBody) {
 
-        var optUser = userRepository.findById(userId);
-        if (optUser.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Utilizador não encontrado"));
-        }
-
-        User owner = optUser.get();
+        User owner = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
         Group group = new Group();
         group.setName(groupBody.getName());
         group.setOwner(owner);
         group.setCreatedAt(LocalDateTime.now());
-        group.setCode(generateUniqueCode());
+        group.setCode(generateUniqueCode()); // <--- código gerado aqui
 
-        Group saved = groupRepository.save(group);
+        Group savedGroup = groupRepository.save(group);
 
         Membership membership = new Membership();
-        membership.setGroup(saved);
+        membership.setGroup(savedGroup);
         membership.setUser(owner);
         membership.setRole("owner");
         membershipRepository.save(membership);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedGroup);
     }
 
-    // -------------------------------------------------------
-    // JOIN GROUP BY CODE
-    // -------------------------------------------------------
     @PostMapping("/join/{code}")
     public ResponseEntity<?> joinGroup(
             @PathVariable String code,
@@ -116,13 +83,13 @@ public class GroupController {
         var optGroup = groupRepository.findByCode(code);
         if (optGroup.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Código inválido"));
+                    .body("Grupo com código " + code + " não existe");
         }
 
         var optUser = userRepository.findById(userId);
         if (optUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Utilizador não encontrado"));
+                    .body("Utilizador não encontrado");
         }
 
         Group group = optGroup.get();
@@ -130,41 +97,32 @@ public class GroupController {
 
         if (membershipRepository.findByUserIdAndGroupId(userId, group.getId()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("error", "Já pertences a este grupo"));
+                    .body("User já está neste grupo");
         }
 
         Membership mem = new Membership();
         mem.setGroup(group);
         mem.setUser(user);
         mem.setRole("member");
+
         membershipRepository.save(mem);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(group);
     }
 
-    // -------------------------------------------------------
-    // DELETE GROUP (ONLY OWNER)
-    // -------------------------------------------------------
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGroup(
             @PathVariable Integer id,
             @RequestParam Integer userId) {
 
-        var optGroup = groupRepository.findById(id);
-        if (optGroup.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Grupo não encontrado"));
-        }
+        Group group = groupRepository.findById(id).orElse(null);
+        if (group == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Grupo não encontrado");
 
-        Group group = optGroup.get();
-
-        var optMembership = membershipRepository.findByUserIdAndGroupId(userId, id);
-
-        if (optMembership.isEmpty() ||
-                !"owner".equalsIgnoreCase(optMembership.get().getRole())) {
-
+        var membership = membershipRepository.findByUserIdAndGroupId(userId, id);
+        if (membership.isEmpty() || !"owner".equalsIgnoreCase(membership.get().getRole())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", "Apenas o owner pode apagar o grupo"));
+                    .body("Apenas o owner pode apagar o grupo");
         }
 
         membershipRepository.deleteAll(membershipRepository.findByGroupId(id));
@@ -173,9 +131,6 @@ public class GroupController {
         return ResponseEntity.noContent().build();
     }
 
-    // -------------------------------------------------------
-    // UNIQUE GROUP CODE GENERATOR
-    // -------------------------------------------------------
     private String generateUniqueCode() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
