@@ -7,8 +7,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ApiClient {
-    private const val BASE_URL = "http://10.0.2.2:8082/"
 
+    // ----------------------------
+    //  INTERCEPTOR PARA LOGS
+    // ----------------------------
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
@@ -20,11 +22,26 @@ object ApiClient {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    val retrofit: Retrofit by lazy {
+    private const val BACKEND_URL = "http://10.0.2.2:8082/"
+
+    val backendRetrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BACKEND_URL)
             .client(okHttp)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    private const val GOOGLE_URL = "https://maps.googleapis.com/maps/api/"
+
+    val googleRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(GOOGLE_URL)
+            .client(okHttp)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val googleApi: GoogleApi = googleRetrofit.create(GoogleApi::class.java)
+
 }

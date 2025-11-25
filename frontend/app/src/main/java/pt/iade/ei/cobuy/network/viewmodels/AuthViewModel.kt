@@ -13,8 +13,8 @@ import pt.iade.ei.cobuy.storage.utils.TokenManager
 
 class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
 
-    private val authApi = ApiClient.retrofit.create(AuthApi::class.java)
-    private val profileApi = ApiClient.retrofit.create(ProfileApi::class.java)
+    private val authApi = ApiClient.backendRetrofit.create(AuthApi::class.java)
+    private val profileApi = ApiClient.backendRetrofit.create(ProfileApi::class.java)
 
     private val repository = ProfileRepository(profileApi, tokenManager)
 

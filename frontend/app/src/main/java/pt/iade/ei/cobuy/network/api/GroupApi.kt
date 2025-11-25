@@ -34,7 +34,6 @@ interface GroupApi {
 
     companion object {
         val service: GroupApi by lazy {
-            ApiClient.retrofit.create(GroupApi::class.java)
-        }
+            ApiClient.backendRetrofit.create(GroupApi::class.java)        }
     }
 }
