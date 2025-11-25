@@ -7,38 +7,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import pt.iade.ei.cobuy.R
 
 @Composable
-fun BacalhaaBrasScreen(
+fun MassaCarbonaraScreen(
     navController: NavController,
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.50 kg → 500 g
         IngredientUi(
-            id = 11,
-            name = "Bacalhau desfiado",
-            quantityText = "500 g"
-        ),
-        // 0.20 kg → 200 g
-        IngredientUi(
-            id = 69,
-            name = "Batata palha",
-            quantityText = "200 g"
+            id = 1,
+            name = "Esparguete",
+            quantityText = "400 g"
         ),
         IngredientUi(
-            id = 26,
-            name = "Cebola",
-            quantityText = "1 un"
-        ),
-        IngredientUi(
-            id = 28,
-            name = "Dentes de alho",
-            quantityText = "2 un"
-        ),
-        // 0.03 L → 30 ml
-        IngredientUi(
-            id = 50,
-            name = "Azeite",
-            quantityText = "30 ml"
+            id = 8,
+            name = "Bacon em tiras",
+            quantityText = "150 g"
         ),
         IngredientUi(
             id = 16,
@@ -46,9 +28,24 @@ fun BacalhaaBrasScreen(
             quantityText = "4 un"
         ),
         IngredientUi(
-            id = 38,
-            name = "Salsa fresca",
-            quantityText = "5 g"
+            id = 18,
+            name = "Natas",
+            quantityText = "200 g"
+        ),
+        IngredientUi(
+            id = 20,
+            name = "Queijo parmesão ralado",
+            quantityText = "60 g"
+        ),
+        IngredientUi(
+            id = 28,
+            name = "Dentes de alho",
+            quantityText = "2 un"
+        ),
+        IngredientUi(
+            id = 50,
+            name = "Azeite",
+            quantityText = "30 ml"
         ),
         IngredientUi(
             id = 58,
@@ -58,27 +55,23 @@ fun BacalhaaBrasScreen(
         IngredientUi(
             id = 59,
             name = "Pimenta preta",
-            quantityText = "3 g"
-        ),
-        IngredientUi(
-            id = 40,
-            name = "Azeitonas pretas fatiadas",
-            quantityText = "10 g"
+            quantityText = "5 g"
         )
     )
 
     val preparationSteps = listOf(
-        "Coza o bacalhau, escorra e desfie-o.",
-        "Refogue cebola e alho em azeite, junte o bacalhau e envolva.",
-        "Adicione a batata palha e misture bem.",
-        "Junte os ovos batidos e mexa até ficarem cremosos.",
-        "Tempere, adicione salsa e finalize com azeitonas."
+        "Coza o esparguete em água a ferver com sal até ficar al dente.",
+        "Misture os ovos, as natas, o parmesão, o sal (pouco) e a pimenta, e reserve.",
+        "Numa frigideira, aqueça azeite, salteie o bacon e junte o alho por alguns segundos.",
+        "Adicione o esparguete cozido e envolva bem.",
+        "Fora do lume, junte o molho de ovos e mexa até ficar cremoso.",
+        "Finalize com pimenta e parmesão."
     )
 
     RecipeDetailScreen(
         navController = navController,
-        title = "Bacalhau à Brás",
-        imageResId = R.drawable.bacalhauabras,
+        title = "Massa Carbonara",
+        imageResId = R.drawable.massa_carbonara,
         ingredients = ingredients,
         preparationSteps = preparationSteps,
         onAddIngredientToShoppingList = onAddIngredientToShoppingList
@@ -87,8 +80,8 @@ fun BacalhaaBrasScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewBacalhaaBrasScreen() {
-    BacalhaaBrasScreen(
+fun PreviewMassaCarbonaraScreen() {
+    MassaCarbonaraScreen(
         navController = rememberNavController(),
         onAddIngredientToShoppingList = {}
     )
