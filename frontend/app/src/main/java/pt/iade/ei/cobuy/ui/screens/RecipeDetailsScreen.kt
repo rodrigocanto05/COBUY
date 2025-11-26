@@ -20,7 +20,7 @@ import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 data class IngredientUi(
     val id: Int,
     val name: String,
-    val quantityText: String // já vem pronto: "400 g", "2 ovos", "Sal q.b."
+    val quantityText: String
 )
 
 @Composable
