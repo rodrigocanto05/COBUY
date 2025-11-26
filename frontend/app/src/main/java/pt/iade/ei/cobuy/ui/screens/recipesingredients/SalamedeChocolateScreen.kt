@@ -1,23 +1,70 @@
 package pt.iade.ei.cobuy.ui.screens.recipesingredients
 
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
+import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.tooling.preview.Preview
+import pt.iade.ei.cobuy.R
 
 @Composable
-fun SalamedeChocolateScreen(navController: NavController) {
-    Scaffold(
-        bottomBar = { CoBuyBottomBar(navController) }
-    ) { padding ->
-        Text(
-            text = "Salame de Chocolate",
-            modifier = Modifier
-                .padding(padding)
-                .padding(20.dp)
+fun SalamedeChocolateScreen(
+    navController: NavController,
+    onAddIngredientToShoppingList: (IngredientUi) -> Unit
+) {
+    val ingredients = listOf(
+        IngredientUi(
+            id = 7,
+            name = "Bolacha Maria",
+            quantityText = "200 g"
+        ),
+        IngredientUi(
+            id = 19,
+            name = "Manteiga",
+            quantityText = "125 g"
+        ),
+        IngredientUi(
+            id = 48,
+            name = "Chocolate em pó",
+            quantityText = "100 g"
+        ),
+        IngredientUi(
+            id = 44,
+            name = "Açúcar",
+            quantityText = "150 g"
+        ),
+        IngredientUi(
+            id = 16,
+            name = "Ovo",
+            quantityText = "1 un"
         )
-    }
+    )
+
+    val preparationSteps = listOf(
+        "Parta as bolachas grosseiramente, deixando pedaços irregulares.",
+        "Derreta a manteiga numa tigela.",
+        "Adicione o açúcar e o chocolate em pó e misture bem.",
+        "Junte o ovo e mexa rapidamente.",
+        "Acrescente as bolachas partidas e envolva tudo.",
+        "Coloque a mistura sobre papel vegetal e molde em forma de rolo.",
+        "Enrole bem, aperte as pontas e leve ao frigorífico 3–4 horas.",
+        "Depois de firme, corte em fatias."
+    )
+
+    RecipeDetailScreen(
+        navController = navController,
+        title = "Salame de Chocolate",
+        imageResId = R.drawable.salamedechocolate,
+        ingredients = ingredients,
+        preparationSteps = preparationSteps,
+        onAddIngredientToShoppingList = onAddIngredientToShoppingList
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewSalamedeChocolateScreen() {
+    SalamedeChocolateScreen(
+        navController = rememberNavController(),
+        onAddIngredientToShoppingList = {}
+    )
 }
