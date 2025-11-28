@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+    package pt.iade.ei.cobuy.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
