@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
+import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 
 data class IngredientUi(
     val id: Int,
@@ -32,15 +33,26 @@ fun RecipeDetailScreen(
     preparationSteps: List<String>,
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
+
     Scaffold(
-        bottomBar = { CoBuyBottomBar(navController) }
+        topBar = {
+            CoBuyTopBar(
+                title = title,
+                navController = navController,
+                showBackButton = true
+            )
+        },
+        bottomBar = {
+            CoBuyBottomBar(navController)
+        }
     ) { padding ->
+
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            // Imagem no topo
+
             Image(
                 painter = painterResource(id = imageResId),
                 contentDescription = title,
@@ -65,7 +77,6 @@ fun RecipeDetailScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // INGREDIENTES
                 Text(
                     text = "Ingredientes",
                     style = MaterialTheme.typography.titleMedium,
@@ -84,23 +95,14 @@ fun RecipeDetailScreen(
                         Column(
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text(
-                                text = ing.name,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                text = ing.quantityText,
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.Light
-                            )
+                            Text(text = ing.name)
+                            Text(text = ing.quantityText)
                         }
 
-                        IconButton(
-                            onClick = { onAddIngredientToShoppingList(ing) }
-                        ) {
+                        IconButton(onClick = { onAddIngredientToShoppingList(ing) }) {
                             Icon(
                                 imageVector = Icons.Default.AddShoppingCart,
-                                contentDescription = "Adicionar à lista de compras"
+                                contentDescription = "Adicionar"
                             )
                         }
                     }
@@ -108,7 +110,6 @@ fun RecipeDetailScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // PREPARAÇÃO
                 Text(
                     text = "Modo de preparação",
                     style = MaterialTheme.typography.titleMedium,
@@ -118,11 +119,7 @@ fun RecipeDetailScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 preparationSteps.forEachIndexed { index, step ->
-                    Text(
-                        text = "${index + 1}. $step",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    Text(text = "${index + 1}. $step")
                 }
             }
         }
