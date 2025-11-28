@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -62,6 +63,7 @@ fun MapScreen(
 
         containerColor = Color.White
     ) { padding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -69,6 +71,7 @@ fun MapScreen(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Text(
                 text = "Aqui serão exibidos os supermercados próximos",
                 style = MaterialTheme.typography.bodyLarge.copy(
@@ -83,34 +86,33 @@ fun MapScreen(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
+
                 GoogleMap(
                     modifier = Modifier.matchParentSize(),
                     cameraPositionState = cameraPositionState
                 ) {
-                    // IADE
+                    // IADE (vermelho)
                     Marker(
                         state = MarkerState(position = iade),
                         title = "IADE",
-                        snippet = "Universidade Europeia"
+                        snippet = "Universidade Europeia",
+                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                     )
 
-                    // Supermercados (com marcador padrão do Google)
+                    // Supermercados – pino laranja
                     uiState.markets.forEach { market ->
                         Marker(
-                            state = MarkerState(
-                                position = LatLng(market.lat, market.lng)
-                            ),
+                            state = MarkerState(LatLng(market.lat, market.lng)),
                             title = market.name,
-                            snippet = "Supermercado"
+                            snippet = "Supermercado próximo",
+                            icon = BitmapDescriptorFactory.defaultMarker(36f) // Laranja
                         )
                     }
                 }
 
                 if (uiState.isLoading) {
                     CircularProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(48.dp),
+                        modifier = Modifier.align(Alignment.Center),
                         color = OrangePrimary
                     )
                 }
