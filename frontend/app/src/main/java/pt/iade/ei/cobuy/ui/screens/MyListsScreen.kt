@@ -1,13 +1,12 @@
 package pt.iade.ei.cobuy.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,9 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
-import pt.iade.ei.cobuy.storage.model.Group
-import pt.iade.ei.cobuy.storage.model.UserGroup
-import pt.iade.ei.cobuy.ui.components.cards.GroupCard
+import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
@@ -31,34 +28,44 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyGroupsScreen(navController: NavController, userId: Int) {
+fun MyListsScreen(
+    navController: NavController,
+    groupId: Int
+) {
     val viewModel: GroupViewModel = viewModel()
-    var userGroups by remember { mutableStateOf<List<UserGroup>>(emptyList()) }
+
+    var lists by remember { mutableStateOf<List<ShoppingList>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    var searchQuery by remember { mutableStateOf("") }
-    var isSearchVisible by remember { mutableStateOf(false) }
-
-    // Chamada ao backend
-    LaunchedEffect(Unit) {
-        viewModel.getUserGroups(userId) { result, error ->
+    LaunchedEffect(groupId) {
+        viewModel.getGroupLists(groupId) { result, error ->
             if (error != null) errorMessage = error
-            else userGroups = result ?: emptyList()
+            else lists = result ?: emptyList()
             isLoading = false
         }
     }
 
-    // lista filtrada para pesquisa
-    val filteredUserGroups = remember(userGroups, searchQuery) {
-        if (searchQuery.isBlank()) userGroups
-        else userGroups.filter { it.name.contains(searchQuery, ignoreCase = true) }
-    }
-
     Scaffold(
-        topBar = { CoBuyTopBar("Os Meus Grupos", navController) },
-        containerColor = BackgroundLight
+        topBar = { CoBuyTopBar("Listas do Grupo", navController) },
+        containerColor = BackgroundLight,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    // TODO: navegar para a screen de criar nova lista
+                    // navController.navigate(NavPath.CreateList.withArgs(groupId))
+                },
+                containerColor = OrangePrimary
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Criar nova lista",
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
     ) { padding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -83,17 +90,17 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                     }
                 }
 
-                userGroups.isEmpty() -> {
+                lists.isEmpty() -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         Card(
                             shape = RoundedCornerShape(24.dp),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                             colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
+                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
                             ),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                             modifier = Modifier
                                 .padding(20.dp)
                                 .fillMaxWidth()
@@ -104,18 +111,17 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                                     .fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-
                                 Icon(
-                                    imageVector = Icons.Default.Groups,
+                                    imageVector = Icons.Filled.List,
                                     contentDescription = null,
-                                    tint = OrangePrimary.copy(alpha = 0.9f),
+                                    tint = OrangePrimary,
                                     modifier = Modifier.size(46.dp)
                                 )
 
                                 Spacer(modifier = Modifier.height(14.dp))
 
                                 Text(
-                                    text = "Não pertences a nenhum grupo",
+                                    text = "Ainda não tens listas neste grupo",
                                     style = MaterialTheme.typography.titleMedium.copy(
                                         color = TextDark,
                                         fontWeight = FontWeight.SemiBold,
@@ -127,7 +133,7 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                                 Spacer(modifier = Modifier.height(6.dp))
 
                                 Text(
-                                    text = "Cria ou junta-te a um grupo para começares!",
+                                    text = "Toca no ícone + para criares a primeira lista.",
                                     style = MaterialTheme.typography.bodyMedium.copy(
                                         color = TextDark.copy(alpha = 0.6f),
                                         fontSize = 14.sp
@@ -140,70 +146,13 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                 }
 
                 else -> {
-                    // 🔍 Lupa no canto direito
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 4.dp),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        IconButton(
-                            onClick = {
-                                isSearchVisible = !isSearchVisible
-                                if (!isSearchVisible) {
-                                    // ao fechar a barra, limpa a pesquisa
-                                    searchQuery = ""
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Pesquisar grupos",
-                                tint = OrangePrimary
-                            )
-                        }
-                    }
-
-                    // 🔍 Barra de pesquisa que aparece/desaparece
-                    AnimatedVisibility(visible = isSearchVisible) {
-                        OutlinedTextField(
-                            value = searchQuery,
-                            onValueChange = { searchQuery = it },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 12.dp),
-                            singleLine = true,
-                            shape = RoundedCornerShape(24.dp),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Pesquisar grupos"
-                                )
-                            },
-                            placeholder = {
-                                Text("Procurar grupo...")
-                            }
-                        )
-                    }
-
-                    // LISTA COM SCROLL
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 24.dp)
+                        contentPadding = PaddingValues(bottom = 96.dp) // espaço para o FAB
                     ) {
-                        items(filteredUserGroups) { ug ->
-
-                            val convertedGroup = Group(
-                                id = ug.id,
-                                name = ug.name,
-                                createdAt = null
-                            )
-
-                            GroupCard(
-                                group = convertedGroup,
-                                navController = navController
-                            )
+                        items(lists) { list ->
+                            ShoppingListCard(list = list)
                         }
                     }
                 }
@@ -212,9 +161,54 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
     }
 }
 
+@Composable
+fun ShoppingListCard(list: ShoppingList) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp),
+        shape = RoundedCornerShape(18.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    // ⚠️ TROCA "Lista" pelo campo correto do teu ShoppingList
+                    // por exemplo: list.title, list.listName, etc.
+                    text = "Lista",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = OrangePrimary,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+
+                list.createdAt?.let {
+                    Text(
+                        text = "Criada em: ${it.substring(0, 10)}",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = TextDark.copy(alpha = 0.7f),
+                            fontSize = 13.sp
+                        )
+                    )
+                }
+            }
+
+            // Aqui podes pôr mais ações (ver detalhes, etc.)
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun MyGroupsScreenPreview() {
+fun MyListsScreenPreview() {
     val nav = rememberNavController()
-    MyGroupsScreen(navController = nav, userId = 1)
+    MyListsScreen(navController = nav, groupId = 1)
 }

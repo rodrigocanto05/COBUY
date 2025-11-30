@@ -1,6 +1,7 @@
 package pt.iade.ei.cobuy.network.api
 
 import pt.iade.ei.cobuy.storage.model.Group
+import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
 import retrofit2.Response
 import retrofit2.http.*
@@ -15,7 +16,7 @@ interface GroupApi {
     @GET("api/groups/{id}")
     suspend fun getGroupById(@Path("id") id: Int): Response<Group>
 
-    @POST("api/groups/create")
+    @POST("api/groups")
     suspend fun createGroup(
         @Query("userId") userId: Int,
         @Body group: Group
@@ -31,6 +32,12 @@ interface GroupApi {
         @Path("code") code: String,
         @Query("userId") userId: Int
     ): Response<Group>
+
+    @GET("groups/{groupId}/lists")
+    suspend fun getGroupLists(
+        @Path("groupId") groupId: Int
+    ): retrofit2.Response<List<ShoppingList>>
+
 
     companion object {
         val service: GroupApi by lazy {

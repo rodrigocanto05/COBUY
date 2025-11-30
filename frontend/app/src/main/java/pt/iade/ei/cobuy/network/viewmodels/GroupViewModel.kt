@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.GroupApi
 import pt.iade.ei.cobuy.storage.model.Group
+import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
 
 class GroupViewModel : ViewModel() {
@@ -58,6 +59,29 @@ class GroupViewModel : ViewModel() {
                     onResult(null, "Erro ${response.code()}: ${response.message()}")
                 }
 
+            } catch (e: Exception) {
+                onResult(null, e.localizedMessage ?: "Erro desconhecido")
+            }
+        }
+    }
+
+    // ----------------------------------------------------------
+    // GET LISTS OF A GROUP
+    // ----------------------------------------------------------
+    fun getGroupLists(
+        groupId: Int,
+        onResult: (List<ShoppingList>?, String?) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = GroupApi.service.getGroupLists(groupId)
+
+                if (response.isSuccessful) {
+                    // se o body vier null, devolvemos lista vazia
+                    onResult(response.body() ?: emptyList(), null)
+                } else {
+                    onResult(null, "Erro ${response.code()}: ${response.message()}")
+                }
             } catch (e: Exception) {
                 onResult(null, e.localizedMessage ?: "Erro desconhecido")
             }
