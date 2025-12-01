@@ -1,13 +1,14 @@
 package pt.iade.ei.cobuy.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MyLocation
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,44 +24,35 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import pt.iade.ei.cobuy.network.viewmodels.MapViewModel
+import pt.iade.ei.cobuy.network.viewmodels.SavedPlaceViewModel
+import pt.iade.ei.cobuy.storage.model.Market
+import pt.iade.ei.cobuy.storage.model.SavedPlace
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
-import pt.iade.ei.cobuy.ui.theme.TextDark
-import pt.iade.ei.cobuy.ui.theme.TextLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
     navController: NavController,
-    viewModel: MapViewModel = viewModel()
+    viewModel: MapViewModel = viewModel(),
+    savedPlaceViewModel: SavedPlaceViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    val iade = LatLng(38.78167, -9.10239)
+    // ➤ Estado para quando o user clica num supermercado
+    var selectedMarket by remember { mutableStateOf<Market?>(null) }
 
+    val iade = LatLng(38.78167, -9.10239)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(iade, 14f)
     }
 
     Scaffold(
-        topBar = { CoBuyTopBar("Supermercados Próximos", navController = navController) },
+        topBar = { CoBuyTopBar("Supermercados Próximos", navController) },
         bottomBar = { CoBuyBottomBar(navController) },
-
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    cameraPositionState.position = CameraPosition.fromLatLngZoom(iade, 14f)
-                },
-                containerColor = OrangePrimary,
-                shape = CircleShape
-            ) {
-                Icon(Icons.Default.MyLocation, "Localizar", tint = TextLight)
-            }
-        },
-
         containerColor = Color.White
     ) { padding ->
 
@@ -72,26 +64,22 @@ fun MapScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text(
-                text = "Aqui serão exibidos os supermercados próximos",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = TextDark,
-                    fontSize = 15.sp
-                ),
-                modifier = Modifier.padding(vertical = 20.dp)
-            )
+            Spacer(Modifier.height(6.dp))
 
+            // ---------- MAPA ----------
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .shadow(4.dp, RoundedCornerShape(16.dp))
             ) {
-
                 GoogleMap(
                     modifier = Modifier.matchParentSize(),
                     cameraPositionState = cameraPositionState
                 ) {
-                    // IADE (vermelho)
+
+                    // IADE marker
                     Marker(
                         state = MarkerState(position = iade),
                         title = "IADE",
@@ -99,13 +87,16 @@ fun MapScreen(
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                     )
 
-                    // Supermercados – pino laranja
+                    // Supermercados
                     uiState.markets.forEach { market ->
                         Marker(
                             state = MarkerState(LatLng(market.lat, market.lng)),
                             title = market.name,
-                            snippet = "Supermercado próximo",
-                            icon = BitmapDescriptorFactory.defaultMarker(36f) // Laranja
+                            onClick = {
+                                selectedMarket = market
+                                true
+                            },
+                            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)
                         )
                     }
                 }
@@ -116,28 +107,63 @@ fun MapScreen(
                         color = OrangePrimary
                     )
                 }
+
+                // ---------- CARD DE GUARDAR ----------
+                selectedMarket?.let { market ->
+                    Card(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(12.dp)
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(8.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(market.name, fontSize = 18.sp)
+
+                            Spacer(Modifier.height(12.dp))
+
+                            Button(
+                                onClick = {
+                                    savedPlaceViewModel.save(
+                                        SavedPlace(
+                                            name = market.name,
+                                            lat = market.lat,
+                                            lng = market.lng
+                                        )
+                                    )
+                                    selectedMarket = null
+                                },
+                                colors = ButtonDefaults.buttonColors(OrangePrimary)
+                            ) {
+                                Text("Guardar nos Favoritos", color = Color.White)
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            TextButton(onClick = { selectedMarket = null }) {
+                                Text("Cancelar")
+                            }
+                        }
+                    }
+                }
             }
 
-            uiState.error?.let {
-                Text(
-                    text = it,
-                    color = Color.Red,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(4.dp)
-                )
-            }
+            Spacer(Modifier.height(20.dp))
 
-            PrimaryButton("Ver Locais Salvos") {
+            // ---------- BOTÃO PARA VER FAVORITOS ----------
+            PrimaryButton(
+                text = "Ver Supermercados Favoritos",
+                modifier = Modifier
+                    .fillMaxWidth(0.88f)
+            ) {
                 navController.navigate(NavPath.SavedLocations.route)
             }
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(14.dp))
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MapScreenPreview() {
-    MapScreen(navController = NavController(LocalContext.current))
 }
