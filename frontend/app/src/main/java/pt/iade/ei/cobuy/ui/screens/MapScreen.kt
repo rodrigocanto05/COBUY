@@ -1,6 +1,8 @@
 package pt.iade.ei.cobuy.ui.screens
 
-import androidx.compose.foundation.background
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -11,7 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,8 +44,11 @@ fun MapScreen(
     savedPlaceViewModel: SavedPlaceViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
 
-    // ➤ Estado para quando o user clica num supermercado
+    val context = LocalContext.current
+
+    // Mercado selecionado
     var selectedMarket by remember { mutableStateOf<Market?>(null) }
 
     val iade = LatLng(38.78167, -9.10239)
@@ -74,16 +80,16 @@ fun MapScreen(
                     .clip(RoundedCornerShape(16.dp))
                     .shadow(4.dp, RoundedCornerShape(16.dp))
             ) {
+
                 GoogleMap(
                     modifier = Modifier.matchParentSize(),
                     cameraPositionState = cameraPositionState
                 ) {
 
-                    // IADE marker
+                    // IADE
                     Marker(
                         state = MarkerState(position = iade),
                         title = "IADE",
-                        snippet = "Universidade Europeia",
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                     )
 
@@ -108,44 +114,106 @@ fun MapScreen(
                     )
                 }
 
-                // ---------- CARD DE GUARDAR ----------
+                // ---------- CARD FIXO ----------
                 selectedMarket?.let { market ->
                     Card(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .padding(12.dp)
+                            .padding(start = 16.dp, end = 16.dp, bottom = 140.dp)
                             .fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.cardElevation(8.dp)
+                        shape = RoundedCornerShape(18.dp),
+                        elevation = CardDefaults.cardElevation(10.dp)
                     ) {
+
                         Column(
-                            modifier = Modifier.padding(16.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(market.name, fontSize = 18.sp)
 
-                            Spacer(Modifier.height(12.dp))
+                            // Nome do supermercado
+                            Text(
+                                text = market.name,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Medium,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
 
+                            Spacer(Modifier.height(16.dp))
+
+                            // BOTÃO GUARDAR
                             Button(
                                 onClick = {
-                                    savedPlaceViewModel.save(
-                                        SavedPlace(
-                                            name = market.name,
-                                            lat = market.lat,
-                                            lng = market.lng
+                                    val exists = savedPlaces.any {
+                                        it.name == market.name &&
+                                                it.lat == market.lat &&
+                                                it.lng == market.lng
+                                    }
+
+                                    if (exists) {
+                                        Toast.makeText(
+                                            context,
+                                            "Este supermercado já está guardado.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        savedPlaceViewModel.save(
+                                            SavedPlace(
+                                                name = market.name,
+                                                lat = market.lat,
+                                                lng = market.lng
+                                            )
                                         )
-                                    )
+                                        Toast.makeText(
+                                            context,
+                                            "Adicionado aos favoritos!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
                                     selectedMarket = null
                                 },
-                                colors = ButtonDefaults.buttonColors(OrangePrimary)
+                                colors = ButtonDefaults.buttonColors(OrangePrimary),
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7f)
+                                    .height(50.dp),
+                                shape = RoundedCornerShape(30.dp)
                             ) {
                                 Text("Guardar nos Favoritos", color = Color.White)
                             }
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(Modifier.height(12.dp))
+
+                            // BOTÃO VER ROTAS
+                            Button(
+                                onClick = {
+                                    val uri = Uri.parse(
+                                        "google.navigation:q=${market.lat},${market.lng}"
+                                    )
+                                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                                    intent.setPackage("com.google.android.apps.maps")
+                                    context.startActivity(intent)
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7f)
+                                    .height(46.dp),
+                                colors = ButtonDefaults.buttonColors(Color(0xFF2F80ED)),
+                                shape = RoundedCornerShape(30.dp)
+                            ) {
+                                Text("Ver rotas", color = Color.White)
+                            }
+
+                            Spacer(Modifier.height(12.dp))
 
                             TextButton(onClick = { selectedMarket = null }) {
-                                Text("Cancelar")
+                                Text(
+                                    "Cancelar",
+                                    color = OrangePrimary,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
                             }
                         }
                     }
@@ -154,11 +222,10 @@ fun MapScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // ---------- BOTÃO PARA VER FAVORITOS ----------
+            // ---------- VER FAVORITOS ----------
             PrimaryButton(
                 text = "Ver Supermercados Favoritos",
-                modifier = Modifier
-                    .fillMaxWidth(0.88f)
+                modifier = Modifier.fillMaxWidth(0.88f)
             ) {
                 navController.navigate(NavPath.SavedLocations.route)
             }
