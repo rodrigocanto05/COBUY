@@ -60,7 +60,7 @@ fun appNavigation() {
             val groupName = backStackEntry.arguments?.getString("groupName") ?: ""
             val userId = 1 // TODO: trocar pelo user autenticado
 
-            MyListsScreen(
+            GroupListScreen(
                 navController = navController,
                 groupId = groupId,
                 groupName = groupName,

@@ -53,14 +53,19 @@ class GroupListsViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Cria uma nova lista neste grupo para o user indicado.
+     * A descrição é opcional (por enquanto não é enviada para a API).
+     */
     fun createList(
         groupId: Int,
         userId: Int,
         title: String,
-        description: String?, // este podes já remover
-        callback: (Boolean, String?) -> Unit
+        description: String? // ainda não usado na API, mas deixo para futuro
     ) {
         viewModelScope.launch {
+            uiState = uiState.copy(isLoading = true, error = null)
+
             try {
                 val body = CreateListRequest(
                     groupId = groupId,
@@ -73,18 +78,22 @@ class GroupListsViewModel : ViewModel() {
                 )
 
                 if (response.isSuccessful) {
+                    // Depois de criar, volta a carregar as listas para garantir sincronização
                     loadGroupLists(groupId, userId)
-                    callback(true, null)
                 } else {
-                    val msg = "Erro HTTP: ${response.code()}"
-                    callback(false, msg)
+                    uiState = uiState.copy(
+                        isLoading = false,
+                        error = "Erro HTTP: ${response.code()}"
+                    )
                 }
             } catch (e: Exception) {
-                callback(false, e.message ?: "Erro desconhecido")
+                uiState = uiState.copy(
+                    isLoading = false,
+                    error = e.message ?: "Erro desconhecido"
+                )
             }
         }
     }
-
 
     fun clearError() {
         uiState = uiState.copy(error = null)
