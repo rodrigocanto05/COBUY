@@ -24,8 +24,8 @@ public class GroupController {
     private final SecureRandom random = new SecureRandom();
 
     public GroupController(GroupRepository groupRepository,
-            MembershipRepository membershipRepository,
-            UserRepository userRepository) {
+                           MembershipRepository membershipRepository,
+                           UserRepository userRepository) {
         this.groupRepository = groupRepository;
         this.membershipRepository = membershipRepository;
         this.userRepository = userRepository;
@@ -42,6 +42,17 @@ public class GroupController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    // >>> NOVO ENDPOINT: lista de membros de um grupo <<<
+    @GetMapping("/{id}/members")
+public ResponseEntity<List<Membership>> getGroupMembers(@PathVariable Integer id) {
+    if (groupRepository.findById(id).isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    List<Membership> members = membershipRepository.findByGroupId(id);
+    return ResponseEntity.ok(members);
+}
 
     @GetMapping("/code/{code}")
     public ResponseEntity<Group> getGroupByCode(@PathVariable String code) {

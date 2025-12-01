@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.ui.navigation
 
+import android.net.Uri
 sealed class NavPath(val route: String) {
 
     object Login : NavPath("login")
@@ -26,8 +27,10 @@ sealed class NavPath(val route: String) {
     }
 
     object Recipes : NavPath("recipes")
-    object MyLists : NavPath("myLists/{groupId}") {
-        fun withArgs(groupId: Int) = "myLists/$groupId"
+    object MyLists : NavPath("myLists/{groupId}/{groupName}") {
+        fun withArgs(groupId: Int, groupName: String) =
+            "myLists/$groupId/${Uri.encode(groupName)}"
     }
+
 
 }

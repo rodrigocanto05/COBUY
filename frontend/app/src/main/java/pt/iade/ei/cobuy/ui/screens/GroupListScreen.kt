@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,9 +26,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.GroupListsViewModel
+import pt.iade.ei.cobuy.network.viewmodels.GroupMembersViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
-import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 
@@ -38,142 +37,110 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 fun MyListsScreen(
     navController: NavController,
     groupId: Int,
+    groupName: String,
     userId: Int,
-    viewModel: GroupListsViewModel = viewModel()
+    listsViewModel: GroupListsViewModel = viewModel(),
+    membersViewModel: GroupMembersViewModel = viewModel()
 ) {
-    val uiState = viewModel.uiState
-    var showCreateDialog by remember { mutableStateOf(false) }
+    val listsUiState = listsViewModel.uiState
+    val membersUiState = membersViewModel.uiState
 
+    var showCreateDialog by remember { mutableStateOf(false) }
+    var showMembersSheet by remember { mutableStateOf(false) }
+
+    // Carrega listas
     LaunchedEffect(groupId, userId) {
-        viewModel.loadGroupLists(groupId, userId)
+        listsViewModel.loadGroupLists(groupId, userId)
     }
 
     Scaffold(
-        topBar = { CoBuyTopBar("Listas do Grupo", navController) },
-        containerColor = BackgroundLight,
+        topBar = {
+            CoBuyTopBar(
+                title = groupName,
+                navController = navController,
+                actions = {
+                    TextButton(
+                        onClick = {
+                            showMembersSheet = !showMembersSheet
+                            membersViewModel.loadMembers(groupId)  // <--- FIX AQUI
+                        }
+                    ) {
+                        Text(
+                            text = "Membros",
+                            color = OrangePrimary,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+            )
+        },
+
+        // 🔥 Quando a sheet abrir -> esconder o botão de criar lista
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showCreateDialog = true },
-                containerColor = OrangePrimary,
-                shape = RoundedCornerShape(20.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Criar nova lista",
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
+            if (!showMembersSheet) {
+                FloatingActionButton(
+                    onClick = { showCreateDialog = true },
+                    containerColor = OrangePrimary,
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Criar nova lista",
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
         }
     ) { padding ->
 
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
 
-            when {
-                uiState.isLoading -> {
-                    Box(Modifier.fillMaxSize(), Alignment.Center) {
-                        CircularProgressIndicator(color = OrangePrimary)
+            // ----- Conteúdo das listas -----
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+            ) {
+                when {
+                    listsUiState.isLoading -> {
+                        Box(Modifier.fillMaxSize(), Alignment.Center) {
+                            CircularProgressIndicator(color = OrangePrimary)
+                        }
                     }
-                }
 
-                uiState.error != null -> {
-                    Box(Modifier.fillMaxSize(), Alignment.Center) {
-                        Text(
-                            text = "Erro: ${uiState.error}",
-                            color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.bodyLarge
-                        )
+                    listsUiState.error != null -> {
+                        Box(Modifier.fillMaxSize(), Alignment.Center) {
+                            Text(
+                                text = "Erro: ${listsUiState.error}",
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
                     }
-                }
 
-                uiState.lists.isEmpty() -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Card(
-                            shape = RoundedCornerShape(24.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
-                            ),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                            modifier = Modifier
-                                .padding(20.dp)
-                                .fillMaxWidth()
+                    else -> {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 96.dp)
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .padding(28.dp)
-                                    .fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.List,
-                                    contentDescription = null,
-                                    tint = OrangePrimary,
-                                    modifier = Modifier.size(46.dp)
-                                )
-
-                                Spacer(modifier = Modifier.height(14.dp))
-
-                                Text(
-                                    text = "Ainda não tens listas neste grupo",
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        color = TextDark,
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = 18.sp
-                                    ),
-                                    textAlign = TextAlign.Center
-                                )
-
-                                Spacer(modifier = Modifier.height(6.dp))
-
-                                Text(
-                                    text = "Toca no ícone + para criares a primeira lista.",
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        color = TextDark.copy(alpha = 0.6f),
-                                        fontSize = 14.sp
-                                    ),
-                                    textAlign = TextAlign.Center
-                                )
+                            items(listsUiState.lists) { list ->
+                                ShoppingListCard(list = list)
                             }
                         }
                     }
                 }
-
-                else -> {
-                    LazyVerticalGrid(
-                        // 2 colunas, todas as caixas com o mesmo tamanho
-                        columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 96.dp)
-                    ) {
-                        items(uiState.lists) { list ->
-                            ShoppingListCard(list = list)
-                        }
-                    }
-                }
             }
-        }
 
-        if (showCreateDialog) {
-            CreateListDialog(
-                onDismiss = { showCreateDialog = false },
-                onConfirm = { name, description ->
-                    viewModel.createList(
-                        groupId = groupId,
-                        userId = userId,
-                        title = name,
-                        description = description
-                    ) { _, _ -> }
-                    showCreateDialog = false
-                }
+            MembersSideSheet(
+                visible = showMembersSheet,
+                memberships = membersUiState.members,
+                onDismiss = { showMembersSheet = false }
             )
         }
     }
@@ -184,7 +151,7 @@ fun ShoppingListCard(list: ShoppingList) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1.1f), // mesma proporção para todas as cards
+            .aspectRatio(1.1f),
         shape = RoundedCornerShape(18.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -228,8 +195,8 @@ fun CreateListDialog(
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
-    val logoSize = 90.dp        // tamanho do card do logo
-    val overlap = 45.dp         // quanto o logo "entra" na aba
+    val logoSize = 90.dp
+    val overlap = 45.dp
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -244,7 +211,6 @@ fun CreateListDialog(
                 Box(
                     modifier = Modifier.fillMaxWidth(0.9f)
                 ) {
-                    // ---------- ABA PRINCIPAL, DESCIDA PARA DAR ESPAÇO AO LOGO ----------
                     Card(
                         shape = RoundedCornerShape(30.dp),
                         colors = CardDefaults.cardColors(
@@ -253,14 +219,14 @@ fun CreateListDialog(
                         elevation = CardDefaults.cardElevation(8.dp),
                         modifier = Modifier
                             .align(Alignment.TopCenter)
-                            .padding(top = overlap)   // aba desce 45dp
+                            .padding(top = overlap)
                             .fillMaxWidth()
                     ) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
-                                    top = 60.dp,   // 🔥 aumentei para não ficar por baixo do logo
+                                    top = 60.dp,
                                     start = 22.dp,
                                     end = 22.dp,
                                     bottom = 28.dp
@@ -290,7 +256,6 @@ fun CreateListDialog(
 
                             Spacer(modifier = Modifier.height(24.dp))
 
-                            // ----------- INPUT 1 ARREDONDADO ----------
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -315,7 +280,6 @@ fun CreateListDialog(
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            // ----------- INPUT 2 ARREDONDADO ----------
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -341,7 +305,6 @@ fun CreateListDialog(
                         }
                     }
 
-                    // ---------- BOTÃO X NO TOPO DA ABA ----------
                     TextButton(
                         onClick = onDismiss,
                         modifier = Modifier
@@ -357,11 +320,10 @@ fun CreateListDialog(
                         )
                     }
 
-                    // ---------- LOGO, MESMA COR DO FUNDO DA ABA ----------
                     Card(
                         shape = RoundedCornerShape(26.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color(0xFFFFE4C2)  // 🔥 igual ao fundo da aba
+                            containerColor = Color(0xFFFFE4C2)
                         ),
                         elevation = CardDefaults.cardElevation(12.dp),
                         modifier = Modifier
@@ -379,7 +341,6 @@ fun CreateListDialog(
 
                 Spacer(modifier = Modifier.height(28.dp))
 
-                // ---------- BOTÃO FORA DA ABA ----------
                 Button(
                     onClick = {
                         if (name.isNotBlank())
@@ -408,8 +369,6 @@ fun CreateListDialog(
     )
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
 fun MyListsScreenPreview() {
@@ -417,6 +376,7 @@ fun MyListsScreenPreview() {
     MyListsScreen(
         navController = nav,
         groupId = 1,
+        groupName = "Grupo Exemplo",
         userId = 1
     )
 }

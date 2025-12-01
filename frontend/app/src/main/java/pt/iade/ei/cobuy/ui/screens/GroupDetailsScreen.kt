@@ -28,3 +28,4 @@ fun GroupDetailScreen(navController: NavController, groupId: Int) {
         }
     }
 }
+

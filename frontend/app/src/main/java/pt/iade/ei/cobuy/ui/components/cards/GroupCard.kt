@@ -72,7 +72,10 @@ fun GroupCard(group: Group, navController: NavController) {
             Button(
                 onClick = {
                     navController.navigate(
-                        NavPath.MyLists.withArgs(group.id ?: 0)   // ⬅️ em vez de GroupDetail
+                        NavPath.MyLists.withArgs(
+                            group.id ?: 0,
+                            group.name              // 👈 passas o nome do grupo
+                        )
                     )
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = OrangePrimary),
@@ -81,7 +84,6 @@ fun GroupCard(group: Group, navController: NavController) {
             ) {
                 Text("Entrar", fontSize = 14.sp, color = TextLight)
             }
-
         }
     }
 }

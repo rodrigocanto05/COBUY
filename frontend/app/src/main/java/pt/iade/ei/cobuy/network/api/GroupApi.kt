@@ -1,6 +1,7 @@
 package pt.iade.ei.cobuy.network.api
 
 import pt.iade.ei.cobuy.storage.model.Group
+import pt.iade.ei.cobuy.storage.model.Membership
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
 import retrofit2.Response
@@ -46,6 +47,11 @@ interface GroupApi {
         @Query("userId") userId: Int,
         @Body body: CreateListRequest
     ): Response<ShoppingList>
+
+    @GET("api/groups/{groupId}/members")
+    suspend fun getGroupMembers(
+        @Path("groupId") groupId: Int
+    ): Response<List<Membership>>
 
 
 
