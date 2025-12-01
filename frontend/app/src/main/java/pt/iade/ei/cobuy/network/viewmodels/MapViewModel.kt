@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pt.iade.ei.cobuy.network.api.MapsRepository
-import pt.iade.ei.cobuy.network.api.Market
+import pt.iade.ei.cobuy.network.repository.MapsRepository
+import pt.iade.ei.cobuy.storage.model.Market
 data class MapUiState(
     val isLoading: Boolean = false,
     val markets: List<Market> = emptyList(),

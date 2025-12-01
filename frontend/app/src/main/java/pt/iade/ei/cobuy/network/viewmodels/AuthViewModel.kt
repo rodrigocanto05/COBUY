@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.*
+import pt.iade.ei.cobuy.network.repository.ProfileRepository
 import pt.iade.ei.cobuy.storage.model.User
 import pt.iade.ei.cobuy.storage.utils.TokenManager
 

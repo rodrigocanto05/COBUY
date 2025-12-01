@@ -1,6 +1,8 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.repository
 
 import pt.iade.ei.cobuy.network.api.ApiClient
+import pt.iade.ei.cobuy.network.api.GoogleApi
+import pt.iade.ei.cobuy.storage.model.Market
 
 class MapsRepository(
     private val api: GoogleApi = ApiClient.googleApi
@@ -11,7 +13,7 @@ class MapsRepository(
             location = "38.78167,-9.10239",
             radius = 10000,
             type = "supermarket",
-            key = GoogleApi.API_KEY
+            key = GoogleApi.Companion.API_KEY
         )
         return response.results.map {
             Market(

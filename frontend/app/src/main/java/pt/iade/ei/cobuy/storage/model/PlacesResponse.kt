@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.storage.model
 
 data class PlacesResponse(
     val results: List<PlaceResult>

@@ -70,20 +70,30 @@ class GroupViewModel : ViewModel() {
     // ----------------------------------------------------------
     fun getGroupLists(
         groupId: Int,
+        userId: Int,
         onResult: (List<ShoppingList>?, String?) -> Unit
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = GroupApi.service.getGroupLists(groupId)
+                val response = GroupApi.service.getGroupLists(groupId, userId)
 
                 if (response.isSuccessful) {
-                    // se o body vier null, devolvemos lista vazia
-                    onResult(response.body() ?: emptyList(), null)
+                    val body = response.body() ?: emptyList()
+                    withContext(Dispatchers.Main) {
+                        onResult(body, null)
+                    }
                 } else {
-                    onResult(null, "Erro ${response.code()}: ${response.message()}")
+                    withContext(Dispatchers.Main) {
+                        onResult(
+                            null,
+                            "Erro ${response.code()}: ${response.message()}"
+                        )
+                    }
                 }
             } catch (e: Exception) {
-                onResult(null, e.localizedMessage ?: "Erro desconhecido")
+                withContext(Dispatchers.Main) {
+                    onResult(null, e.localizedMessage ?: "Erro desconhecido")
+                }
             }
         }
     }

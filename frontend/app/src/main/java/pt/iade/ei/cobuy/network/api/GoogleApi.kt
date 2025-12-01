@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.network.api
 
+import pt.iade.ei.cobuy.storage.model.PlacesResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

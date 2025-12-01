@@ -18,6 +18,11 @@ import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
+import pt.iade.ei.cobuy.ui.theme.OrangePrimary
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,13 +35,13 @@ fun EditProfileScreen(
     val user by authViewModel.currentUser
 
     var name by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("M") }   // default
 
     // Preenche os campos com os dados do utilizador
     LaunchedEffect(user) {
         user?.let {
             name = it.name
-            gender = it.gender ?: ""
+            gender = it.gender ?: "M"
         }
     }
 
@@ -49,26 +54,48 @@ fun EditProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 32.dp, vertical = 40.dp),
+                .padding(horizontal = 32.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.Top
         ) {
 
-            CustomTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = "Nome"
-            )
+            Spacer(Modifier.height(8.dp))
 
-            CustomTextField(
-                value = gender,
-                onValueChange = { gender = it },
-                label = "Género"
-            )
+            // Campos de edição
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
 
-            PrimaryButton("Guardar Alterações") {
+                CustomTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = "Nome"
+                )
 
-                // Apenas atualiza nome e género
+                // ---- Género igual ao RegisterScreen ----
+                Text(
+                    text = "Género",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    color = OrangePrimary
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    GenderRadio("Masculino", gender, "M") { gender = it }
+                    GenderRadio("Feminino", gender, "F") { gender = it }
+                    GenderRadio("Outro", gender, "O") { gender = it }
+                }
+            }
+
+            Spacer(Modifier.height(32.dp))
+
+            PrimaryButton(text = "Guardar Alterações") {
+                // Mantém a lógica: atualiza apenas nome e género
                 authViewModel.updateUser(name, gender) { ok ->
                     if (ok) {
                         navController.popBackStack()

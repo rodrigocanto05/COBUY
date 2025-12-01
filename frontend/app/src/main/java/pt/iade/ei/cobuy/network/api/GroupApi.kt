@@ -5,8 +5,8 @@ import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
 import retrofit2.Response
 import retrofit2.http.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
+// CreateListRequest agora está no ficheiro CreateListRequest.kt
 
 interface GroupApi {
 
@@ -33,14 +33,24 @@ interface GroupApi {
         @Query("userId") userId: Int
     ): Response<Group>
 
-    @GET("groups/{groupId}/lists")
+    // Buscar listas de um grupo
+    @GET("api/lists/group/{groupId}")
     suspend fun getGroupLists(
-        @Path("groupId") groupId: Int
-    ): retrofit2.Response<List<ShoppingList>>
+        @Path("groupId") groupId: Int,
+        @Query("userId") userId: Int
+    ): Response<List<ShoppingList>>
 
+    // Criar lista num grupo
+    @POST("api/lists/group/{groupId}")
+    suspend fun createList(
+        @Path("groupId") groupId: Int,
+        @Query("userId") userId: Int,
+        @Body body: CreateListRequest
+    ): Response<ShoppingList>
 
     companion object {
         val service: GroupApi by lazy {
-            ApiClient.backendRetrofit.create(GroupApi::class.java)        }
+            ApiClient.backendRetrofit.create(GroupApi::class.java)
+        }
     }
 }

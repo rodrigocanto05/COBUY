@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.viewmodels
+package pt.iade.ei.cobuy.network.repository
 
 import android.util.Log
 import pt.iade.ei.cobuy.network.api.ProfileApi

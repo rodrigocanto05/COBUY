@@ -1,7 +1,6 @@
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.Group;
-import com.cobuy.cobuybackend.model.Membership;
 import com.cobuy.cobuybackend.model.ShoppingList;
 import com.cobuy.cobuybackend.repository.GroupRepository;
 import com.cobuy.cobuybackend.repository.MembershipRepository;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lists")
+@RequestMapping("/api/lists")
 public class ShoppingListController {
 
     private final ShoppingListRepository shoppingListRepository;

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lists")
+@RequestMapping("/api/lists")
 public class ListItemController {
 
     private final ListItemRepository listItemRepository;

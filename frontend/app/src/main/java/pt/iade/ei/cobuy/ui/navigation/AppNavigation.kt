@@ -56,11 +56,15 @@ fun appNavigation() {
             )
         ) { backStackEntry ->
             val groupId = backStackEntry.arguments?.getInt("groupId") ?: 0
+            val userId = 1 // TODO: trocar pelo user autenticado
+
             MyListsScreen(
                 navController = navController,
-                groupId = groupId
+                groupId = groupId,
+                userId = userId
             )
         }
+
 
         // *************** RECIPES HOME ***************
         composable(NavPath.Recipes.route) {
