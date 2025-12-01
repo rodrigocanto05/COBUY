@@ -43,17 +43,6 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // >>> NOVO ENDPOINT: lista de membros de um grupo <<<
-    @GetMapping("/{id}/members")
-public ResponseEntity<List<Membership>> getGroupMembers(@PathVariable Integer id) {
-    if (groupRepository.findById(id).isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
-    List<Membership> members = membershipRepository.findByGroupId(id);
-    return ResponseEntity.ok(members);
-}
-
     @GetMapping("/code/{code}")
     public ResponseEntity<Group> getGroupByCode(@PathVariable String code) {
         return groupRepository.findByCode(code)
@@ -73,7 +62,7 @@ public ResponseEntity<List<Membership>> getGroupMembers(@PathVariable Integer id
         group.setName(groupBody.getName());
         group.setOwner(owner);
         group.setCreatedAt(LocalDateTime.now());
-        group.setCode(generateUniqueCode()); // <--- código gerado aqui
+        group.setCode(generateUniqueCode());
 
         Group savedGroup = groupRepository.save(group);
 

@@ -1,6 +1,6 @@
 package com.cobuy.cobuybackend.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,14 +13,25 @@ public class Membership {
     @Column(name = "mem_id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mem_usr_id", referencedColumnName = "usr_id")
-    @JsonManagedReference
+    @JsonIgnoreProperties({
+            "memberships",
+            "password",
+            "hibernateLazyInitializer",
+            "handler"
+    })
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mem_grp_id", referencedColumnName = "grp_id")
-    @JsonManagedReference
+    @JsonIgnoreProperties({
+            "memberships",
+            "lists",
+            "owner",
+            "hibernateLazyInitializer",
+            "handler"
+    })
     private Group group;
 
     @Column(name = "mem_role")
@@ -31,11 +42,15 @@ public class Membership {
 
     @PrePersist
     public void prePersist() {
-        if (joinedAt == null)
+        if (joinedAt == null) {
             joinedAt = LocalDateTime.now();
-        if (role == null)
+        }
+        if (role == null) {
             role = "member";
+        }
     }
+
+    // ---------- getters & setters ----------
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
