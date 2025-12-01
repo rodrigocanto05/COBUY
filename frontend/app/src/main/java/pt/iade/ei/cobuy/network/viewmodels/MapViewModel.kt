@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pt.iade.ei.cobuy.network.repository.MapsRepository
 import pt.iade.ei.cobuy.storage.model.Market
+
 data class MapUiState(
     val isLoading: Boolean = false,
     val markets: List<Market> = emptyList(),
@@ -32,10 +33,29 @@ class MapViewModel(
             try {
                 val markets = repository.getSupermarkets()
 
+                // 🔥 SUPER FILTRO — impede BP, Galp, Repsol, lojas não supermercado, etc.
+                val allowedKeywords = listOf(
+                    "lidl",
+                    "pingo",
+                    "continente",
+                    "auchan",
+                    "mercadona",
+                    "intermarch",
+                    "supercor",
+                    "spar",
+                    "mini preço",
+                    "minipreço"
+                )
+
+                val filtered = markets.filter { m ->
+                    val name = m.name.lowercase()
+                    allowedKeywords.any { key -> name.contains(key) }
+                }
+
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        markets = markets
+                        markets = filtered
                     )
                 }
 
