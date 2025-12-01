@@ -1,5 +1,6 @@
 package com.cobuy.cobuybackend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -14,10 +15,12 @@ public class Membership {
 
     @ManyToOne
     @JoinColumn(name = "mem_usr_id", referencedColumnName = "usr_id")
+    @JsonManagedReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "mem_grp_id", referencedColumnName = "grp_id")
+    @JsonManagedReference
     private Group group;
 
     @Column(name = "mem_role")
@@ -34,43 +37,18 @@ public class Membership {
             role = "member";
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public User getUser() {
-        return user;
-    }
+    public Group getGroup() { return group; }
+    public void setGroup(Group group) { this.group = group; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public LocalDateTime getJoinedAt() {
-        return joinedAt;
-    }
-
-    public void setJoinedAt(LocalDateTime joinedAt) {
-        this.joinedAt = joinedAt;
-    }
+    public LocalDateTime getJoinedAt() { return joinedAt; }
+    public void setJoinedAt(LocalDateTime joinedAt) { this.joinedAt = joinedAt; }
 }
