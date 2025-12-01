@@ -15,15 +15,23 @@ import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextLight
 
 @Composable
-fun PrimaryButton(text: String, onClick: () -> Unit) {
+fun PrimaryButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
-        shape = RoundedCornerShape(50.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = OrangePrimary),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(52.dp)
+        modifier = modifier.height(46.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = OrangePrimary,
+            contentColor = Color.White
+        ),
+        shape = RoundedCornerShape(12.dp)
     ) {
-        Text(text, color = TextLight, fontSize = 16.sp)
+        Text(
+            text = text,
+            fontSize = 16.sp
+        )
     }
 }
