@@ -709,6 +709,32 @@ Estes dados são utilizados pelo módulo de mapas da aplicação para facilitar 
 
 ---
 
+## 14. Autoavaliação do Projeto
+
+Ao longo do desenvolvimento do projeto **CoBuy**, o grupo conseguiu implementar a maior parte das funcionalidades previstas na proposta inicial. Destacam-se:
+
+- Sistema de autenticação e gestão de utilizadores;
+- Criação e gestão de grupos com diferentes funções (owner e member);
+- Listas de compras colaborativas, partilhadas entre os membros do grupo;
+- Integração com mapas para visualização de supermercados próximos;
+- Base de dados relacional completa, incluindo receitas, ingredientes e unidades;
+- Backend em Spring Boot com API REST estruturada;
+- Aplicação mobile desenvolvida em Kotlin com Jetpack Compose.
+
+### Funcionalidades não concluídas ou parcialmente implementadas
+
+(Por Fazer)
+
+Apesar disso, o núcleo funcional da aplicação encontra-se implementado e utilizável, cumprindo o objetivo de permitir a gestão colaborativa de listas de compras.
+
+### Alterações face à proposta inicial
+
+(Por fazer)
+
+### Dificuldades e aprendizagens
+
+(Por fazer)
+
 ## 14. Conclusão
 A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataforma colaborativa e inteligente**. O seu impacto pode ser sentido em três níveis:  
 
