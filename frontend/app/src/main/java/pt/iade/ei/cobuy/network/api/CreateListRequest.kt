@@ -1,5 +1,9 @@
 package pt.iade.ei.cobuy.network.api
+
+import com.google.gson.annotations.SerializedName
+
 data class CreateListRequest(
-    val title: String,
-    val description: String?
+    @SerializedName("group_id") val groupId: Int,
+    val title: String
 )
+

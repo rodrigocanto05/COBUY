@@ -41,12 +41,13 @@ interface GroupApi {
     ): Response<List<ShoppingList>>
 
     // Criar lista num grupo
-    @POST("api/lists/group/{groupId}")
+    @POST("api/lists")
     suspend fun createList(
-        @Path("groupId") groupId: Int,
         @Query("userId") userId: Int,
         @Body body: CreateListRequest
     ): Response<ShoppingList>
+
+
 
     companion object {
         val service: GroupApi by lazy {

@@ -53,31 +53,26 @@ class GroupListsViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Cria uma nova lista no grupo e volta a carregar as listas
-     */
     fun createList(
         groupId: Int,
         userId: Int,
         title: String,
-        description: String?,
+        description: String?, // este podes já remover
         callback: (Boolean, String?) -> Unit
     ) {
         viewModelScope.launch {
             try {
                 val body = CreateListRequest(
-                    title = title,
-                    description = description
+                    groupId = groupId,
+                    title = title
                 )
 
                 val response = GroupApi.service.createList(
-                    groupId = groupId,
                     userId = userId,
                     body = body
                 )
 
                 if (response.isSuccessful) {
-                    // depois de criar, voltamos a carregar as listas
                     loadGroupLists(groupId, userId)
                     callback(true, null)
                 } else {
@@ -89,6 +84,7 @@ class GroupListsViewModel : ViewModel() {
             }
         }
     }
+
 
     fun clearError() {
         uiState = uiState.copy(error = null)
