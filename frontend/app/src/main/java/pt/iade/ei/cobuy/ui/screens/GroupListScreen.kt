@@ -229,9 +229,8 @@ fun GroupMembersSideSheet(
 
 @Composable
 private fun MemberRow(membership: Membership) {
-    val user = membership.user
-    val displayName = user?.name ?: "Utilizador #${membership.id}"
-    val email = user?.email ?: ""
+    val displayName = membership?.name ?: "Utilizador #${membership.id}"
+    val email = membership?.email ?: ""
 
     val roleLabel = when (membership.role.lowercase()) {
         "owner" -> "Owner"

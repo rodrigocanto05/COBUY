@@ -8,6 +8,7 @@ import com.cobuy.cobuybackend.repository.GroupRepository;
 import com.cobuy.cobuybackend.repository.MembershipRepository;
 import com.cobuy.cobuybackend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping ("/api")
+@RequestMapping("/api")
 public class MembershipController {
 
     private final MembershipRepository membershipRepo;
@@ -23,22 +24,17 @@ public class MembershipController {
     private final UserRepository userRepo;
 
     public MembershipController(MembershipRepository membershipRepo,
-            GroupRepository groupRepo,
-            UserRepository userRepo) {
+                                GroupRepository groupRepo,
+                                UserRepository userRepo) {
         this.membershipRepo = membershipRepo;
         this.groupRepo = groupRepo;
         this.userRepo = userRepo;
     }
 
     // DTOs
-    public record GroupDTO(Integer id, String name, String role) {
-    }
-
-    public record MemberDTO(Integer id, String name, String email, String role) {
-    }
-
-    public record LeaveGroupRequest(Integer userId, Integer groupId) {
-    }
+    public record GroupDTO(Integer id, String name, String role) {}
+    public record MemberDTO(Integer id, String name, String email, String role) {}
+    public record LeaveGroupRequest(Integer userId, Integer groupId) {}
 
     @GetMapping("/users/{userId}/memberships")
     public ResponseEntity<?> getUserGroups(@PathVariable Integer userId) {
@@ -56,6 +52,7 @@ public class MembershipController {
 
         return ResponseEntity.ok(dto);
     }
+
 
     @GetMapping("/groups/{groupId}/members")
     public ResponseEntity<?> getMembers(@PathVariable Integer groupId) {
