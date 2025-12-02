@@ -14,6 +14,12 @@ public class Supermarket {
     @Column(name = "sup_name", nullable = false)
     private String name;
 
+    @Column(name = "sup_lat")
+    private Double lat;
+
+    @Column(name = "sup_lng")
+    private Double lng;
+
     public Integer getId() {
         return id;
     }
@@ -28,5 +34,21 @@ public class Supermarket {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 }

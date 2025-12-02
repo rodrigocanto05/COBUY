@@ -13,6 +13,7 @@ public class SavedPlace {
 
     @ManyToOne
     @JoinColumn(name = "sav_usr_id", referencedColumnName = "usr_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
 
     @ManyToOne
