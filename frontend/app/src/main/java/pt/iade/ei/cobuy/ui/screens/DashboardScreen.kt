@@ -29,6 +29,7 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel
 import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
 import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
+import pt.iade.ei.cobuy.network.viewmodels.SavedPlaceViewModel
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard
@@ -38,31 +39,39 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController, userId: Int = 1) {
+fun DashboardScreen(
+    navController: NavController,
+    userId: Int = 1,
+    savedPlaceViewModel: SavedPlaceViewModel = viewModel()
+) {
 
-    // ViewModels
+    // 🔥 ViewModels
     val groupViewModel: GroupViewModel = viewModel()
-    val authViewModel: AuthViewModel = viewModel(
-        factory = AuthViewModelFactory(LocalContext.current)
-    )
+    val authViewModel: AuthViewModel =
+        viewModel(factory = AuthViewModelFactory(LocalContext.current))
 
     val user by authViewModel.currentUser
 
+    // 🔥 Locais Salvos reais vindos do backend
+    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
+    val savedCount = savedPlaces.size
+
     var groupCount by remember { mutableStateOf(0) }
 
-    // Carrega info do user e dos grupos apenas 1 vez
+    // Carrega user + grupos + locais salvos
     LaunchedEffect(Unit) {
         authViewModel.loadUser()
+        savedPlaceViewModel.load()   // 👈 IMPORTANTE: carregar favoritos do backend
 
         groupViewModel.getUserGroups(userId) { result, error ->
             if (error == null) groupCount = result?.size ?: 0
         }
     }
 
-    // Obter primeiro nome
+    // Primeiro nome
     val firstName = user?.name?.substringBefore(" ") ?: "Utilizador"
 
-    // Obter iniciais (2 primeiras letras úteis)
+    // Iniciais
     val initials = user?.name
         ?.split(" ")
         ?.filter { it.isNotBlank() }
@@ -81,7 +90,7 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) {
                             .background(Color.White, RoundedCornerShape(12.dp))
                             .padding(horizontal = 10.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Groups,
                             contentDescription = "Grupos",
@@ -97,7 +106,9 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { navController.navigate(NavPath.Profile.route) }) {
+                    IconButton(onClick = {
+                        navController.navigate(NavPath.Profile.route)
+                    }) {
                         Box(
                             modifier = Modifier
                                 .size(32.dp)
@@ -120,9 +131,7 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) {
             )
         },
 
-        bottomBar = {
-            CoBuyBottomBar(navController)
-        }
+        bottomBar = { CoBuyBottomBar(navController) }
 
     ) { paddingValues ->
 
@@ -144,7 +153,7 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) {
                     .padding(bottom = 16.dp)
             )
 
-            // FRASE DE BOAS-VINDAS
+            // TEXTO BOAS-VINDAS
             Text(
                 text = "Bem-vindo, $firstName!",
                 fontWeight = FontWeight.Bold,
@@ -163,14 +172,14 @@ fun DashboardScreen(navController: NavController, userId: Int = 1) {
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            // STATUS
+            // 🔥 STATUS CARDS COM VALORES REAIS
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 StatusCard(title = "Grupos", value = groupCount.toString())
-                StatusCard(title = "Locais Salvos", value = "5")
+                StatusCard(title = "Locais Salvos", value = savedCount.toString())
             }
 
             Spacer(modifier = Modifier.height(48.dp))

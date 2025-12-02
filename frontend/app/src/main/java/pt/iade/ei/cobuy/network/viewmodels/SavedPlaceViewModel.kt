@@ -1,30 +1,41 @@
 package pt.iade.ei.cobuy.network.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.iade.ei.cobuy.network.repository.SavedPlacesRepository
 import pt.iade.ei.cobuy.storage.model.SavedPlace
 
-class SavedPlaceViewModel(application: Application) : AndroidViewModel(application) {
+class SavedPlaceViewModel(
+    private val repo: SavedPlacesRepository = SavedPlacesRepository()
+) : ViewModel() {
 
-    private val repository = SavedPlacesRepository(application)
+    private val _savedPlaces = MutableStateFlow<List<SavedPlace>>(emptyList())
+    val savedPlaces: StateFlow<List<SavedPlace>> = _savedPlaces
 
-    val savedPlaces = repository.getSavedPlaces()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+    init {
+        load()
+    }
 
-    fun save(place: SavedPlace) {
+    fun load() {
         viewModelScope.launch {
-            repository.save(place)
+            _savedPlaces.value = repo.getSavedPlaces()
         }
     }
 
-    fun remove(place: SavedPlace) {
+    fun save(supermarketId: Int) {
         viewModelScope.launch {
-            repository.remove(place)
+            repo.savePlace(supermarketId)
+            load()
+        }
+    }
+
+    fun remove(id: Int) {
+        viewModelScope.launch {
+            repo.deletePlace(id)
+            load()
         }
     }
 }

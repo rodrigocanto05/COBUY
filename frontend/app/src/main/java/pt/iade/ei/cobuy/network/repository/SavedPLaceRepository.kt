@@ -1,24 +1,39 @@
 package pt.iade.ei.cobuy.network.repository
 
-import android.content.Context
-import androidx.room.Room
-import kotlinx.coroutines.flow.Flow
-import pt.iade.ei.cobuy.storage.utils.SavedPlacesDatabase
+import pt.iade.ei.cobuy.network.api.ApiClient
+import pt.iade.ei.cobuy.network.api.SavePlaceRequest
+import pt.iade.ei.cobuy.network.api.SavedPlacesApi
 import pt.iade.ei.cobuy.storage.model.SavedPlace
 
-class SavedPlacesRepository(context: Context) {
+class SavedPlacesRepository(
+    private val api: SavedPlacesApi = ApiClient.savedPlacesApi
+) {
 
-    private val db = Room.databaseBuilder(
-        context,
-        SavedPlacesDatabase::class.java,
-        "saved_places.db"
-    ).build()
+    // 🔥 Buscar favoritos do backend
+    suspend fun getSavedPlaces(): List<SavedPlace> {
+        return api.getSavedPlaces().map { resp ->
+            SavedPlace(
+                id = resp.id,                          // ID do favorito
+                name = resp.supermarket.name,          // Nome do supermercado
+                lat = resp.supermarket.latitude,       // latitude do supermercado
+                lng = resp.supermarket.longitude       // longitude do supermercado
+            )
+        }
+    }
 
-    private val dao = db.savedPlacesDao()
+    suspend fun savePlace(supermarketId: Int): SavedPlace {
+        val resp = api.savePlace(SavePlaceRequest(supermarketId))
 
-    fun getSavedPlaces(): Flow<List<SavedPlace>> = dao.getAll()
+        return SavedPlace(
+            id = resp.id,
+            name = resp.supermarket.name,
+            lat = resp.supermarket.latitude,
+            lng = resp.supermarket.longitude
+        )
+    }
 
-    suspend fun save(place: SavedPlace) = dao.insert(place)
-
-    suspend fun remove(place: SavedPlace) = dao.delete(place)
+    // 🔥 Remover favorito
+    suspend fun deletePlace(id: Int) {
+        api.deletePlace(id)
+    }
 }

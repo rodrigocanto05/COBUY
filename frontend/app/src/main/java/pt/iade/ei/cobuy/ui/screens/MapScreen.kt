@@ -160,11 +160,7 @@ fun MapScreen(
                                         ).show()
                                     } else {
                                         savedPlaceViewModel.save(
-                                            SavedPlace(
-                                                name = market.name,
-                                                lat = market.lat,
-                                                lng = market.lng
-                                            )
+                                            supermarketId = market.id
                                         )
                                         Toast.makeText(
                                             context,
