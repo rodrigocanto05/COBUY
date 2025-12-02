@@ -13,7 +13,6 @@ class MapsRepository(
 
     suspend fun getSupermarkets(): List<Market> {
 
-        // 1️⃣ Buscar supermercados do Google
         val response = googleApi.getNearbySupermarkets(
             location = "38.78167,-9.10239",
             radius = 10000,
@@ -21,7 +20,6 @@ class MapsRepository(
             apiKey = GoogleApi.API_KEY
         )
 
-        // 2️⃣ Enviar cada mercado para o backend
         return response.results.map { result ->
 
             val req = ResolveMarketRequest(
@@ -30,10 +28,8 @@ class MapsRepository(
                 lng = result.geometry.location.lng
             )
 
-            // Chamar o backend corretamente com JSON
             val backendMarket = backendApi.resolveMarket(req)
 
-            // Converter para Market utilizado no app
             Market(
                 id = backendMarket.id,
                 name = backendMarket.name,

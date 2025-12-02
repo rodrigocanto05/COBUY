@@ -27,9 +27,9 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import pt.iade.ei.cobuy.network.viewmodels.MapViewModel
+import pt.iade.ei.cobuy.network.viewmodels.SaveResult
 import pt.iade.ei.cobuy.network.viewmodels.SavedPlaceViewModel
 import pt.iade.ei.cobuy.storage.model.Market
-import pt.iade.ei.cobuy.storage.model.SavedPlace
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -48,7 +48,6 @@ fun MapScreen(
 
     val context = LocalContext.current
 
-    // Mercado selecionado
     var selectedMarket by remember { mutableStateOf<Market?>(null) }
 
     val iade = LatLng(38.78167, -9.10239)
@@ -72,7 +71,7 @@ fun MapScreen(
 
             Spacer(Modifier.height(6.dp))
 
-            // ---------- MAPA ----------
+            // MAPA
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -80,20 +79,17 @@ fun MapScreen(
                     .clip(RoundedCornerShape(16.dp))
                     .shadow(4.dp, RoundedCornerShape(16.dp))
             ) {
-
                 GoogleMap(
                     modifier = Modifier.matchParentSize(),
                     cameraPositionState = cameraPositionState
                 ) {
 
-                    // IADE
                     Marker(
                         state = MarkerState(position = iade),
                         title = "IADE",
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                     )
 
-                    // Supermercados
                     uiState.markets.forEach { market ->
                         Marker(
                             state = MarkerState(LatLng(market.lat, market.lng)),
@@ -114,7 +110,7 @@ fun MapScreen(
                     )
                 }
 
-                // ---------- CARD FIXO ----------
+                // CARD FIXO
                 selectedMarket?.let { market ->
                     Card(
                         modifier = Modifier
@@ -132,41 +128,27 @@ fun MapScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
-                            // Nome do supermercado
                             Text(
                                 text = market.name,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Medium,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
+                                textAlign = TextAlign.Center
                             )
 
                             Spacer(Modifier.height(16.dp))
 
-                            // BOTÃO GUARDAR
+                            // BOTÃO GUARDAR (NOVO)
                             Button(
                                 onClick = {
-                                    val exists = savedPlaces.any {
-                                        it.name == market.name &&
-                                                it.lat == market.lat &&
-                                                it.lng == market.lng
-                                    }
+                                    savedPlaceViewModel.save(market.id) { result ->
 
-                                    if (exists) {
-                                        Toast.makeText(
-                                            context,
-                                            "Este supermercado já está guardado.",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        savedPlaceViewModel.save(
-                                            supermarketId = market.id
-                                        )
-                                        Toast.makeText(
-                                            context,
-                                            "Adicionado aos favoritos!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        val message = when (result) {
+                                            SaveResult.ADDED -> "Adicionado aos favoritos!"
+                                            SaveResult.ALREADY_EXISTS -> "Este supermercado já está nos Locais Salvos."
+                                            SaveResult.ERROR -> "Erro ao guardar supermercado."
+                                        }
+
+                                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                                     }
 
                                     selectedMarket = null
@@ -182,7 +164,7 @@ fun MapScreen(
 
                             Spacer(Modifier.height(12.dp))
 
-                            // BOTÃO VER ROTAS
+                            // Ver rotas
                             Button(
                                 onClick = {
                                     val uri = Uri.parse(
@@ -207,8 +189,7 @@ fun MapScreen(
                                 Text(
                                     "Cancelar",
                                     color = OrangePrimary,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.fillMaxWidth()
+                                    textAlign = TextAlign.Center
                                 )
                             }
                         }
@@ -218,9 +199,8 @@ fun MapScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // ---------- VER FAVORITOS ----------
             PrimaryButton(
-                text = "Ver Supermercados Favoritos",
+                text = "Ver Locais Salvos",
                 modifier = Modifier.fillMaxWidth(0.88f)
             ) {
                 navController.navigate(NavPath.SavedLocations.route)
