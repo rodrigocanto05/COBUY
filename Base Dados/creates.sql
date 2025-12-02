@@ -86,10 +86,12 @@ create table unit (
     primary key (uni_id)
 );
 
-create table supermarkets (
-    sup_id       int not null auto_increment,
-    sup_name     varchar(120) not null,               
-    primary key (sup_id)
+CREATE TABLE supermarkets (
+    sup_id   INT NOT NULL AUTO_INCREMENT,
+    sup_name VARCHAR(120) NOT NULL,
+    sup_lat  DOUBLE NULL,
+    sup_lng  DOUBLE NULL,
+    PRIMARY KEY (sup_id)
 );
 
 create table saved_places (

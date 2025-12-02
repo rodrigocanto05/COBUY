@@ -513,16 +513,20 @@ insert into recipe_ingredients (rgi_rec_id, rgi_ing_id, rgi_qty, rgi_unit_id) va
 
 #supermarkets
 
-insert into supermarkets (sup_name) values ('Lidl Montijo Retail Park');            # sup_id = 1
-insert into supermarkets (sup_name) values ('Continente Montijo Alegro');           # sup_id = 2
-insert into supermarkets (sup_name) values ('Pingo Doce Montijo Centro');           # sup_id = 3
-insert into supermarkets (sup_name) values ('Mercadona Montijo');                   # sup_id = 4
-insert into supermarkets (sup_name) values ('Aldi Montijo');                        # sup_id = 5
-insert into supermarkets (sup_name) values ('Minipreço Bairro Afonso');             # sup_id = 6
-insert into supermarkets (sup_name) values ('Intermarché Montijo');                 # sup_id = 7
-insert into supermarkets (sup_name) values ('Lidl Barreiro');                       # sup_id = 8
-insert into supermarkets (sup_name) values ('Continente Modelo Baixa da Banheira'); # sup_id = 9
-insert into supermarkets (sup_name) values ('Pingo Doce Baixa da Banheira');        # sup_id = 10
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Pingo Doce', 38.7481278, -9.1404258);   # sup_id = 1
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Lidl Loures Moscavide', 38.78046999999999, -9.104049999999999);   # sup_id = 2
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Pingo Doce Moscavide - Jardins de Cristo Rei', 38.77552899999999, -9.109871199999999);   # sup_id = 3
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Intermarché Sacavém', 38.7905701, -9.102083);   # sup_id = 4
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Continente Bom Dia Sacavém', 38.790213, -9.1069358);   # sup_id = 5
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Lidl Loures Portela', 38.78506, -9.11669);   # sup_id = 6
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Continente', 38.767721, -9.0968531);   # sup_id = 7
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Minipreço', 38.7903225, -9.121172399999999);   # sup_id = 8
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Lidl Loures Sacavém', 38.789602, -9.117469999999999);   # sup_id = 9
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Pingo Doce Parque das Nações Sul', 38.75860149999999, -9.097623500000001);   # sup_id = 10
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Lidl Lisboa Av. Infante D.Henrique', 38.75747, -9.10347);   # sup_id = 11
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Minipreço Market', 38.7594417, -9.124851699999998);   # sup_id = 12
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Pingo Doce Camarate', 38.79322389999999, -9.137814599999999);   # sup_id = 13
+insert into supermarkets (sup_name, sup_lat, sup_lng) values ('Pingo Doce Bela Vista - Hiper', 38.74972350000001, -9.1177561);   # sup_id = 14
 
 
 #saved_places
