@@ -117,10 +117,14 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `supermarkets`
-| Atributo | Tipo de dado | Tamanho | Restrição      | Descrição            |
-| -------- | ------------ | ------- | -------------- | -------------------- |
-| sup_id   | inteiro      | —       | Chave primária | Identificador        |
-| sup_name | alfanumérico | 120     | Obrigatório    | Nome do supermercado |
+| Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                 |
+| -------- | ------------ | ------- | -------------- | ------------------------- |
+| sup_id   | inteiro      | —       | Chave primária | Identificador             |
+| sup_name | alfanumérico | 120     | Obrigatório    | Nome do supermercado      |
+| sup_lat  |  double      | -       | Opcional       | Latitude do supermercado  |
+| sup_lng  |  double      | -       | Opcional       | Longitude do supermercado |
+
+
 
 
 ## Tabela: `saved_places`
