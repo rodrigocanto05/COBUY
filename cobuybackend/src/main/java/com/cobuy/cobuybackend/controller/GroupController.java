@@ -1,5 +1,6 @@
 package com.cobuy.cobuybackend.controller;
 
+import com.cobuy.cobuybackend.dto.UserGroupDTO;
 import com.cobuy.cobuybackend.model.Group;
 import com.cobuy.cobuybackend.model.Membership;
 import com.cobuy.cobuybackend.model.User;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -49,6 +51,29 @@ public class GroupController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    // *********** NOVO ENDPOINT: grupos de um user ***********
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getGroupsByUser(@PathVariable Integer userId) {
+
+        if (!userRepository.existsById(userId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Utilizador não encontrado");
+        }
+
+        var memberships = membershipRepository.findByUserId(userId);
+
+        var result = memberships.stream()
+                .map(m -> new UserGroupDTO(
+                        m.getGroup().getId(),
+                        m.getGroup().getName(),
+                        m.getRole()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
+    // ********************************************************
 
     @PostMapping
     public ResponseEntity<?> createGroup(

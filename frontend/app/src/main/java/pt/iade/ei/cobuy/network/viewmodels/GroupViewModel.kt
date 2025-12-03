@@ -43,24 +43,48 @@ class GroupViewModel : ViewModel() {
     }
 
     // ----------------------------------------------------------
-    // GET USER GROUPS
+    // GET USER GROUPS  ->  GET /api/groups/user/{userId}
     // ----------------------------------------------------------
     fun getUserGroups(
-        userId: Int,
         onResult: (List<UserGroup>?, String?) -> Unit
     ) {
-        viewModelScope.launch {
+        val userId = SessionManager.currentUserId
+        if (userId == null || userId <= 0) {
+            onResult(null, "Utilizador não autenticado (id inválido)")
+            return
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
             try {
+                Log.d("GROUPS", "A buscar grupos do utilizador $userId")
+
                 val response = GroupApi.service.getUserGroups(userId)
 
                 if (response.isSuccessful) {
-                    onResult(response.body(), null)
+                    val body = response.body() ?: emptyList()
+                    Log.d(
+                        "GROUPS",
+                        "Resposta OK (${response.code()}), recebidos ${body.size} grupos"
+                    )
+
+                    withContext(Dispatchers.Main) {
+                        onResult(body, null)
+                    }
                 } else {
-                    onResult(null, "Erro ${response.code()}: ${response.message()}")
+                    val errorBody = response.errorBody()?.string()
+                    val msg = "Erro ${response.code()}: $errorBody"
+                    Log.e("GROUPS", msg)
+
+                    withContext(Dispatchers.Main) {
+                        onResult(null, msg)
+                    }
                 }
 
             } catch (e: Exception) {
-                onResult(null, e.localizedMessage ?: "Erro desconhecido")
+                Log.e("GROUPS", "Excepção ao buscar grupos", e)
+                withContext(Dispatchers.Main) {
+                    onResult(null, e.localizedMessage ?: "Erro desconhecido")
+                }
             }
         }
     }
@@ -106,18 +130,24 @@ class GroupViewModel : ViewModel() {
         userId: Int,
         callback: (Group?, String?) -> Unit
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = GroupApi.service.joinGroup(code, userId)
 
                 if (response.isSuccessful) {
-                    callback(response.body(), null)
+                    withContext(Dispatchers.Main) {
+                        callback(response.body(), null)
+                    }
                 } else {
-                    callback(null, "Código inválido ou já estás no grupo")
+                    withContext(Dispatchers.Main) {
+                        callback(null, "Código inválido ou já estás no grupo")
+                    }
                 }
 
             } catch (e: Exception) {
-                callback(null, e.message ?: "Erro desconhecido")
+                withContext(Dispatchers.Main) {
+                    callback(null, e.message ?: "Erro desconhecido")
+                }
             }
         }
     }

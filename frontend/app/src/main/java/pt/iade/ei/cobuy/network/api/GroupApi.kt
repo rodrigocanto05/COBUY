@@ -1,13 +1,12 @@
 package pt.iade.ei.cobuy.network.api
 
+import pt.iade.ei.cobuy.network.viewmodels.SessionManager
 import pt.iade.ei.cobuy.storage.model.Group
 import pt.iade.ei.cobuy.storage.model.Membership
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
 import retrofit2.Response
 import retrofit2.http.*
-
-// CreateListRequest agora está no ficheiro CreateListRequest.kt
 
 interface GroupApi {
 
@@ -17,43 +16,59 @@ interface GroupApi {
     @GET("api/groups/{id}")
     suspend fun getGroupById(@Path("id") id: Int): Response<Group>
 
-    @POST("api/groups")
-    suspend fun createGroup(
-        @Query("userId") userId: Int,
-        @Body group: Group
-    ): Response<Group>
+    // ---------- GRUPOS DO UTILIZADOR ----------
 
-    @GET("api/users/{userId}/memberships")
+    @GET("api/groups/user/{userId}")
     suspend fun getUserGroups(
         @Path("userId") userId: Int
     ): Response<List<UserGroup>>
 
+    // ---------- CRIAR GRUPO ----------
+
+    @POST("api/groups")
+    suspend fun createGroup(
+        @Query("userId") userId: Int =
+            SessionManager.currentUserId
+                ?: error("User não definido em SessionManager"),
+        @Body group: Group
+    ): Response<Group>
+
+    // ---------- ENTRAR EM GRUPO POR CÓDIGO ----------
+
     @POST("api/groups/join/{code}")
     suspend fun joinGroup(
         @Path("code") code: String,
-        @Query("userId") userId: Int
+        @Query("userId") userId: Int =
+            SessionManager.currentUserId
+                ?: error("User não definido em SessionManager")
     ): Response<Group>
 
-    // Buscar listas de um grupo
+    // ---------- LISTAS DE UM GRUPO ----------
+
     @GET("api/lists/group/{groupId}")
     suspend fun getGroupLists(
         @Path("groupId") groupId: Int,
-        @Query("userId") userId: Int
+        @Query("userId") userId: Int =
+            SessionManager.currentUserId
+                ?: error("User não definido em SessionManager")
     ): Response<List<ShoppingList>>
 
-    // Criar lista num grupo
+    // ---------- CRIAR LISTA ----------
+
     @POST("api/lists")
     suspend fun createList(
-        @Query("userId") userId: Int,
+        @Query("userId") userId: Int =
+            SessionManager.currentUserId
+                ?: error("User não definido em SessionManager"),
         @Body body: CreateListRequest
     ): Response<ShoppingList>
+
+    // ---------- MEMBROS DO GRUPO ----------
 
     @GET("api/groups/{groupId}/members")
     suspend fun getGroupMembers(
         @Path("groupId") groupId: Int
     ): Response<List<Membership>>
-
-
 
     companion object {
         val service: GroupApi by lazy {

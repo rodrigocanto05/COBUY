@@ -41,14 +41,12 @@ fun MembersSideSheet(
     var sheetWidth by remember { mutableStateOf(0f) }
     var offsetX by remember { mutableStateOf(0f) } // 0 = aberto, sheetWidth = totalmente escondido
 
-    // animação suave para qualquer mudança de offsetX
     val animatedOffsetX by animateFloatAsState(
         targetValue = offsetX,
         animationSpec = tween(durationMillis = 180),
         label = "membersSheetOffset"
     )
 
-    // sempre que a sheet abre, garantimos que começa encostada (offset 0)
     LaunchedEffect(visible) {
         if (visible) {
             offsetX = 0f
@@ -59,7 +57,6 @@ fun MembersSideSheet(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.CenterEnd
     ) {
-        // Fundo escurecido
         AnimatedVisibility(
             visible = visible,
             enter = fadeIn(animationSpec = tween(200)),
@@ -73,7 +70,6 @@ fun MembersSideSheet(
             )
         }
 
-        // Aba lateral
         AnimatedVisibility(
             visible = visible,
             enter = slideInHorizontally(
@@ -97,7 +93,6 @@ fun MembersSideSheet(
                         orientation = Orientation.Horizontal,
                         state = rememberDraggableState { delta ->
                             if (sheetWidth > 0f) {
-                                // arrastar para a direita aumenta o offset
                                 val newOffset = (offsetX + delta)
                                     .coerceIn(0f, sheetWidth)
                                 offsetX = newOffset
@@ -110,16 +105,14 @@ fun MembersSideSheet(
                                 offsetX > sheetWidth * 0.3f || velocity > 1500f
 
                             if (shouldDismiss) {
-                                // anima até sair todo e fecha
                                 offsetX = sheetWidth
                                 onDismiss()
                             } else {
-                                // volta a encostar
                                 offsetX = 0f
                             }
                         }
                     )
-                    .background(Color.White) // mesma cor da TopBar
+                    .background(Color.White)
                     .align(Alignment.CenterEnd)
             ) {
                 Column(
@@ -138,7 +131,6 @@ fun MembersSideSheet(
                     Divider()
                     Spacer(Modifier.height(8.dp))
 
-                    // Lista de membros ou mensagem de vazio
                     if (memberships.isEmpty()) {
                         Box(
                             modifier = Modifier

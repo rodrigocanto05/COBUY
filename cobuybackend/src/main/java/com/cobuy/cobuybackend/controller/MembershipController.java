@@ -36,46 +36,49 @@ public class MembershipController {
     public record MemberDTO(Integer id, String name, String email, String role) {}
     public record LeaveGroupRequest(Integer userId, Integer groupId) {}
 
-    @GetMapping("/users/{userId}/memberships")
-    public ResponseEntity<?> getUserGroups(@PathVariable Integer userId) {
-        if (!userRepo.existsById(userId))
-            return ResponseEntity.notFound().build();
+    @Transactional(readOnly = true)
+@GetMapping("/users/{userId}/memberships")
+public ResponseEntity<List<GroupDTO>> getUserGroups(@PathVariable Integer userId) {
 
-        List<Membership> memberships = membershipRepo.findByUserId(userId);
+    List<Membership> memberships = membershipRepo.findByUserId(userId);
 
-        List<GroupDTO> dto = memberships.stream()
-                .map(m -> new GroupDTO(
-                        m.getGroup().getId(),
-                        m.getGroup().getName(),
-                        m.getRole()))
-                .collect(Collectors.toList());
+    List<GroupDTO> dto = memberships.stream()
+            .map(m -> new GroupDTO(
+                    m.getGroup().getId(),
+                    m.getGroup().getName(),
+                    m.getRole()
+            ))
+            .collect(Collectors.toList());
 
-        return ResponseEntity.ok(dto);
+    return ResponseEntity.ok(dto);
+}
+
+
+    @Transactional(readOnly = true)
+@GetMapping("/groups/{groupId}/members")
+public ResponseEntity<List<MemberDTO>> getMembers(@PathVariable Integer groupId) {
+
+    if (!groupRepo.existsById(groupId)) {
+        return ResponseEntity.notFound().build();
     }
+    List<Membership> memberships = membershipRepo.findByGroupId(groupId);
+    List<MemberDTO> dto = memberships.stream()
+            .filter(m -> m.getUser() != null)
+            .map(m -> new MemberDTO(
+                    m.getUser().getId(),
+                    m.getUser().getName(),
+                    m.getUser().getEmail(),
+                    m.getRole()
+            ))
+            .collect(Collectors.toList());
 
-
-    @GetMapping("/groups/{groupId}/members")
-    public ResponseEntity<?> getMembers(@PathVariable Integer groupId) {
-        if (!groupRepo.existsById(groupId))
-            return ResponseEntity.notFound().build();
-
-        List<Membership> memberships = membershipRepo.findByGroupId(groupId);
-
-        List<MemberDTO> dto = memberships.stream()
-                .map(m -> new MemberDTO(
-                        m.getUser().getId(),
-                        m.getUser().getName(),
-                        m.getUser().getEmail(),
-                        m.getRole()))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(dto);
-    }
+    return ResponseEntity.ok(dto);
+}
 
     @PostMapping("/memberships/{groupId}/add/{userId}")
     public ResponseEntity<?> addMember(@PathVariable Integer groupId,
-            @PathVariable Integer userId,
-            @RequestParam(defaultValue = "member") String role) {
+                                       @PathVariable Integer userId,
+                                       @RequestParam(defaultValue = "member") String role) {
         return ResponseEntity.status(403)
                 .body("Só se pode entrar num grupo através de código.");
     }
@@ -151,8 +154,8 @@ public class MembershipController {
 
     @DeleteMapping("/memberships/{groupId}/remove/{userId}")
     public ResponseEntity<?> remove(@PathVariable Integer groupId,
-            @PathVariable Integer userId,
-            @RequestParam Integer requesterId) {
+                                    @PathVariable Integer userId,
+                                    @RequestParam Integer requesterId) {
 
         var requesterMemOpt = membershipRepo.findByUserIdAndGroupId(requesterId, groupId);
         if (requesterMemOpt.isEmpty() ||

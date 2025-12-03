@@ -18,7 +18,7 @@ fun appNavigation() {
         startDestination = NavPath.Home.route
     ) {
 
-        // *************** MAIN SCREENS ***************
+        // *************** SCREENS ***************
         composable(NavPath.Home.route) { HomeScreen(navController) }
         composable(NavPath.Login.route) { LoginScreen(navController) }
         composable(NavPath.Register.route) { RegisterScreen(navController) }
@@ -28,16 +28,10 @@ fun appNavigation() {
         composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
         composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
         composable(NavPath.EditProfile.route) { EditProfileScreen(navController) }
-
-        // MyGroups recebe por agora userId fixo (ajustas depois com auth)
-        composable(NavPath.MyGroups.route) {
-            MyGroupsScreen(navController, userId = 1)
-        }
-
+        composable(NavPath.MyGroups.route) { MyGroupsScreen(navController) }
         composable(NavPath.SavedLocations.route) { SavedLocationsScreen(navController) }
         composable(NavPath.EditSettings.route) { EditSettingsScreen(navController) }
 
-        // *************** GROUP DETAIL ***************
         composable(
             route = "group_detail/{groupId}",
             arguments = listOf(
@@ -48,7 +42,6 @@ fun appNavigation() {
             GroupDetailScreen(navController, groupId)
         }
 
-        // *************** MY LISTS (LISTAS DO GRUPO) ***************
         composable(
             route = NavPath.MyLists.route,
             arguments = listOf(
@@ -64,18 +57,15 @@ fun appNavigation() {
                 navController = navController,
                 groupId = groupId,
                 groupName = groupName,
-                userId = userId
             )
         }
 
 
 
-        // *************** RECIPES HOME ***************
         composable(NavPath.Recipes.route) {
             RecipesScreen(navController)
         }
 
-        // *************** INDIVIDUAL RECIPE SCREENS ***************
         composable("massacarbonara") {
             MassaCarbonaraScreen(
                 navController = navController,

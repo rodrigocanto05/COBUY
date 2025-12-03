@@ -31,8 +31,9 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyGroupsScreen(navController: NavController, userId: Int) {
+fun MyGroupsScreen(navController: NavController) {
     val viewModel: GroupViewModel = viewModel()
+
     var userGroups by remember { mutableStateOf<List<UserGroup>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -40,11 +41,18 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
     var searchQuery by remember { mutableStateOf("") }
     var isSearchVisible by remember { mutableStateOf(false) }
 
-    // Chamada ao backend
+    // Chamada ao backend assim que o ecrã abre
     LaunchedEffect(Unit) {
-        viewModel.getUserGroups(userId) { result, error ->
-            if (error != null) errorMessage = error
-            else userGroups = result ?: emptyList()
+        isLoading = true
+
+        viewModel.getUserGroups { result, error ->
+            if (error != null) {
+                errorMessage = error
+                userGroups = emptyList()
+            } else {
+                userGroups = result ?: emptyList()
+                errorMessage = null
+            }
             isLoading = false
         }
     }
@@ -151,7 +159,6 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                             onClick = {
                                 isSearchVisible = !isSearchVisible
                                 if (!isSearchVisible) {
-                                    // ao fechar a barra, limpa a pesquisa
                                     searchQuery = ""
                                 }
                             }
@@ -164,7 +171,7 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
                         }
                     }
 
-                    // 🔍 Barra de pesquisa que aparece/desaparece
+                    // 🔍 Barra de pesquisa
                     AnimatedVisibility(visible = isSearchVisible) {
                         OutlinedTextField(
                             value = searchQuery,
@@ -216,5 +223,5 @@ fun MyGroupsScreen(navController: NavController, userId: Int) {
 @Composable
 fun MyGroupsScreenPreview() {
     val nav = rememberNavController()
-    MyGroupsScreen(navController = nav, userId = 1)
+    MyGroupsScreen(navController = nav)
 }

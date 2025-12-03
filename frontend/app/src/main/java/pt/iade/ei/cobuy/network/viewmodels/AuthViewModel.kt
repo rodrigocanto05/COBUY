@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.network.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
@@ -99,6 +100,9 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val user = repository.loadUser()
             _currentUser.value = user
+            SessionManager.currentUserId = user?.id
+
+            Log.d("AUTH", "Loaded user: id=${user?.id}, name=${user?.name}")
         }
     }
 

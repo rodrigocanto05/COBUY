@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
+import pt.iade.ei.cobuy.network.viewmodels.SessionManager
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -33,8 +34,8 @@ fun CreateGroupScreen(navController: NavController) {
     var generatedCode by remember { mutableStateOf(generateCode()) }
     var isLoading by remember { mutableStateOf(false) }
 
-    // 🔸 por agora hardcode (depois ligamos ao login)
-    val userId = 1
+    // em vez de userId = 1
+    val currentUserId = SessionManager.currentUserId
 
     Scaffold(
         topBar = { CoBuyTopBar("Criar Grupo", navController = navController) },
@@ -94,6 +95,17 @@ fun CreateGroupScreen(navController: NavController) {
                         return@PrimaryButton
                     }
 
+                    // se por algum motivo não houver user em sessão
+                    val userId = currentUserId
+                    if (userId == null) {
+                        Toast.makeText(
+                            context,
+                            "Erro: utilizador não definido. Faz login novamente.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@PrimaryButton
+                    }
+
                     isLoading = true
                     viewModel.createGroup(userId, groupName) { success, error ->
                         isLoading = false
@@ -106,7 +118,7 @@ fun CreateGroupScreen(navController: NavController) {
                             generatedCode = generateCode()
                             groupName = ""
 
-                            // se quiseres, navegar para MyGroups:
+                            // Aqui podes navegar para a lista de grupos se quiseres
                             // navController.popBackStack()
                             // navController.navigate(NavPath.MyGroups.route)
 
@@ -131,14 +143,13 @@ fun CreateGroupScreen(navController: NavController) {
         }
     }
 }
+
 private fun generateCode(): String {
     val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     return (1..5)
         .map { chars.random(Random(System.nanoTime())) }
         .joinToString("")
 }
-
-
 
 @Preview(showBackground = true)
 @Composable
