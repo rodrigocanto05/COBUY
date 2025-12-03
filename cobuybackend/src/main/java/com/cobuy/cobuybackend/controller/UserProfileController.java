@@ -21,7 +21,13 @@ public class UserProfileController {
 
     @GetMapping
     public ResponseEntity<?> getProfile(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(401).body("Não autenticado");
+        }
+
+        // Agora devolve também o ID
         return ResponseEntity.ok(new Object() {
+            public final Integer id = user.getId();
             public final String name = user.getName();
             public final String email = user.getEmail();
             public final String gender = user.getGender();
