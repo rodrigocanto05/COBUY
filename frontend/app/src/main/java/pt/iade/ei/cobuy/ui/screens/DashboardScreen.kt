@@ -38,32 +38,24 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController) {
+fun DashboardScreen(navController: NavController, userId: Int = 1) {
 
     // ViewModels
-    val context = LocalContext.current
     val groupViewModel: GroupViewModel = viewModel()
     val authViewModel: AuthViewModel = viewModel(
-        factory = AuthViewModelFactory(context)
+        factory = AuthViewModelFactory(LocalContext.current)
     )
 
     val user by authViewModel.currentUser
+
     var groupCount by remember { mutableStateOf(0) }
 
-    // 1) Carregar info do user (apenas 1 vez)
+    // Carrega info do user e dos grupos apenas 1 vez
     LaunchedEffect(Unit) {
         authViewModel.loadUser()
-    }
 
-    // 2) Quando o user estiver carregado, buscar os grupos desse user
-    LaunchedEffect(user?.id) {
-        val currentUser = user
-        if (currentUser != null) {
-            groupViewModel.getUserGroups { result, error ->
-                if (error == null) {
-                    groupCount = result?.size ?: 0
-                }
-            }
+        groupViewModel.getUserGroups(userId) { result, error ->
+            if (error == null) groupCount = result?.size ?: 0
         }
     }
 
@@ -89,7 +81,7 @@ fun DashboardScreen(navController: NavController) {
                             .background(Color.White, RoundedCornerShape(12.dp))
                             .padding(horizontal = 10.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    ){
                         Icon(
                             imageVector = Icons.Default.Groups,
                             contentDescription = "Grupos",
@@ -127,9 +119,11 @@ fun DashboardScreen(navController: NavController) {
                 )
             )
         },
+
         bottomBar = {
             CoBuyBottomBar(navController)
         }
+
     ) { paddingValues ->
 
         Column(

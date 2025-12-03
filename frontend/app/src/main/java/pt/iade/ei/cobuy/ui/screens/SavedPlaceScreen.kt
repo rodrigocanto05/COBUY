@@ -99,7 +99,7 @@ fun SavedLocationsScreen(navController: NavController) {
 
                             IconButton(
                                 onClick = {
-                                    viewModel.remove(place)
+                                    viewModel.remove(place.id)
                                     Toast.makeText(
                                         context,
                                         "Removido dos favoritos!",

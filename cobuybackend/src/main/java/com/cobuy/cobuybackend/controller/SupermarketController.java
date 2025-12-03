@@ -1,7 +1,9 @@
 package com.cobuy.cobuybackend.controller;
 
+import com.cobuy.cobuybackend.dto.ResolveSupermarketRequest;
 import com.cobuy.cobuybackend.model.Supermarket;
 import com.cobuy.cobuybackend.repository.SupermarketRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,28 +14,64 @@ import java.util.List;
 @RequestMapping("/supermarkets")
 public class SupermarketController {
 
-    private final SupermarketRepository repo;
+    private final SupermarketRepository supermarketRepository;
 
-    public SupermarketController(SupermarketRepository repo) {
-        this.repo = repo;
+    public SupermarketController(SupermarketRepository supermarketRepository) {
+        this.supermarketRepository = supermarketRepository;
     }
 
+    // --------------------------
+    // GET TODOS
+    // --------------------------
     @GetMapping
     public List<Supermarket> getAll() {
-        return repo.findAll();
+        return supermarketRepository.findAll();
     }
 
+    // --------------------------
+    // GET POR ID
+    // --------------------------
     @GetMapping("/{id}")
     public ResponseEntity<Supermarket> getOne(@PathVariable Integer id) {
-        return repo.findById(id)
+        return supermarketRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // --------------------------
+    // CREATE DIRETO
+    // --------------------------
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Supermarket market) {
-        Supermarket saved = repo.save(market);
+        Supermarket saved = supermarketRepository.save(market);
         return ResponseEntity.created(URI.create("/supermarkets/" + saved.getId()))
                 .body(saved);
+    }
+
+    // -------------------------------------------------------
+    // NOVO ENDPOINT — RESOLVE MARKET (cria OU devolve existente)
+    // -------------------------------------------------------
+    @PostMapping("/resolve")
+    public ResponseEntity<?> resolveMarket(@RequestBody ResolveSupermarketRequest req) {
+
+        if (req.lat == null || req.lng == null) {
+            return ResponseEntity.badRequest().body("Latitude e longitude são obrigatórias.");
+        }
+
+        // 1º — Verificar se já existe supermercado nessas coordenadas
+        var existing = supermarketRepository.findByCoordinates(req.lat, req.lng);
+        if (existing.isPresent()) {
+            return ResponseEntity.ok(existing.get());
+        }
+
+        // 2º — Não existe → criar novo
+        Supermarket newMarket = new Supermarket();
+        newMarket.setName(req.name != null ? req.name : "Supermercado");
+        newMarket.setLat(req.lat);
+        newMarket.setLng(req.lng);
+
+        Supermarket saved = supermarketRepository.save(newMarket);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 }
