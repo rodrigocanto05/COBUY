@@ -43,6 +43,22 @@ fun ProfileScreen(
         authViewModel.loadUser()
     }
 
+    ProfileScreenContent(
+        navController = navController,
+        userName = user?.name ?: "Sem nome disponível",
+        email = user?.email ?: "Sem email disponível",
+        gender = user?.gender ?: "Sem género disponível"
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileScreenContent(
+    navController: NavController,
+    userName: String,
+    email: String,
+    gender: String
+) {
     Scaffold(
         topBar = { CoBuyTopBar("Perfil", navController) },
         containerColor = BackgroundLight
@@ -72,8 +88,7 @@ fun ProfileScreen(
 
             // CARD
             Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(6.dp)
@@ -86,7 +101,7 @@ fun ProfileScreen(
                 ) {
 
                     Text(
-                        text = user?.name ?: "Sem nome disponível",
+                        text = userName,
                         style = MaterialTheme.typography.headlineSmall.copy(
                             color = OrangePrimary,
                             fontWeight = FontWeight.Bold,
@@ -97,12 +112,12 @@ fun ProfileScreen(
                     Spacer(Modifier.height(10.dp))
 
                     Text(
-                        text = "📧 ${user?.email ?: "Sem email disponível"}",
+                        text = "📧 $email",
                         style = MaterialTheme.typography.bodyLarge.copy(color = TextDark)
                     )
 
                     Text(
-                        text = "⚧ ${user?.gender ?: "Sem género disponível"}",
+                        text = "⚧ $gender",
                         style = MaterialTheme.typography.bodyLarge.copy(color = TextDark)
                     )
                 }
@@ -110,44 +125,40 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(32.dp))
 
-            // BOTÃO EDITAR PERFIL
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(0.75f)
-                ) {
-                    PrimaryButton(
-                        text = "Editar Perfil",
-                        onClick = { navController.navigate(NavPath.EditProfile.route) }
-                    )
-                }
-            }
+            // BOTÃO EDITAR PERFIL (75% largura, centrado)
+            PrimaryButton(
+                text = "Editar Perfil",
+                onClick = { navController.navigate(NavPath.EditProfile.route) },
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .align(Alignment.CenterHorizontally)
+            )
 
             Spacer(Modifier.height(16.dp))
 
-            // BOTÃO EDITAR DEFINIÇÕES
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(0.75f)
-                ) {
-                    CustomOutlinedButton(
-                        text = "Editar Email/Password",
-                        onClick = { navController.navigate(NavPath.EditSettings.route) }
-                    )
-                }
-            }
+            // BOTÃO EDITAR EMAIL/PASSWORD (75% largura, centrado)
+            CustomOutlinedButton(
+                text = "Editar Email/Password",
+                onClick = { navController.navigate(NavPath.EditSettings.route) },
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .align(Alignment.CenterHorizontally)
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            Spacer(Modifier.height(24.dp))
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(navController = rememberNavController())
+    ProfileScreenContent(
+        navController = rememberNavController(),
+        userName = "Rodrigo Canto",
+        email = "rodrigocanto@hotmail.com",
+        gender = "M"
+    )
 }

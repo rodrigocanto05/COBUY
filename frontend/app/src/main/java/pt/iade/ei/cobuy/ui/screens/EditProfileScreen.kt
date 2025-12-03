@@ -3,12 +3,15 @@ package pt.iade.ei.cobuy.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -19,10 +22,6 @@ import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +36,6 @@ fun EditProfileScreen(
     var name by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("M") }   // default
 
-    // Preenche os campos com os dados do utilizador
     LaunchedEffect(user) {
         user?.let {
             name = it.name
@@ -45,6 +43,33 @@ fun EditProfileScreen(
         }
     }
 
+    EditProfileScreenContent(
+        navController = navController,
+        name = name,
+        gender = gender,
+        onNameChange = { name = it },
+        onGenderChange = { gender = it },
+        onSave = {
+            // Mantém a lógica: atualiza apenas nome e género
+            authViewModel.updateUser(name, gender) { ok ->
+                if (ok) {
+                    navController.popBackStack()
+                }
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EditProfileScreenContent(
+    navController: NavController,
+    name: String,
+    gender: String,
+    onNameChange: (String) -> Unit,
+    onGenderChange: (String) -> Unit,
+    onSave: () -> Unit
+) {
     Scaffold(
         topBar = { CoBuyTopBar("Editar Perfil", navController) },
         containerColor = BackgroundLight
@@ -69,7 +94,7 @@ fun EditProfileScreen(
 
                 CustomTextField(
                     value = name,
-                    onValueChange = { name = it },
+                    onValueChange = onNameChange,
                     label = "Nome"
                 )
 
@@ -86,21 +111,16 @@ fun EditProfileScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    GenderRadio("Masculino", gender, "M") { gender = it }
-                    GenderRadio("Feminino", gender, "F") { gender = it }
-                    GenderRadio("Outro", gender, "O") { gender = it }
+                    GenderRadio("Masculino", gender, "M", onGenderChange)
+                    GenderRadio("Feminino", gender, "F", onGenderChange)
+                    GenderRadio("Outro", gender, "O", onGenderChange)
                 }
             }
 
             Spacer(Modifier.height(32.dp))
 
             PrimaryButton(text = "Guardar Alterações") {
-                // Mantém a lógica: atualiza apenas nome e género
-                authViewModel.updateUser(name, gender) { ok ->
-                    if (ok) {
-                        navController.popBackStack()
-                    }
-                }
+                onSave()
             }
         }
     }
@@ -109,5 +129,16 @@ fun EditProfileScreen(
 @Preview(showBackground = true)
 @Composable
 fun EditProfileScreenPreview() {
-    EditProfileScreen(navController = rememberNavController())
+    val navController = rememberNavController()
+    var name by remember { mutableStateOf("Marco Fonseca") }
+    var gender by remember { mutableStateOf("M") }
+
+    EditProfileScreenContent(
+        navController = navController,
+        name = name,
+        gender = gender,
+        onNameChange = { name = it },
+        onGenderChange = { gender = it },
+        onSave = { /* no-op no preview */ }
+    )
 }
