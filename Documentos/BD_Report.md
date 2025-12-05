@@ -8,20 +8,11 @@ A base de dados reflete os requisitos funcionais da aplicação, permitindo geri
 
 ### 1.1 Modelo Conceptual (MER)
 
-O sistema assenta nas seguintes entidades:
+O Modelo Entidade-Relação do sistema CoBuy organiza os dados essenciais para a gestão colaborativa de compras. O modelo estrutura-se em torno das entidades Users, Groups e Memberships, que permitem a associação de múltiplos utilizadores a múltiplos grupos. A gestão das compras é suportada pelas entidades Lists, List Items e Items, assegurando a criação e partilha de listas com itens reutilizáveis.
 
-- User
-- Groups
-- Memberships 
-- Lists
-- List Items
-- Items
-- Recipes
-- Recipe Ingredients
-- Ingredients
-- Unit
-- Supermarkets
-- Saved Places 
+As entidades Recipes, Ingredients, Recipe Ingredients e Unit permitem representar receitas e os respetivos ingredientes de forma estruturada, recorrendo a relações N:N normalizadas. Adicionalmente, Supermarkets e Saved Places armazenam locais de compra preferidos com informação geográfica.
+
+De forma geral, o MER garante coerência, normalização e suporte direto aos requisitos funcionais da aplicação, articulando utilizadores, grupos, listas, receitas e supermercados num modelo de dados consistente e escalável.
   
 #### Diagrama MER
 
@@ -126,10 +117,14 @@ O sistema assenta nas seguintes entidades:
 
 
 ## Tabela: `supermarkets`
-| Atributo | Tipo de dado | Tamanho | Restrição      | Descrição            |
-| -------- | ------------ | ------- | -------------- | -------------------- |
-| sup_id   | inteiro      | —       | Chave primária | Identificador        |
-| sup_name | alfanumérico | 120     | Obrigatório    | Nome do supermercado |
+| Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                 |
+| -------- | ------------ | ------- | -------------- | ------------------------- |
+| sup_id   | inteiro      | —       | Chave primária | Identificador             |
+| sup_name | alfanumérico | 120     | Obrigatório    | Nome do supermercado      |
+| sup_lat  |  double      | -       | Opcional       | Latitude do supermercado  |
+| sup_lng  |  double      | -       | Opcional       | Longitude do supermercado |
+
+
 
 
 ## Tabela: `saved_places`
