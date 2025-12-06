@@ -1,3 +1,5 @@
+-- Tables
+
 create table users (
     usr_id         int not null auto_increment,
     usr_name       varchar(80) not null,              #user name
@@ -178,3 +180,57 @@ alter table saved_places
 add constraint saved_places_fk_supermarket
 foreign key (sav_sup_id) references supermarkets(sup_id)
 ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Views
+
+-- view 1: membros de grupos
+create view membros_grupos as
+select users.usr_name,
+       users.usr_email,
+       groupss.grp_name,
+       memberships.mem_role
+from memberships
+join users on memberships.mem_usr_id = users.usr_id
+join groupss on memberships.mem_grp_id = groupss.grp_id;
+
+
+-- view 2: listas com itens
+create view listas_com_itens as
+select lists.lst_title,
+       items.it_name,
+       list_items.li_qty,
+       unit.uni_name
+from lists
+join list_items on lists.lst_id = list_items.li_lst_id
+join items on items.it_id = list_items.li_item_id
+join unit on unit.uni_id = list_items.li_unit_id;
+
+
+-- view 3: receitas com ingredientes
+create view receitas_com_ingredientes as
+select recipes.rec_name,
+       ingredients.ing_name,
+       recipe_ingredients.rgi_qty,
+       unit.uni_name
+from recipes
+join recipe_ingredients on recipes.rec_id = recipe_ingredients.rgi_rec_id
+join ingredients on ingredients.ing_id = recipe_ingredients.rgi_ing_id
+join unit on unit.uni_id = recipe_ingredients.rgi_unit_id;
+
+
+-- view 4: supermercados favoritos
+create view supermercados_favoritos as
+select users.usr_name,
+       supermarkets.sup_name
+from saved_places
+join users on saved_places.sav_usr_id = users.usr_id
+join supermarkets on saved_places.sav_sup_id = supermarkets.sup_id;
+
+
+-- view 5: itens mais usados
+create view itens_mais_usados as
+select items.it_name,
+       count(list_items.li_item_id) total_utilizacoes
+from items
+join list_items on items.it_id = list_items.li_item_id
+group by items.it_name;
