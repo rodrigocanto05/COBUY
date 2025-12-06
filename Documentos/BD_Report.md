@@ -136,7 +136,206 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 ### 1.3 Guia de Dados 
 
+## Introdução
+O Guia de Dados descreve a estrutura lógica da Base de Dados, explicando o propósito de cada tabela, as relações existentes e ilustrando exemplos reais de registos.
 
+### Tabela: `users`
+Armazena todos os utilizadores da aplicação.
+
+**Funções principais:**
+- Criar grupos
+- Participar em grupos
+- Adicionar itens a listas
+- Guardar supermercados favoritos
+
+#### Exemplos de registos
+
+| usr_id | usr_name       | usr_email                  | usr_gender | usr_created_at      |
+|--------|----------------|----------------------------|------------|---------------------|
+| 1      | Rodrigo Canto  | rodrigocanto@hotmail.com   | M          | 2025-10-20 00:00:00 |
+| 2      | Rodrigo Daibert| rodrigodaibert@hotmail.com | M          | 2025-10-22 00:00:00 |
+
+---
+
+### Tabela: `memberships`
+Associa utilizadores a grupos e define o respetivo papel.
+
+**Funções principais:**
+- Associar utilizadores a grupos
+- Definir papéis (owner, member)
+- Registar data de entrada
+
+#### Exemplos de registos
+
+| mem_id | mem_usr_id | mem_grp_id | mem_role | mem_joined_at       |
+|--------|------------|------------|----------|---------------------|
+| 1      | 1          | 1          | owner    | 2025-12-03 00:00:00 |
+| 2      | 2          | 1          | member   | 2025-12-03 00:00:00 |
+
+---
+
+### Tabela: `groupss`
+Representa grupos de utilizadores.
+
+**Funções principais:**
+- Organizar utilizadores
+- Permitir listas partilhadas
+- Definir um utilizador dono
+
+#### Exemplos de registos
+
+| grp_id | grp_name         | grp_code | grp_owner_usr_id | grp_created_at      |
+|--------|------------------|----------|------------------|---------------------|
+| 1      | IADE             | X9TPQ    | 1                | 2025-12-03 00:00:00 |
+| 2      | Colegas de casa  | M7K2A    | 2                | 2025-12-04 00:00:00 |
+
+---
+
+### Tabela: `lists`
+Guarda listas associadas a grupos.
+
+**Funções principais:**
+- Agrupar itens
+- Organizar compras
+
+#### Exemplos de registos
+
+| lst_id | lst_grp_id | lst_title                    | lst_created_at      |
+|--------|------------|------------------------------|---------------------|
+| 1      | 1          | Compras IADE - Semana 1      | 2025-12-03 00:00:00 |
+| 2      | 1          | Lanche Reunião de Projeto    | 2025-12-04 00:00:00 |
+
+---
+
+### Tabela: `list_items`
+Itens adicionados às listas, com quantidade e unidade.
+
+**Funções principais:**
+- Registar itens concretos dentro da lista
+- Identificar quem adicionou
+- Definir quantidade/unidade
+- Marcar como concluído
+
+#### Exemplos de registos
+
+| li_id | li_lst_id | li_item_id | li_usr_id | li_qty | li_unit_id | li_done |
+|-------|-----------|------------|-----------|--------|------------|---------|
+| 1     | 1         | 2          | 1         | 1.00   | 1          | 0       |
+| 2     | 1         | 1          | 2         | 2.00   | 1          | 0       |
+
+---
+
+### Tabela: `items`
+Itens genéricos utilizados em listas.
+
+**Funções principais:**
+- Definir item base
+- Associar unidade
+
+#### Exemplos de registos
+
+| it_id | it_name | it_unit_id |
+|-------|---------|------------|
+| 1     | Arroz   | 1          |
+| 2     | Massa   | 1          |
+
+---
+
+### Tabela: `recipes`
+Armazena receitas.
+
+**Funções principais:**
+- Criar receitas com ingredientes associados
+
+#### Exemplos de registos
+
+| rec_id | rec_name                            |
+|--------|--------------------------------------|
+| 1      | Massa Carbonara                      |
+| 2      | Frango Grelhado com Arroz            |
+
+---
+
+### Tabela: `ingredients`
+Ingredientes utilizados nas receitas.
+
+**Funções principais:**
+- Definir ingredientes base
+- Associar unidade
+
+#### Exemplos de registos
+
+| ing_id | ing_name          | ing_unit_id |
+|--------|-------------------|-------------|
+| 1      | Esparguete        | 1           |
+| 2      | Placas de lasanha | 5           |
+
+---
+
+### Tabela: `recipe_ingredients`
+Liga receitas a ingredientes com quantidades específicas.
+
+**Funções principais:**
+- Associar quantidade
+- Definir unidade utilizada
+
+#### Exemplos de registos
+
+| rgi_id | rgi_rec_id | rgi_ing_id | rgi_qty | rgi_unit_id |
+|--------|------------|------------|---------|-------------|
+| 1      | 1          | 1          | 0.40    | 1           |
+| 2      | 1          | 8          | 0.15    | 1           |
+
+---
+
+### Tabela: `unit`
+Tabela de unidades de medida.
+
+#### Exemplos de registos
+
+| uni_id | uni_name |
+|--------|----------|
+| 1      | kg       |
+| 2      | g        |
+
+---
+
+### Tabela: `supermarkets`
+Supermercados disponíveis com coordenadas GPS.
+
+**Funções principais:**
+- Identificar supermercados próximos
+- Permitir guardar favoritos
+
+#### Exemplos de registos
+
+| sup_id | sup_name                  | sup_lat     | sup_lng      |
+|--------|---------------------------|-------------|--------------|
+| 1      | Pingo Doce               | 38.7481278  | -9.1404258   |
+| 2      | Lidl Loures Moscavide    | 38.7804700  | -9.1040500   |
+
+---
+
+### Tabela: `saved_places`
+Associa utilizadores a supermercados guardados.
+
+#### Exemplos de registos
+
+| sav_id | sav_usr_id | sav_sup_id |
+|--------|------------|------------|
+| 1      | 1          | 1          |
+| 2      | 1          | 2          |
+
+
+## 2.4 Modelo Lógico Resumido
+
+**Entidades principais:**  
+users, groupss, lists, items, recipes, supermarkets  
+
+**Entidades de ligação:**  
+memberships, list_items, recipe_ingredients, saved_places  
+
+---
 
 
 ---
