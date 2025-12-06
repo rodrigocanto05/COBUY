@@ -381,7 +381,19 @@ Associa utilizadores a supermercados guardados.
   
 ---
 
-### 1.5 Conclusão
+###1.5 Views da Base de Dados
+
+Foram criadas views para facilitar o acesso a informação agregada e simplificar consultas recorrentes. 
+As principais views implementadas são:
+	•	membros_grupos – apresenta os utilizadores e respetivos papéis em cada grupo.
+	•	listas_com_itens – reúne listas com os itens associados, incluindo quantidades e unidades.
+	•	receitas_com_ingredientes – mostra cada receita juntamente com os ingredientes utilizados.
+	•	supermercados_favoritos – identifica os supermercados guardados por cada utilizador.
+	•	itens_mais_usados – devolve um ranking dos itens mais utilizados nas listas.
+
+Estas views contribuem para uma estrutura de dados mais organizada e para consultas SQL mais simples e eficientes, assim cria um melhor acesso à base de dados.
+
+### 1.6 Conclusão
 
 A base de dados desenvolvida para o projeto CoBuy evidencia uma estrutura conceptual e lógica adequada aos requisitos definidos, assegurando a integridade, a normalização e a coerência dos dados ao longo de todo o sistema. O modelo MER e o respetivo dicionário de dados demonstram uma articulação clara entre as entidades e os seus relacionamentos, garantindo suporte às funcionalidades centrais, como a gestão colaborativa de listas, a organização de grupos, o controlo de itens e a integração de receitas e locais de compra.
 
