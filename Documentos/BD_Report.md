@@ -370,15 +370,6 @@ Associa utilizadores a supermercados guardados.
 | 1      | 1          | 1          |
 | 2      | 1          | 2          |
 
-
-## Entidades
-
-**Entidades principais:**  
-users, groupss, lists, items, recipes, supermarkets  
-
-**Entidades de ligação:**  
-memberships, list_items, recipe_ingredients, saved_places  
-
 ---
 
 ### 1.4 Scripts SQL
