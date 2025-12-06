@@ -148,12 +148,15 @@ Armazena todos os utilizadores da aplicação.
 - Adicionar itens a listas
 - Guardar supermercados favoritos
 
-#### Exemplos de registos
+#### Exemplos
 
-| usr_id | usr_name       | usr_email                  | usr_gender | usr_created_at      |
-|--------|----------------|----------------------------|------------|---------------------|
-| 1      | Rodrigo Canto  | rodrigocanto@hotmail.com   | M          | 2025-10-20 00:00:00 |
-| 2      | Rodrigo Daibert| rodrigodaibert@hotmail.com | M          | 2025-10-22 00:00:00 |
+| usr_id | usr_name        | usr_email                     | usr_gender | usr_created_at |
+|--------|-----------------|-------------------------------|------------|----------------|
+| 1      | Rodrigo Canto   | rodrigocanto@hotmail.com      | M          | 2025-10-20     |
+| 2      | Rodrigo Daibert | rodrigodaibert@hotmail.com    | M          | 2025-10-22     |
+| 5      | Sandra Estrela  | sandra@hotmail.com            | F          | 2025-10-30     |
+| 7      | Jocy Grangeiro  | jocy12@gmail.com              | F          | 2025-11-04     |
+| 11     | Tomas Lebre     | tomaslebre@gmail.com          | M          | 2025-12-02     |
 
 ---
 
@@ -165,12 +168,17 @@ Associa utilizadores a grupos e define o respetivo papel.
 - Definir papéis (owner, member)
 - Registar data de entrada
 
-#### Exemplos de registos
+#### Exemplos 
 
-| mem_id | mem_usr_id | mem_grp_id | mem_role | mem_joined_at       |
-|--------|------------|------------|----------|---------------------|
-| 1      | 1          | 1          | owner    | 2025-12-03 00:00:00 |
-| 2      | 2          | 1          | member   | 2025-12-03 00:00:00 |
+| mem_usr_id | mem_grp_id | mem_role | mem_joined_at |
+|------------|------------|----------|----------------|
+| 1          | 1          | owner    | 2025-12-03     |
+| 3          | 1          | member   | 2025-12-03     |
+| 4          | 2          | member   | 2025-12-04     |
+| 1          | 3          | member   | 2025-12-05     |
+| 5          | 4          | owner    | 2025-12-05     |
+
+
 
 ---
 
@@ -182,12 +190,16 @@ Representa grupos de utilizadores.
 - Permitir listas partilhadas
 - Definir um utilizador dono
 
-#### Exemplos de registos
+#### Exemplos 
 
-| grp_id | grp_name         | grp_code | grp_owner_usr_id | grp_created_at      |
-|--------|------------------|----------|------------------|---------------------|
-| 1      | IADE             | X9TPQ    | 1                | 2025-12-03 00:00:00 |
-| 2      | Colegas de casa  | M7K2A    | 2                | 2025-12-04 00:00:00 |
+| grp_id | grp_name               | grp_owner_usr_id | grp_code | grp_created_at |
+|--------|------------------------|------------------|----------|----------------|
+| 1      | IADE                   | 1                | X9TPQ    | 2025-12-03     |
+| 2      | Colegas de casa        | 2                | M7K2A    | 2025-12-04     |
+| 3      | Churrasco              | 3                | Q4W9E    | 2025-12-05     |
+| 4      | Mulheres               | 5                | A8ZLM    | 2025-12-05     |
+| 5      | Montijo                | 4                | P6X7R    | 2025-12-07     |
+
 
 ---
 
@@ -198,12 +210,16 @@ Guarda listas associadas a grupos.
 - Agrupar itens
 - Organizar compras
 
-#### Exemplos de registos
+#### Exemplos 
 
-| lst_id | lst_grp_id | lst_title                    | lst_created_at      |
-|--------|------------|------------------------------|---------------------|
-| 1      | 1          | Compras IADE - Semana 1      | 2025-12-03 00:00:00 |
-| 2      | 1          | Lanche Reunião de Projeto    | 2025-12-04 00:00:00 |
+| lst_id | lst_grp_id | lst_title                         | lst_created_at |
+|--------|------------|------------------------------------|----------------|
+| 1      | 1          | Compras IADE - Semana 1            | 2025-12-03     |
+| 2      | 1          | Lanche da Reunião de Projeto       | 2025-12-04     |
+| 4      | 2          | Compras da Casa - Mensal           | 2025-12-04     |
+| 7      | 3          | Churrasco Rapazes                  | 2025-12-05     |
+| 11     | 5          | Compras Montijo - Família          | 2025-12-08     |
+
 
 ---
 
@@ -218,10 +234,14 @@ Itens adicionados às listas, com quantidade e unidade.
 
 #### Exemplos de registos
 
-| li_id | li_lst_id | li_item_id | li_usr_id | li_qty | li_unit_id | li_done |
-|-------|-----------|------------|-----------|--------|------------|---------|
-| 1     | 1         | 2          | 1         | 1.00   | 1          | 0       |
-| 2     | 1         | 1          | 2         | 2.00   | 1          | 0       |
+| li_lst_id | li_item_id | li_usr_id | li_qty | li_unit_id |
+|-----------|------------|-----------|--------|-------------|
+| 1         | 2          | 1         | 1.00   | 1 |
+| 1         | 5          | 3         | 3.00   | 3 |
+| 3         | 22         | 3         | 30.00  | 5 |
+| 5         | 20         | 10        | 4.00   | 3 |
+| 7         | 50         | 2         | 9.00   | 5 |
+
 
 ---
 
@@ -234,10 +254,14 @@ Itens genéricos utilizados em listas.
 
 #### Exemplos de registos
 
-| it_id | it_name | it_unit_id |
-|-------|---------|------------|
-| 1     | Arroz   | 1          |
-| 2     | Massa   | 1          |
+| it_id | it_name       | it_unit_id |
+|-------|---------------|-------------|
+| 1     | Arroz         | 1           |
+| 4     | Frango        | 1           |
+| 10    | Manteiga      | 2           |
+| 19    | Cerveja       | 3           |
+| 31    | Salsichas     | 5           |
+
 
 ---
 
@@ -249,10 +273,14 @@ Armazena receitas.
 
 #### Exemplos de registos
 
-| rec_id | rec_name                            |
-|--------|--------------------------------------|
-| 1      | Massa Carbonara                      |
-| 2      | Frango Grelhado com Arroz            |
+| rec_id | rec_name                      |
+|--------|--------------------------------|
+| 1      | Massa Carbonara               |
+| 3      | Lasanha de Carne              |
+| 7      | Salame de Chocolate           |
+| 12     | Tosta Mista                   |
+| 20     | Bolo de Chocolate             |
+
 
 ---
 
@@ -265,10 +293,14 @@ Ingredientes utilizados nas receitas.
 
 #### Exemplos de registos
 
-| ing_id | ing_name          | ing_unit_id |
-|--------|-------------------|-------------|
-| 1      | Esparguete        | 1           |
-| 2      | Placas de lasanha | 5           |
+| ing_id | ing_name                | ing_unit_id |
+|--------|--------------------------|--------------|
+| 1      | Esparguete              | 1 |
+| 9      | Peito de frango         | 1 |
+| 26     | Cebola                  | 5 |
+| 43     | Farinha de trigo        | 2 |
+| 50     | Azeite                  | 3 |
+
 
 ---
 
@@ -281,10 +313,14 @@ Liga receitas a ingredientes com quantidades específicas.
 
 #### Exemplos de registos
 
-| rgi_id | rgi_rec_id | rgi_ing_id | rgi_qty | rgi_unit_id |
-|--------|------------|------------|---------|-------------|
-| 1      | 1          | 1          | 0.40    | 1           |
-| 2      | 1          | 8          | 0.15    | 1           |
+| rgi_rec_id | rgi_ing_id | rgi_qty | rgi_unit_id |
+|------------|------------|---------|--------------|
+| 1          | 1          | 0.40    | 1 |
+| 1          | 20         | 60.00   | 2 |
+| 3          | 2          | 12.00   | 5 |
+| 8          | 41         | 0.40    | 1 |
+| 20         | 48         | 80.00   | 2 |
+
 
 ---
 
@@ -294,9 +330,13 @@ Tabela de unidades de medida.
 #### Exemplos de registos
 
 | uni_id | uni_name |
-|--------|----------|
-| 1      | kg       |
-| 2      | g        |
+|--------|-----------|
+| 1      | kg        |
+| 2      | g         |
+| 3      | L         |
+| 4      | ml        |
+| 5      | un        |
+
 
 ---
 
@@ -309,10 +349,14 @@ Supermercados disponíveis com coordenadas GPS.
 
 #### Exemplos de registos
 
-| sup_id | sup_name                  | sup_lat     | sup_lng      |
-|--------|---------------------------|-------------|--------------|
-| 1      | Pingo Doce               | 38.7481278  | -9.1404258   |
-| 2      | Lidl Loures Moscavide    | 38.7804700  | -9.1040500   |
+| sup_id | sup_name                                | sup_lat    | sup_lng     |
+|--------|------------------------------------------|------------|-------------|
+| 1      | Pingo Doce                             | 38.7481278 | -9.1404258  |
+| 2      | Lidl Loures Moscavide                  | 38.7804700 | -9.1040500  |
+| 4      | Intermarché Sacavém                    | 38.7905701 | -9.1020830  |
+| 10     | Pingo Doce Parque das Nações Sul       | 38.7586015 | -9.0976235  |
+| 14     | Pingo Doce Bela Vista - Hiper          | 38.7497235 | -9.1177561  |
+
 
 ---
 
@@ -327,16 +371,13 @@ Associa utilizadores a supermercados guardados.
 | 2      | 1          | 2          |
 
 
-## 2.4 Modelo Lógico Resumido
+## Entidades
 
 **Entidades principais:**  
 users, groupss, lists, items, recipes, supermarkets  
 
 **Entidades de ligação:**  
 memberships, list_items, recipe_ingredients, saved_places  
-
----
-
 
 ---
 
@@ -351,5 +392,6 @@ memberships, list_items, recipe_ingredients, saved_places
 
 ### 1.5 Conclusão
 
-A base de dados do projeto CoBuy foi desenhada de forma relacional, garantindo integridade e escalabilidade.  
-Esta primeira versão cumpre os requisitos para a entrega intermédia e será expandida ao longo do desenvolvimento do projeto.
+A base de dados desenvolvida para o projeto CoBuy evidencia uma estrutura conceptual e lógica adequada aos requisitos definidos, assegurando a integridade, a normalização e a coerência dos dados ao longo de todo o sistema. O modelo MER e o respetivo dicionário de dados demonstram uma articulação clara entre as entidades e os seus relacionamentos, garantindo suporte às funcionalidades centrais, como a gestão colaborativa de listas, a organização de grupos, o controlo de itens e a integração de receitas e locais de compra.
+
+Em síntese, a modelação apresentada constitui uma base robusta e escalável, proporcionando as condições necessárias para o correto funcionamento da aplicação e para a sua futura evolução.
