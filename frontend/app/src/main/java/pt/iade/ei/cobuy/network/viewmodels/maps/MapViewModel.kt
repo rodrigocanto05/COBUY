@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.viewmodels
+package pt.iade.ei.cobuy.network.viewmodels.maps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

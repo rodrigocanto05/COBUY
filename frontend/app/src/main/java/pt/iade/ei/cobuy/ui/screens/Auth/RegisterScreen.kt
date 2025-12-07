@@ -22,8 +22,8 @@ import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
-import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel
-import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
+import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModel
+import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

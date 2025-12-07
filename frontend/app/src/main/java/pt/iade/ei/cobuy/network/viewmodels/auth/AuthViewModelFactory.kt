@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.viewmodels
+package pt.iade.ei.cobuy.network.viewmodels.auth
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

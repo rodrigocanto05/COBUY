@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import pt.iade.ei.cobuy.network.viewmodels.SavedPlaceViewModel
+import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 @OptIn(ExperimentalMaterial3Api::class)

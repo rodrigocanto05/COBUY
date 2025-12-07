@@ -26,8 +26,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
-import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel
-import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
+import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModel
+import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModelFactory
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton

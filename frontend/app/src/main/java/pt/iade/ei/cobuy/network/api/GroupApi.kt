@@ -9,6 +9,8 @@ import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
 import retrofit2.Response
 import retrofit2.http.*
+import retrofit2.http.HTTP
+
 
 interface GroupApi {
 
@@ -73,10 +75,14 @@ interface GroupApi {
     ): Response<List<Membership>>
 
     // ---------- SAIR DO GRUPO ----------
-    @DELETE("api/memberships/leave")
+    @HTTP(
+        method = "DELETE",
+        path = "api/memberships/leave",
+        hasBody = true
+    )
     suspend fun leaveGroup(
         @Body body: LeaveGroupRequest
-    ): retrofit2.Response<Void>
+    ): Response<Void>
 
     // ---------- EXPLUSAR MEMBRO (apenas owner) ----------
     @DELETE("api/memberships/{groupId}/remove/{userId}")

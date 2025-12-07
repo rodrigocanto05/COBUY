@@ -26,9 +26,9 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import pt.iade.ei.cobuy.network.viewmodels.MapViewModel
-import pt.iade.ei.cobuy.network.viewmodels.SaveResult
-import pt.iade.ei.cobuy.network.viewmodels.SavedPlaceViewModel
+import pt.iade.ei.cobuy.network.viewmodels.maps.MapViewModel
+import pt.iade.ei.cobuy.network.viewmodels.maps.SaveResult
+import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
 import pt.iade.ei.cobuy.storage.model.Market
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton

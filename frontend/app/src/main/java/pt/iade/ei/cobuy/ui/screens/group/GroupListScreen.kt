@@ -181,7 +181,6 @@ fun GroupListScreen(
                 }
             }
 
-            // SIDE CARD DE MEMBROS (só nome + role, botões a chamar endpoints)
             MembersSideCard(
                 visible = showMembersSheet,
                 memberships = membersUiState.members,

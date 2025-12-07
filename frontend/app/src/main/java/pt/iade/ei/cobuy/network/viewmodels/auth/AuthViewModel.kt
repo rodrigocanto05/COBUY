@@ -1,19 +1,20 @@
-package pt.iade.ei.cobuy.network.viewmodels
+package pt.iade.ei.cobuy.network.viewmodels.auth
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import pt.iade.ei.cobuy.network.api.*
+import pt.iade.ei.cobuy.network.api.ApiClient
 import pt.iade.ei.cobuy.network.api.auth.AuthApi
 import pt.iade.ei.cobuy.network.api.auth.LoginRequest
 import pt.iade.ei.cobuy.network.api.auth.ProfileApi
 import pt.iade.ei.cobuy.network.api.auth.RegisterRequest
 import pt.iade.ei.cobuy.network.repository.ProfileRepository
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.User
 import pt.iade.ei.cobuy.storage.utils.TokenManager
 
