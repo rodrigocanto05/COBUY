@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.network.api
 
+import pt.iade.ei.cobuy.network.requests.CreateListRequest
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import retrofit2.Response
 import retrofit2.Retrofit

@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.AuthViewModel
 import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
-import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard

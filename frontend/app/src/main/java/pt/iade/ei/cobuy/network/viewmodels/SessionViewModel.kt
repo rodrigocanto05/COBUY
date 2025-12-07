@@ -1,5 +1,5 @@
 package pt.iade.ei.cobuy.network.viewmodels
 
-object SessionManager {
+object SessionViewModel {
     var currentUserId: Int? = null
 }

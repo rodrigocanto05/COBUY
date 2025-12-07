@@ -1,5 +1,6 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.group
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,11 +41,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
-import pt.iade.ei.cobuy.network.viewmodels.GroupListsViewModel
-import pt.iade.ei.cobuy.network.viewmodels.GroupMembersViewModel
-import pt.iade.ei.cobuy.network.viewmodels.SessionManager
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.screens.MembersSideCard
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 
@@ -64,8 +67,18 @@ fun GroupListScreen(
     var showCreateDialog by remember { mutableStateOf(false) }
     var showMembersSheet by remember { mutableStateOf(false) }
 
-    // user atual guardado no SessionManager
-    val currentUserId = SessionManager.currentUserId
+    val context = LocalContext.current
+
+    // user atual guardado no SessionViewModel
+    val currentUserId = SessionViewModel.currentUserId
+
+    // true se o user atual for owner neste grupo
+    val isCurrentUserOwner = remember(membersUiState.members, currentUserId) {
+        currentUserId != null &&
+                membersUiState.members.any {
+                    it.id == currentUserId && it.role.equals("owner", ignoreCase = true)
+                }
+    }
 
     // Carregar listas quando o ecrã abre ou muda de grupo/user
     LaunchedEffect(groupId, currentUserId) {
@@ -124,7 +137,6 @@ fun GroupListScreen(
                     .padding(horizontal = 24.dp, vertical = 16.dp)
             ) {
 
-                // Se o userId ainda não estiver definido, mostra uma mensagem
                 if (currentUserId == null) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -169,11 +181,49 @@ fun GroupListScreen(
                 }
             }
 
-            // Usa o side sheet definido noutro ficheiro
-            MembersSideSheet(
+            // SIDE CARD DE MEMBROS (só nome + role, botões a chamar endpoints)
+            MembersSideCard(
                 visible = showMembersSheet,
                 memberships = membersUiState.members,
-                onDismiss = { showMembersSheet = false }
+                onDismiss = { showMembersSheet = false },
+                onLeaveGroup = {
+                    membersViewModel.leaveGroup(groupId) { ok, msg ->
+                        if (ok) {
+                            Toast.makeText(
+                                context,
+                                "Saíste do grupo",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            showMembersSheet = false
+                            navController.popBackStack()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                msg ?: "Erro ao sair do grupo",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                },
+                onKickMember = { member ->
+                    membersViewModel.removeMember(groupId, member.id) { ok, msg ->
+                        if (ok) {
+                            Toast.makeText(
+                                context,
+                                "Membro expulso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                msg ?: "Erro ao expulsar membro",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                },
+                currentUserId = currentUserId,
+                isCurrentUserOwner = isCurrentUserOwner
             )
 
             if (showCreateDialog && currentUserId != null) {
@@ -196,8 +246,6 @@ fun GroupListScreen(
         }
     }
 }
-
-// -------------------- COMPONENTES AUXILIARES --------------------
 
 @Composable
 fun ShoppingListCard(list: ShoppingList) {

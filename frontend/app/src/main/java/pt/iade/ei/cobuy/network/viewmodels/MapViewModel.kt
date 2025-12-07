@@ -33,7 +33,6 @@ class MapViewModel(
             try {
                 val markets = repository.getSupermarkets()
 
-                // 🔥 SUPER FILTRO — impede BP, Galp, Repsol, lojas não supermercado, etc.
                 val allowedKeywords = listOf(
                     "lidl",
                     "pingo",

@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.PersonRemove
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,12 +34,15 @@ import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 
 @Composable
-fun MembersSideSheet(
+fun MembersSideCard(
     visible: Boolean,
     memberships: List<Membership>,
     onDismiss: () -> Unit,
     onLeaveGroup: (() -> Unit)? = null,
-    onInviteMember: (() -> Unit)? = null
+    onInviteMember: (() -> Unit)? = null,
+    onKickMember: ((Membership) -> Unit)? = null,
+    currentUserId: Int? = null,
+    isCurrentUserOwner: Boolean = false
 ) {
     var sheetWidth by remember { mutableStateOf(0f) }
     var offsetX by remember { mutableStateOf(0f) } // 0 = aberto, sheetWidth = totalmente escondido
@@ -151,8 +157,16 @@ fun MembersSideSheet(
                                 .weight(1f)
                                 .fillMaxWidth()
                         ) {
+                            // >>> ESTA É A PARTE DO PASSO 1.3 (items + parâmetros novos)
                             items(memberships) { membership ->
-                                MemberRow(membership)
+                                MemberRow(
+                                    membership = membership,
+                                    showKickButton = isCurrentUserOwner &&
+                                            membership.id != currentUserId,
+                                    onKickClicked = {
+                                        onKickMember?.invoke(membership)
+                                    }
+                                )
                             }
                         }
                     }
@@ -183,6 +197,11 @@ fun MembersSideSheet(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(20.dp)
                             ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Logout,
+                                    contentDescription = "Sair do grupo"
+                                )
+                                Spacer(Modifier.width(8.dp))
                                 Text("Sair do grupo")
                             }
                         }
@@ -194,10 +213,12 @@ fun MembersSideSheet(
 }
 
 @Composable
-private fun MemberRow(membership: Membership) {
-
+private fun MemberRow(
+    membership: Membership,
+    showKickButton: Boolean = false,
+    onKickClicked: (() -> Unit)? = null
+) {
     val displayName = membership.name ?: "Utilizador #${membership.id}"
-    val email = membership.email ?: ""
 
     val roleLabel = when (membership.role.lowercase()) {
         "owner" -> "Owner"
@@ -205,31 +226,40 @@ private fun MemberRow(membership: Membership) {
         else -> "Membro"
     }
 
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = displayName,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.Medium,
-                color = TextDark
-            )
-        )
-        if (email.isNotBlank()) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             Text(
-                text = email,
+                text = displayName,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = TextDark
+                )
+            )
+            Text(
+                text = roleLabel,
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = TextDark.copy(alpha = 0.6f)
                 )
             )
         }
-        Text(
-            text = roleLabel,
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = TextDark.copy(alpha = 0.6f)
-            )
-        )
+
+        if (showKickButton) {
+            TextButton(onClick = { onKickClicked?.invoke() }) {
+                Icon(
+                    imageVector = Icons.Filled.PersonRemove,
+                    contentDescription = "Expulsar membro"
+                )
+                Spacer(Modifier.width(4.dp))
+                Text("Expulsar membro")
+            }
+        }
     }
 }

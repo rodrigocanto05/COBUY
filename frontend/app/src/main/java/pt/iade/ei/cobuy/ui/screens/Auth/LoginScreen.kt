@@ -1,6 +1,6 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.Auth
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -27,18 +27,15 @@ import pt.iade.ei.cobuy.network.viewmodels.AuthViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navController: NavController) {
+fun LoginScreen(navController: NavController) {
     val context = LocalContext.current
     val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(context))
 
-    var email by remember { mutableStateOf("") }
+    var emailOrPhone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirm by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
 
 
-    var username by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("M") }
+    var errorMessage by remember { mutableStateOf("") }
 
     Scaffold(
         containerColor = BackgroundLight,
@@ -53,6 +50,7 @@ fun RegisterScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
 
+            // LOGO
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo CoBuy",
@@ -61,8 +59,9 @@ fun RegisterScreen(navController: NavController) {
                     .padding(bottom = 20.dp)
             )
 
+            // TÍTULO
             Text(
-                text = "Criar Conta",
+                text = "Iniciar Sessão",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = OrangePrimary,
@@ -72,19 +71,16 @@ fun RegisterScreen(navController: NavController) {
 
             Spacer(Modifier.height(28.dp))
 
+            // CAMPOS DE ENTRADA
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-
-
                 CustomTextField(
-                    value = username,
-                    onValueChange = { username = it },
-                    label = "Nome de Utilizador"
+                    value = emailOrPhone,
+                    onValueChange = { emailOrPhone = it },
+                    label = "Email ou Telefone"
                 )
-
-                CustomTextField(value = email, onValueChange = { email = it }, label = "Email")
 
                 CustomTextField(
                     value = password,
@@ -92,67 +88,40 @@ fun RegisterScreen(navController: NavController) {
                     label = "Palavra-passe",
                     visualTransformation = PasswordVisualTransformation()
                 )
-
-                CustomTextField(
-                    value = confirm,
-                    onValueChange = { confirm = it },
-                    label = "Confirmar Palavra-passe",
-                    visualTransformation = PasswordVisualTransformation()
-                )
-
-
-                Text(
-                    text = "Género",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp,
-                    color = OrangePrimary
-                )
-
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    GenderRadio("Masculino", gender, "M") { gender = it }
-                    GenderRadio("Feminino", gender, "F") { gender = it }
-                    GenderRadio("Outro", gender, "O") { gender = it }
-
-                }
-
             }
 
             Spacer(Modifier.height(32.dp))
 
-            PrimaryButton(text = "Criar Conta") {
-                if (password == confirm) {
 
-
-                    viewModel.register(username, email, password, gender) { success, error ->
-                        if (success) {
-                            Toast.makeText(context, "Conta criada com sucesso!", Toast.LENGTH_SHORT).show()
-                            navController.navigate(NavPath.Login.route)
-                        } else {
-                            errorMessage = error ?: "Erro ao criar conta"
-                        }
-                    }
-
-                } else {
-                    errorMessage = "As palavras-passe não coincidem"
-                }
+            if (errorMessage.isNotEmpty()) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
             }
 
-
-            errorMessage?.let {
-                Spacer(Modifier.height(12.dp))
-                Text(text = it, color = MaterialTheme.colorScheme.error, fontSize = 14.sp)
+            // BOTÃO DE LOGIN
+            PrimaryButton(text = "Entrar") {
+                viewModel.login(emailOrPhone, password) { ok, err ->
+                    if (ok) {
+                        errorMessage = ""
+                        navController.navigate(NavPath.Dashboard.route)
+                    } else {
+                        errorMessage = "Ups! Algo não está certo. Verifique os seus dados."
+                        Log.e("LOGIN", "Erro: $err")
+                    }
+                }
             }
 
             Spacer(Modifier.height(12.dp))
 
-            TextButton(onClick = { navController.navigate(NavPath.Login.route) }) {
+            // TEXTO DE REGISTO
+            TextButton(onClick = { navController.navigate(NavPath.Register.route) }) {
                 Text(
-                    text = "Já tem conta? Iniciar Sessão",
+                    text = "Ainda não tem conta? Criar agora",
                     color = OrangePrimary,
                     fontSize = 14.sp
                 )
@@ -161,20 +130,8 @@ fun RegisterScreen(navController: NavController) {
     }
 }
 
-@Composable
-fun GenderRadio(label: String, selectedValue: String, value: String, onSelect: (String) -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        RadioButton(
-            selected = (value == selectedValue),
-            onClick = { onSelect(value) }
-        )
-        Text(label)
-    }
-}
-
-
 @Preview(showBackground = true)
 @Composable
-fun RegisterScreenPreview() {
-    RegisterScreen(navController = NavController(LocalContext.current))
+fun LoginScreenPreview() {
+    LoginScreen(navController = NavController(LocalContext.current))
 }

@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.Auth
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

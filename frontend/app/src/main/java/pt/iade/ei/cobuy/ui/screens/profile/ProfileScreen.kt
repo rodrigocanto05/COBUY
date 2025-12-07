@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.repository
 
 import pt.iade.ei.cobuy.storage.model.SavedPlaceResponse
 import retrofit2.http.*

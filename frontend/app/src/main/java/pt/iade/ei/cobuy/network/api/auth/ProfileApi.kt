@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.api.auth
 
 import pt.iade.ei.cobuy.storage.model.User
 import retrofit2.Response

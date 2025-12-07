@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pt.iade.ei.cobuy.network.api.RecipeApiClient
+import pt.iade.ei.cobuy.network.api.recipe.RecipeApiClient
 import pt.iade.ei.cobuy.storage.model.Recipe
 
 class RecipesViewModel : ViewModel() {

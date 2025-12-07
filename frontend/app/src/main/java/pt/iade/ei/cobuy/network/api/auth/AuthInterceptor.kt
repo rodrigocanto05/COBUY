@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.api.auth
 
 import okhttp3.Interceptor
 import okhttp3.Response

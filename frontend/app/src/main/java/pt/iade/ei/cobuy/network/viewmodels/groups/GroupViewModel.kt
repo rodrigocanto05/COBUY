@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.viewmodels
+package pt.iade.ei.cobuy.network.viewmodels.groups
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.GroupApi
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.Group
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.storage.model.UserGroup
@@ -24,7 +25,7 @@ class GroupViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val group = Group(name = groupName)
-                val response = GroupApi.service.createGroup(userId, group)
+                val response = GroupApi.Companion.service.createGroup(userId, group)
 
                 if (response.isSuccessful) {
                     Log.d("GROUP", "✅ Grupo criado com sucesso: ${response.body()}")
@@ -48,7 +49,7 @@ class GroupViewModel : ViewModel() {
     fun getUserGroups(
         onResult: (List<UserGroup>?, String?) -> Unit
     ) {
-        val userId = SessionManager.currentUserId
+        val userId = SessionViewModel.currentUserId
         if (userId == null || userId <= 0) {
             onResult(null, "Utilizador não autenticado (id inválido)")
             return
@@ -58,7 +59,7 @@ class GroupViewModel : ViewModel() {
             try {
                 Log.d("GROUPS", "A buscar grupos do utilizador $userId")
 
-                val response = GroupApi.service.getUserGroups(userId)
+                val response = GroupApi.Companion.service.getUserGroups(userId)
 
                 if (response.isSuccessful) {
                     val body = response.body() ?: emptyList()
@@ -99,7 +100,7 @@ class GroupViewModel : ViewModel() {
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = GroupApi.service.getGroupLists(groupId, userId)
+                val response = GroupApi.Companion.service.getGroupLists(groupId, userId)
 
                 if (response.isSuccessful) {
                     val body = response.body() ?: emptyList()
@@ -132,7 +133,7 @@ class GroupViewModel : ViewModel() {
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = GroupApi.service.joinGroup(code, userId)
+                val response = GroupApi.Companion.service.joinGroup(code, userId)
 
                 if (response.isSuccessful) {
                     withContext(Dispatchers.Main) {

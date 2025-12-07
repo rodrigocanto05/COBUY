@@ -9,6 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.*
+import pt.iade.ei.cobuy.network.api.auth.AuthApi
+import pt.iade.ei.cobuy.network.api.auth.LoginRequest
+import pt.iade.ei.cobuy.network.api.auth.ProfileApi
+import pt.iade.ei.cobuy.network.api.auth.RegisterRequest
 import pt.iade.ei.cobuy.network.repository.ProfileRepository
 import pt.iade.ei.cobuy.storage.model.User
 import pt.iade.ei.cobuy.storage.utils.TokenManager
@@ -23,7 +27,6 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
     private val _currentUser = mutableStateOf<User?>(null)
     val currentUser: State<User?> = _currentUser
 
-    // ---------------- LOGIN ----------------
     fun login(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -44,7 +47,6 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
         }
     }
 
-    //  ---------------- PASSWORD ----------------------
     fun updatePassword(oldPass: String, newPass: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -55,7 +57,6 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
     }
 
 
-    //  ---------------- REGISTO ----------------
     fun register(
         name: String,
         email: String,
@@ -82,7 +83,6 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
                 if (!token.isNullOrEmpty()) {
                     tokenManager.saveToken(token)
 
-                    // buscar perfil depois de registar
                     loadUser()
 
                     withContext(Dispatchers.Main) { onResult(true, null) }
@@ -95,18 +95,16 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
         }
     }
 
-    // ---------------- BUSCAR PERFIL ----------------
     fun loadUser() {
         viewModelScope.launch(Dispatchers.IO) {
             val user = repository.loadUser()
             _currentUser.value = user
-            SessionManager.currentUserId = user?.id
+            SessionViewModel.currentUserId = user?.id
 
             Log.d("AUTH", "Loaded user: id=${user?.id}, name=${user?.name}")
         }
     }
 
-    // ---------------- EDITAR NOME + GÉNERO ----------------
     fun updateUser(name: String?, gender: String?, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val success = repository.updateUser(name, gender)
@@ -116,7 +114,6 @@ class AuthViewModel(private val tokenManager: TokenManager) : ViewModel() {
         }
     }
 
-    // ---------------- EDITAR EMAIL ----------------
     fun updateEmail(email: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val success = repository.updateEmail(email)

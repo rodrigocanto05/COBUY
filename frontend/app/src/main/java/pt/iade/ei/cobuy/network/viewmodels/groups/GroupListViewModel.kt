@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.viewmodels
+package pt.iade.ei.cobuy.network.viewmodels.groups
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pt.iade.ei.cobuy.network.api.GroupApi
-import pt.iade.ei.cobuy.network.api.CreateListRequest
+import pt.iade.ei.cobuy.network.requests.CreateListRequest
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 
 data class GroupListsUiState(

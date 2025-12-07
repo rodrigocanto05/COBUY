@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.api.auth
 
 import retrofit2.Response
 import retrofit2.http.Body

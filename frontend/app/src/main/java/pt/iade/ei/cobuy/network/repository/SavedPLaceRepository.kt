@@ -1,8 +1,6 @@
 package pt.iade.ei.cobuy.network.repository
 
 import pt.iade.ei.cobuy.network.api.ApiClient
-import pt.iade.ei.cobuy.network.api.SavePlaceRequest
-import pt.iade.ei.cobuy.network.api.SavedPlacesApi
 import pt.iade.ei.cobuy.storage.model.SavedPlace
 
 class SavedPlacesRepository(

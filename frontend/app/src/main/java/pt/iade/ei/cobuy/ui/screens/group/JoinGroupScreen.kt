@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.group
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,11 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -24,7 +26,7 @@ import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JoinGroupScreen(navController: NavController) {
-    val viewModel: GroupViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    val viewModel: GroupViewModel = viewModel()
 
     var groupCode by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -70,7 +72,7 @@ fun JoinGroupScreen(navController: NavController) {
 
             // ERRO
             if (errorMessage != null) {
-                Text(text = errorMessage!!, color = androidx.compose.ui.graphics.Color.Red)
+                Text(text = errorMessage!!, color = Color.Red)
             }
 
             Text("O código é fornecido pelo criador do grupo.")

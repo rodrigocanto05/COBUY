@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.map
 
 import android.content.Intent
 import android.net.Uri

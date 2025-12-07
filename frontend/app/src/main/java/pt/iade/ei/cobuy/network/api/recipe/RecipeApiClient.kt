@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.api.recipe
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

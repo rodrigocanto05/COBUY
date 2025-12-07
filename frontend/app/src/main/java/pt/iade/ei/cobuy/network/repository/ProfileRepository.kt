@@ -1,10 +1,10 @@
 package pt.iade.ei.cobuy.network.repository
 
 import android.util.Log
-import pt.iade.ei.cobuy.network.api.ProfileApi
-import pt.iade.ei.cobuy.network.api.UpdateEmailRequest
-import pt.iade.ei.cobuy.network.api.UpdatePasswordRequest
-import pt.iade.ei.cobuy.network.api.UpdateProfileRequest
+import pt.iade.ei.cobuy.network.api.auth.ProfileApi
+import pt.iade.ei.cobuy.network.api.auth.UpdateEmailRequest
+import pt.iade.ei.cobuy.network.api.auth.UpdatePasswordRequest
+import pt.iade.ei.cobuy.network.api.auth.UpdateProfileRequest
 import pt.iade.ei.cobuy.storage.model.User
 import pt.iade.ei.cobuy.storage.utils.TokenManager
 

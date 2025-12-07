@@ -1,6 +1,8 @@
 package pt.iade.ei.cobuy.network.api
 
-import pt.iade.ei.cobuy.network.viewmodels.SessionManager
+import pt.iade.ei.cobuy.network.requests.CreateListRequest
+import pt.iade.ei.cobuy.network.requests.LeaveGroupRequest
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.Group
 import pt.iade.ei.cobuy.storage.model.Membership
 import pt.iade.ei.cobuy.storage.model.ShoppingList
@@ -28,7 +30,7 @@ interface GroupApi {
     @POST("api/groups")
     suspend fun createGroup(
         @Query("userId") userId: Int =
-            SessionManager.currentUserId
+            SessionViewModel.currentUserId
                 ?: error("User não definido em SessionManager"),
         @Body group: Group
     ): Response<Group>
@@ -39,7 +41,7 @@ interface GroupApi {
     suspend fun joinGroup(
         @Path("code") code: String,
         @Query("userId") userId: Int =
-            SessionManager.currentUserId
+            SessionViewModel.currentUserId
                 ?: error("User não definido em SessionManager")
     ): Response<Group>
 
@@ -49,7 +51,7 @@ interface GroupApi {
     suspend fun getGroupLists(
         @Path("groupId") groupId: Int,
         @Query("userId") userId: Int =
-            SessionManager.currentUserId
+            SessionViewModel.currentUserId
                 ?: error("User não definido em SessionManager")
     ): Response<List<ShoppingList>>
 
@@ -58,7 +60,7 @@ interface GroupApi {
     @POST("api/lists")
     suspend fun createList(
         @Query("userId") userId: Int =
-            SessionManager.currentUserId
+            SessionViewModel.currentUserId
                 ?: error("User não definido em SessionManager"),
         @Body body: CreateListRequest
     ): Response<ShoppingList>
@@ -69,6 +71,23 @@ interface GroupApi {
     suspend fun getGroupMembers(
         @Path("groupId") groupId: Int
     ): Response<List<Membership>>
+
+    // ---------- SAIR DO GRUPO ----------
+    @DELETE("api/memberships/leave")
+    suspend fun leaveGroup(
+        @Body body: LeaveGroupRequest
+    ): retrofit2.Response<Void>
+
+    // ---------- EXPLUSAR MEMBRO (apenas owner) ----------
+    @DELETE("api/memberships/{groupId}/remove/{userId}")
+    suspend fun removeMember(
+        @Path("groupId") groupId: Int,
+        @Path("userId") userId: Int,
+        @Query("requesterId")
+        requesterId: Int = SessionViewModel.currentUserId
+            ?: error("User não definido em SessionManager")
+    ): retrofit2.Response<Void>
+
 
     companion object {
         val service: GroupApi by lazy {

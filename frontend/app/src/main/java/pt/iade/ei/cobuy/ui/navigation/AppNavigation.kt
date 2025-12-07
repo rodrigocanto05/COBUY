@@ -6,7 +6,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import pt.iade.ei.cobuy.ui.screens.*
+import pt.iade.ei.cobuy.ui.screens.DashboardScreen
+import pt.iade.ei.cobuy.ui.screens.Auth.HomeScreen
+import pt.iade.ei.cobuy.ui.screens.Auth.LoginScreen
+import pt.iade.ei.cobuy.ui.screens.Auth.RegisterScreen
+import pt.iade.ei.cobuy.ui.screens.group.CreateGroupScreen
+import pt.iade.ei.cobuy.ui.screens.profile.ProfileScreen
+import pt.iade.ei.cobuy.ui.screens.group.GroupDetailScreen
+import pt.iade.ei.cobuy.ui.screens.group.GroupListScreen
+import pt.iade.ei.cobuy.ui.screens.group.JoinGroupScreen
+import pt.iade.ei.cobuy.ui.screens.group.MyGroupsScreen
+import pt.iade.ei.cobuy.ui.screens.map.MapScreen
+import pt.iade.ei.cobuy.ui.screens.map.SavedLocationsScreen
+import pt.iade.ei.cobuy.ui.screens.profile.EditProfileScreen
+import pt.iade.ei.cobuy.ui.screens.profile.EditSettingsScreen
+import pt.iade.ei.cobuy.ui.screens.recipe.RecipesScreen
 import pt.iade.ei.cobuy.ui.screens.recipesingredients.*
 
 @Composable

@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.map
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*

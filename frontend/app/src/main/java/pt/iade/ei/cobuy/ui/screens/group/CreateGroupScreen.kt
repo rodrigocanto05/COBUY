@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens
+package pt.iade.ei.cobuy.ui.screens.group
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import pt.iade.ei.cobuy.network.viewmodels.GroupViewModel
-import pt.iade.ei.cobuy.network.viewmodels.SessionManager
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -35,7 +35,7 @@ fun CreateGroupScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
 
     // em vez de userId = 1
-    val currentUserId = SessionManager.currentUserId
+    val currentUserId = SessionViewModel.currentUserId
 
     Scaffold(
         topBar = { CoBuyTopBar("Criar Grupo", navController = navController) },
