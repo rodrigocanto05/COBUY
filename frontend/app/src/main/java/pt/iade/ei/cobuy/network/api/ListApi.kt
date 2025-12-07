@@ -25,7 +25,7 @@ interface ListApi {
     ): Response<ShoppingList>
 
     companion object {
-        private const val BASE_URL = "http://10.0.2.2:8082/"   // 👉 usa o mesmo que já usas para o GroupApi
+        private const val BASE_URL = "http://10.0.2.2:8082/"
 
         val service: ListApi by lazy {
             Retrofit.Builder()

@@ -1,41 +1,21 @@
 package pt.iade.ei.cobuy.network.repository
 
+import android.util.Log
 import pt.iade.ei.cobuy.network.api.ApiClient
-import pt.iade.ei.cobuy.network.api.GoogleApi
 import pt.iade.ei.cobuy.network.api.SupermarketApi
-import pt.iade.ei.cobuy.storage.model.ResolveMarketRequest
 import pt.iade.ei.cobuy.storage.model.Market
 
 class MapsRepository(
-    private val googleApi: GoogleApi = ApiClient.googleApi,
     private val backendApi: SupermarketApi = ApiClient.supermarketApi
 ) {
-
     suspend fun getSupermarkets(): List<Market> {
-
-        val response = googleApi.getNearbySupermarkets(
-            location = "38.78167,-9.10239",
-            radius = 10000,
-            type = "supermarket",
-            apiKey = GoogleApi.API_KEY
-        )
-
-        return response.results.map { result ->
-
-            val req = ResolveMarketRequest(
-                name = result.name ?: "Supermercado",
-                lat = result.geometry.location.lat,
-                lng = result.geometry.location.lng
-            )
-
-            val backendMarket = backendApi.resolveMarket(req)
-
-            Market(
-                id = backendMarket.id,
-                name = backendMarket.name,
-                lat = backendMarket.lat,
-                lng = backendMarket.lng
-            )
+        return try {
+            val result = backendApi.getSupermarkets()
+            Log.d("MapsRepository", "Supermercados recebidos: ${result.size}")
+            result
+        } catch (e: Exception) {
+            Log.e("MapsRepository", "Erro ao ir buscar supermercados", e)
+            throw e
         }
     }
 }

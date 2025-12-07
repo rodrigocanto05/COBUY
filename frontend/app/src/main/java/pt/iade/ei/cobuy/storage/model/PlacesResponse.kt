@@ -17,9 +17,3 @@ data class Location(
     val lat: Double,
     val lng: Double
 )
-data class Market(
-    val id: Int,
-    val name: String,
-    val lat: Double,
-    val lng: Double
-)

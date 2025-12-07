@@ -65,7 +65,6 @@ class SavedPlaceViewModel(
                 onResult(SaveResult.ERROR)
             }
 
-            // Atualiza SEMPRE depois de tentar guardar
             load()
         }
     }
