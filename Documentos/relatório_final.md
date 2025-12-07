@@ -19,8 +19,8 @@
 | **7. Integração com Mapas / Rotas / Localização** | 80% | 20% | 0% | 0% | **100%** |
 | **8. Implementação de Grupos e Listas** | 0% | 100% | 0% | 0% | **100%** |
 | **9. Implementação de Receitas** | 0% | 0% | 100% | 0% | **100%** |
-| **10. Testes e validação (funcionais + usabilidade)** | 25% | 45% | 25% | 5% | **100%** |
-| **11. Relatório final + poster + vídeo de apresentação** | 25% | 15% | 25% | 35% | **100%** |
+| **10. Testes e validação (funcionais + usabilidade)** | 25% | 45% | 30% | 0% | **100%** |
+| **11. Relatório final + poster + vídeo de apresentação** | 25% | 25% | 25% | 25% | **100%** |
 
 ---
 
