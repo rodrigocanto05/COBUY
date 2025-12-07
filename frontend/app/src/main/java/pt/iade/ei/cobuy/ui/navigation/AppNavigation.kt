@@ -22,10 +22,16 @@ import pt.iade.ei.cobuy.ui.screens.profile.EditProfileScreen
 import pt.iade.ei.cobuy.ui.screens.profile.EditSettingsScreen
 import pt.iade.ei.cobuy.ui.screens.recipe.RecipesScreen
 import pt.iade.ei.cobuy.ui.screens.recipesingredients.*
+import androidx.lifecycle.viewmodel.compose.viewModel
+import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
+
+
+
 
 @Composable
 fun appNavigation() {
     val navController = rememberNavController()
+    val savedPlaceViewModel: SavedPlaceViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -36,14 +42,14 @@ fun appNavigation() {
         composable(NavPath.Home.route) { HomeScreen(navController) }
         composable(NavPath.Login.route) { LoginScreen(navController) }
         composable(NavPath.Register.route) { RegisterScreen(navController) }
-        composable(NavPath.Dashboard.route) { DashboardScreen(navController) }
+        composable(NavPath.Dashboard.route) { DashboardScreen(navController, savedPlaceViewModel) }
         composable(NavPath.Map.route) { MapScreen(navController) }
+        composable(NavPath.SavedLocations.route) { SavedLocationsScreen(navController, savedPlaceViewModel) }
         composable(NavPath.Profile.route) { ProfileScreen(navController) }
         composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
         composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
         composable(NavPath.EditProfile.route) { EditProfileScreen(navController) }
         composable(NavPath.MyGroups.route) { MyGroupsScreen(navController) }
-        composable(NavPath.SavedLocations.route) { SavedLocationsScreen(navController) }
         composable(NavPath.EditSettings.route) { EditSettingsScreen(navController) }
 
         composable(

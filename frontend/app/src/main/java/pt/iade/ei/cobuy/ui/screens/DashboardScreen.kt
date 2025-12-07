@@ -29,6 +29,7 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModel
 import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModelFactory
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
+import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard
@@ -38,10 +39,13 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController) {
+fun DashboardScreen(
+    navController: NavController,
+    savedPlaceViewModel: SavedPlaceViewModel
+) {
+    val context = LocalContext.current
 
     // ViewModels
-    val context = LocalContext.current
     val groupViewModel: GroupViewModel = viewModel()
     val authViewModel: AuthViewModel = viewModel(
         factory = AuthViewModelFactory(context)
@@ -49,6 +53,10 @@ fun DashboardScreen(navController: NavController) {
 
     val user by authViewModel.currentUser
     var groupCount by remember { mutableStateOf(0) }
+
+    // locais salvos (ViewModel partilhado)
+    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
+    val savedLocationsCount = savedPlaces.size
 
     // 1) Carregar info do user (apenas 1 vez)
     LaunchedEffect(Unit) {
@@ -176,7 +184,10 @@ fun DashboardScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 StatusCard(title = "Grupos", value = groupCount.toString())
-                StatusCard(title = "Locais Salvos", value = "5")
+                StatusCard(
+                    title = "Locais Salvos",
+                    value = savedLocationsCount.toString()
+                )
             }
 
             Spacer(modifier = Modifier.height(48.dp))
@@ -191,7 +202,8 @@ fun DashboardScreen(navController: NavController) {
             CustomOutlinedButton(
                 text = "Criar Novo Grupo",
                 onClick = { navController.navigate(NavPath.CreateGroup.route) }
-            )        }
+            )
+        }
     }
 }
 
@@ -199,5 +211,5 @@ fun DashboardScreen(navController: NavController) {
 @Composable
 fun DashboardScreenPreview() {
     val navController = rememberNavController()
-    DashboardScreen(navController)
+    DashboardScreen(navController, SavedPlaceViewModel())
 }

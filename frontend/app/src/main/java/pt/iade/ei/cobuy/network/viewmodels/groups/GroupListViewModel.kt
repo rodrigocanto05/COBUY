@@ -21,9 +21,6 @@ class GroupListsViewModel : ViewModel() {
     var uiState by mutableStateOf(GroupListsUiState())
         private set
 
-    /**
-     * Carrega as listas de um grupo específico para um dado user
-     */
     fun loadGroupLists(groupId: Int, userId: Int) {
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true, error = null)
@@ -53,15 +50,11 @@ class GroupListsViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Cria uma nova lista neste grupo para o user indicado.
-     * A descrição é opcional (por enquanto não é enviada para a API).
-     */
     fun createList(
         groupId: Int,
         userId: Int,
         title: String,
-        description: String? // ainda não usado na API, mas deixo para futuro
+        description: String?
     ) {
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true, error = null)

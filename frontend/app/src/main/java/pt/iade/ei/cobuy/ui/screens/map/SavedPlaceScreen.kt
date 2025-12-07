@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -16,17 +17,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
-import androidx.compose.foundation.shape.RoundedCornerShape
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SavedLocationsScreen(navController: NavController) {
+fun SavedLocationsScreen(
+    navController: NavController,
+    savedPlaceViewModel: SavedPlaceViewModel
+) {
 
-    val viewModel: SavedPlaceViewModel = viewModel()
-    val savedPlaces by viewModel.savedPlaces.collectAsState()
+    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -38,7 +39,7 @@ fun SavedLocationsScreen(navController: NavController) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Voltar atrás",
-                            tint = Color(0xFFFF9800) // cor igual ao MapScreen
+                            tint = Color(0xFFFF9800) // mesma cor do MapScreen
                         )
                     }
                 },
@@ -88,7 +89,6 @@ fun SavedLocationsScreen(navController: NavController) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
 
-                            // NOME — evita que empurre o ícone
                             Text(
                                 text = place.name,
                                 fontSize = 18.sp,
@@ -99,7 +99,7 @@ fun SavedLocationsScreen(navController: NavController) {
 
                             IconButton(
                                 onClick = {
-                                    viewModel.remove(place.id)
+                                    savedPlaceViewModel.remove(place.id)
                                     Toast.makeText(
                                         context,
                                         "Removido dos favoritos!",
@@ -113,7 +113,6 @@ fun SavedLocationsScreen(navController: NavController) {
                                     tint = Color(0xFF333333)
                                 )
                             }
-
                         }
                     }
                 }
