@@ -24,6 +24,8 @@ import pt.iade.ei.cobuy.ui.screens.recipe.RecipesScreen
 import pt.iade.ei.cobuy.ui.screens.recipesingredients.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
+import pt.iade.ei.cobuy.storage.model.ShoppingList
+import pt.iade.ei.cobuy.ui.screens.list.ListItemsScreen
 
 
 @Composable
@@ -74,6 +76,22 @@ fun appNavigation() {
                 navController = navController,
                 groupId = groupId,
                 groupName = groupName,
+            )
+        }
+        composable(
+            route = NavPath.ListItems.route,
+            arguments = listOf(
+                navArgument("listId") { type = NavType.IntType },
+                navArgument("listName") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val listId = backStackEntry.arguments?.getInt("listId") ?: 0
+            val listName = backStackEntry.arguments?.getString("listName") ?: ""
+
+            ListItemsScreen(
+                navController = navController,
+                listId = listId,
+                listName = listName,
             )
         }
 

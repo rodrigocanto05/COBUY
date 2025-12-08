@@ -32,5 +32,8 @@ sealed class NavPath(val route: String) {
             "myLists/$groupId/${Uri.encode(groupName)}"
     }
 
-
+    object ListItems : NavPath("list_items/{listId}/{listName}") {
+        fun withArgs(listId: Int, listName: String) =
+            "list_items/$listId/${Uri.encode(listName)}"
+    }
 }

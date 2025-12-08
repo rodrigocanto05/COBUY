@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,7 +46,9 @@ import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList
+import pt.iade.ei.cobuy.ui.components.cards.ShoppingListCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.screens.MembersSideCard
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
@@ -91,7 +94,8 @@ fun GroupListScreen(
                             showMembersSheet = !showMembersSheet
                             if (showMembersSheet) {
                                 membersViewModel.loadMembers(groupId)
-                                membersViewModel.loadGroupCode(groupId)                            }
+                                membersViewModel.loadGroupCode(groupId)
+                            }
                         }
                     ) {
                         Text(
@@ -168,7 +172,17 @@ fun GroupListScreen(
                                 contentPadding = PaddingValues(bottom = 96.dp)
                             ) {
                                 gridItems(listsUiState.lists) { list ->
-                                    ShoppingListCard(list = list)
+                                    ShoppingListCard(
+                                        list = list,
+                                        onClick = {
+                                            navController.navigate(
+                                                NavPath.ListItems.withArgs(
+                                                    listId = list.id,
+                                                    listName = list.title
+                                                )
+                                            )
+                                        }
+                                    )
                                 }
                             }
                         }
@@ -179,7 +193,7 @@ fun GroupListScreen(
             MembersSideCard(
                 visible = showMembersSheet,
                 memberships = membersUiState.members,
-                groupCode = membersUiState.groupCode,   // <<< AQUI PASSAMOS O CÓDIGO
+                groupCode = membersUiState.groupCode,
                 onDismiss = { showMembersSheet = false },
                 onLeaveGroup = {
                     membersViewModel.leaveGroup(groupId) { ok, msg ->
@@ -242,45 +256,6 @@ fun GroupListScreen(
     }
 }
 
-@Composable
-fun ShoppingListCard(list: ShoppingList) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(1.1f),
-        shape = RoundedCornerShape(18.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = list.title,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = OrangePrimary,
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            list.createdAt?.let {
-                Text(
-                    text = "Criada em: ${it.substring(0, 10)}",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = TextDark.copy(alpha = 0.7f),
-                        fontSize = 13.sp
-                    )
-                )
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
