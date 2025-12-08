@@ -24,9 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.cobuy.storage.model.ListItem
+import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 import pt.iade.ei.cobuy.ui.theme.TextLight
@@ -70,3 +72,20 @@ fun ShoppingItemCard(item: ListItem, onItemClicked: (ListItem) -> Unit) {
         }
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun ShoppingItemCardDonePreview() {
+    val doneItem = ListItem(
+        id = 2,
+        name = "Arroz",
+        done = true
+    )
+
+    COBUYTheme {
+        ShoppingItemCard(
+            item = doneItem,
+            onItemClicked = {}
+        )
+    }
+}
+

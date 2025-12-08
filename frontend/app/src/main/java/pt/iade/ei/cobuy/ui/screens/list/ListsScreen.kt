@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.ui.screens.group
+package pt.iade.ei.cobuy.ui.screens.list
 
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -44,7 +44,6 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
-import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.screens.MembersSideCard

@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,8 +35,10 @@ import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard
 import pt.iade.ei.cobuy.ui.navigation.NavPath
+import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -198,9 +201,17 @@ fun DashboardScreen(
     }
 }
 
-@Preview(showBackground = true)
+@SuppressLint("ViewModelConstructorInComposable")
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DashboardScreenPreview() {
     val navController = rememberNavController()
-    DashboardScreen(navController, SavedPlaceViewModel())
+    val fakeViewModel = SavedPlaceViewModel()
+
+    COBUYTheme {
+        DashboardScreen(
+            navController = navController,
+            savedPlaceViewModel = fakeViewModel
+        )
+    }
 }

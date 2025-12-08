@@ -61,14 +61,14 @@ fun ProfileScreenContent(
 ) {
     Scaffold(
         topBar = { CoBuyTopBar("Perfil", navController) },
-        containerColor = BackgroundLight
+        containerColor = Color.White
     ) { padding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(Color(0xFFF7ECFF))
+                .background(Color.White)
                 .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

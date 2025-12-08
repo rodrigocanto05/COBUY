@@ -13,11 +13,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.ui.navigation.NavPath
+import pt.iade.ei.cobuy.ui.theme.COBUYTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 
 @Composable
 fun CoBuyBottomBar(navController: NavController) {
@@ -78,6 +85,32 @@ fun CoBuyBottomBar(navController: NavController) {
                         )
                     }
                 }
+            }
+        }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun CoBuyBottomBarPreview() {
+    val navController = rememberNavController()
+
+    COBUYTheme {
+        Box(Modifier.fillMaxSize()) {
+
+            NavHost(
+                navController = navController,
+                startDestination = NavPath.Dashboard.route,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                composable(NavPath.Dashboard.route) {}
+                composable(NavPath.Map.route) {}
+                composable(NavPath.Recipes.route) {}
+            }
+
+            Box(
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
+                CoBuyBottomBar(navController = navController)
             }
         }
     }

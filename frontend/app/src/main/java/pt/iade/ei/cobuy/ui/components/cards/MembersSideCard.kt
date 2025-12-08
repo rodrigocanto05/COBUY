@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
 import pt.iade.ei.cobuy.storage.model.Membership
+import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 
@@ -278,8 +279,41 @@ private fun MemberRow(
         }
     }
 }
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MembersSideCardPreview() {
+    val fakeMemberships = listOf(
+        Membership(
+            id = 1,
+            name = "Tu (owner)",
+            role = "owner",
+            email = "tu@exemplo.com"
+        ),
+        Membership(
+            id = 2,
+            name = "João Silva",
+            role = "admin",
+            email = "joao@exemplo.com"
+        ),
+        Membership(
+            id = 3,
+            name = "Maria Santos",
+            role = "member",
+            email = "maria@exemplo.com"
+        )
+    )
 
+    COBUYTheme {
+        MembersSideCard(
+            visible = true,
+            memberships = fakeMemberships,
+            groupCode = "GRP-12345",
+            onDismiss = {},
+            onLeaveGroup = {},
+            onInviteMember = {},
+            onKickMember = { /* membership -> */ },
+            currentUserId = 1,
+            isCurrentUserOwner = true
+        )
+    }
 }
