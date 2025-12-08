@@ -176,7 +176,7 @@ A arquitetura segue um modelo **cliente-servidor**:
 - **APIs:** Google Maps API  
 - **Outras:** GitHub, Figma, Postman  
 
-## 7.vi. Versão atualizada dos Casos de Utilização
+## vi. Versão atualizada dos Casos de Utilização
 
 ### **Lista de Casos de Utilização**
 1. Criar Conta  
@@ -422,43 +422,145 @@ Aqui se encontra a versao final do diagrama de calsses da **COBUY**:
 
 ### viii. BD_Report 
 
-
+https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/BD_Report.md
 
 ---
 
 ### ix. Documentação REST
 
+https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/REST.md
+
+---
+
+### ix. Manual de utilização
+
 
 
 ---
 
+# 8. Planeamento e calendarização final
 
-# 8. 
+O planeamento do projeto **CoBuy** foi estruturado com base numa distribuição temporal coerente com as necessidades do desenvolvimento, garantindo uma progressão lógica desde a fase inicial de análise até à implementação e validação final. O cronograma foi organizado em semanas e contempla todas as etapas essenciais do projeto, permitindo acompanhar a evolução das tarefas e identificar a carga de trabalho ao longo do semestre.
 
-## 14. Conclusão
-A **COBUY** não é apenas uma lista de compras digital, mas sim uma **plataforma colaborativa e inteligente**. O seu impacto pode ser sentido em três níveis:  
+A calendarização encontra-se representada no gráfico de Gantt abaixo, onde é possível visualizar a duração de cada tarefa, bem como os respetivos períodos de execução ao longo do projeto.
 
-- **Social:** fortalece a colaboração entre membros de famílias, casais e grupos de amigos, criando um hábito mais organizado e participativo.  
-- **Económico:** reduz desperdícios e gastos desnecessários, já que os utilizadores compram apenas o que precisam.  
-- **Tecnológico:** combina funcionalidades modernas como sincronização em tempo real, geolocalização e algoritmos inteligentes de recomendação.  
+<img width="800" height="500" alt="gantt" src="https://github.com/user-attachments/assets/788723b5-cebd-42df-acf2-d07909543e1c" />
 
-Futuramente, a COBUY poderá integrar-se com supermercados locais para permitir compras online, gerar listas a partir de comandos de voz e até sugerir menus semanais completos com base em restrições alimentares.  
+---
 
-Assim, este projeto não só cumpre os objetivos inicialmente propostos, como também abre caminho para evolução futura em direção a uma solução de **smart shopping**.  
+### 8.1 Justificação do planeamento
 
-## 15. Bibliografia
-AnyList. (2025). *AnyList app*. Recuperado de https://www.anylist.com/  
+O planeamento foi elaborado de forma a:
 
-Bring! Labs AG. (2025). *Bring! Shopping list & recipes*. Recuperado de https://www.getbring.com/  
+- **Garantir uma evolução progressiva** desde a análise de requisitos até à implementação completa;
+- **Distribuir as fases críticas ao longo do tempo**, evitando picos de trabalho excessivo;
+- **Permitir ciclos de iteração**, sobretudo nas fases de desenvolvimento Android, backend e testes;
+- **Reservar períodos específicos para documentação e entrega**, refletidos nas duas fases do relatório (semanas 1–4 e 12–14).
 
-Listonic. (2025). *Smart grocery shopping list*. Recuperado de https://listonic.com/  
+A sobreposição controlada de tarefas reflete uma abordagem de desenvolvimento iterativo, em que o backend, o frontend e a integração foram evoluindo em paralelo, permitindo testar e ajustar funcionalidades ao longo do processo.
 
-SuperCook. (2025). *Recipe generator*. Recuperado de https://www.supercook.com/  
+---
 
-Google Developers. (2025). *Google Maps Platform documentation*. Recuperado de https://developers.google.com/maps  
+### 8.3 Análise da execução
 
-Android Developers. (2025). *Android Studio documentation*. Recuperado de https://developer.android.com/studio  
+- As fases de **levantamento de requisitos**, **pesquisa de mercado** e **design de interfaces** foram concentradas no início do projeto, criando uma base sólida para o desenvolvimento técnico.
+- A implementação da **base de dados**, **API REST** e **aplicação Android** decorreu em paralelo, permitindo integrar progressivamente as funcionalidades principais.
+- A **integração com Mapas, Rotas e Locais Salvos** foi iniciada apenas após a existência da API do Google e de uma estrutura mínima de dados.
+- As funcionalidades de **grupos, listas colaborativas e receitas** foram desenvolvidas numa fase intermédia, já com a arquitetura estabilizada.
+- Os **testes funcionais e de usabilidade** acompanharam as últimas semanas de desenvolvimento, permitindo corrigir erros e refinar a experiência do utilizador.
+- A **documentação final** (relatório, poster e vídeo) foi trabalhada em dois momentos: uma fase inicial dedicada à proposta e estrutura do relatório, e uma fase final para consolidação dos resultados e preparação da apresentação.
 
-Spring. (2025). *Spring Boot reference documentation*. Recuperado de https://spring.io/projects/spring-boot  
+Este planeamento permitiu manter uma visão clara da evolução do projeto, assegurando que as funcionalidades críticas ficassem concluídas antes da fase de testes e da preparação da entrega final.
 
-Oracle. (2025). *MySQL reference manual*. Recuperado de https://dev.mysql.com/doc/  
+---
+
+## 9. Autoavaliação da implementação do projeto
+
+A implementação do projeto CoBuy revelou-se um desafio significativo para o grupo, sobretudo pela necessidade de integrar múltiplas componentes — base de dados, backend, frontend e APIs externas — num único sistema coerente e funcional. Ao longo do desenvolvimento, surgiram vários obstáculos técnicos e organizacionais que influenciaram o resultado final, mas que também contribuíram para um processo de aprendizagem aprofundado.
+
+---
+
+### 9.1 Dificuldades encontradas
+
+O projeto exigiu a articulação constante entre diferentes áreas tecnológicas, sendo o frontend a parte mais trabalhosa devido ao volume de ecrãs, navegação e interações necessárias. A integração com o backend e com funcionalidades adicionais, como mapas, rotas e receitas, aumentou a complexidade geral do sistema.
+
+A nível organizacional, verificou-se que um dos membros do grupo não conseguiu contribuir como esperado na fase mais intensiva do desenvolvimento, o que gerou frustração e desequilíbrios na distribuição de tarefas. Embora o grupo reconheça que poderia ter existido uma melhor organização interna, a falta de participação desse elemento afetou a carga de trabalho dos restantes membros.
+
+---
+
+### 9.2 Funcionalidades que não foram implementadas e razões
+
+Apesar do esforço geral, algumas funcionalidades planeadas inicialmente não foram implementadas, por motivos de tempo, complexidade técnica ou aconselhamento direto dos professores:
+
+- **Notificações quando alguém entra no supermercado**: ideia presente na proposta inicial, mas considerada demasiado complexa devido à necessidade de monitorização contínua de localização e comunicação em tempo real. Os professores recomendaram não avançar com esta funcionalidade.
+
+- **Receitas inteligentes geradas por IA**: o objetivo inicial era o utilizador escrever o nome de uma refeição e a aplicação, através de IA, gerar os ingredientes. A complexidade da integração e o tempo necessário para treinar ou consumir modelos externos levaram à substituição por uma solução mais simples e estável.
+
+- **Mapa com supermercados próximos baseados na localização real do utilizador**: embora exista integração com mapas, a funcionalidade ficou limitada a uma zona específica (IAD), devido a constrangimentos técnicos e de tempo. A deteção dinâmica da localização ainda não foi concluída.
+
+O grupo reconhece que algumas destas funcionalidades tinham potencial, mas eram demasiado ambiciosas para o calendário disponível.
+
+---
+
+### 9.3 Alterações e prioridades novas durante o projeto
+
+Embora algumas funcionalidades não tenham avançado, outras acabaram por ser expandidas ou adicionadas:
+
+- A área das **receitas** foi melhorada com visualização de ingredientes e adição rápida à lista de compras.
+- A navegação e o design foram ajustados várias vezes para melhorar a experiência do utilizador.
+- A estrutura interna do backend e da app foi reorganizada para garantir maior estabilidade.
+
+Estas decisões permitiram focar no essencial e entregar um produto funcional e coerente dentro do prazo.
+
+---
+
+### 9.4 Avaliação final do grupo
+
+A segunda entrega do semestre ficou aquém do esperado devido a atrasos e falhas de organização, mas na terceira fase três membros do grupo trabalharam intensamente para recuperar o ritmo e concluir o projeto. Houve um esforço coletivo significativo para garantir a qualidade e estabilidade da aplicação final.
+
+Apesar das dificuldades, o grupo considera que:
+
+- O resultado final supera as etapas anteriores;  
+- A aplicação está funcional, intuitiva e próxima daquilo que foi idealizado;  
+- O processo, embora desgastante, foi uma oportunidade real de aprendizagem prática;  
+- Este projeto foi mais exigente do que os dos semestres anteriores, mas também o mais enriquecedor.
+
+Existe até a possibilidade futura de continuar o desenvolvimento do CoBuy, caso o grupo deseje transformar este conceito numa aplicação completa.
+
+---
+
+## 10. Conclusão
+
+O desenvolvimento do projeto **CoBuy** representou uma oportunidade significativa para a aplicação prática dos conhecimentos adquiridos ao longo do semestre, integrando áreas como desenvolvimento mobile, modelação de dados, APIs REST, navegação por mapas e desenho de interfaces. O resultado final traduz-se numa aplicação funcional, útil e alinhada com o problema inicialmente identificado: a dificuldade de organizar compras colaborativas no quotidiano.
+
+A aplicação apresenta um conjunto consistente de funcionalidades, incluindo gestão de grupos, listas de compras partilhadas, receitas, integração com mapas e rotas, bem como mecanismos essenciais de autenticação. Embora algumas funcionalidades previstas inicialmente não tenham sido implementadas, o projeto manteve-se fiel à sua visão central e foi capaz de oferecer um produto sólido, intuitivo e tecnicamente bem estruturado.
+
+Ao longo do desenvolvimento, foram tomadas decisões estratégicas — como simplificar certas componentes ou reforçar outras — que permitiram otimizar o tempo, assegurar estabilidade e elevar a qualidade final da aplicação. Além disso, funcionalidades adicionais que não estavam na proposta inicial acabaram por enriquecer o projeto, demonstrando iniciativa e capacidade de adaptação da equipa.
+
+De forma global, o CoBuy constitui um projeto robusto, que cumpre os objetivos essenciais definidos na fase inicial e que demonstra a evolução técnica e organizacional do grupo. O resultado final reflete não só o esforço individual de cada membro, mas também a capacidade coletiva de superar desafios, reorganizar prioridades e entregar uma solução funcional e relevante.
+
+O projeto abre ainda portas para possíveis evoluções futuras, como integração de inteligência artificial para sugestões mais inteligentes, notificações em tempo real, melhorias de localização e funcionalidades avançadas de planeamento alimentar. Estas possibilidades reforçam o potencial do CoBuy enquanto aplicação real e reforçam a qualidade da base desenvolvida durante este semestre.
+
+---
+
+## 11. Bibliografia 
+
+AnyList. (2025). *AnyList app*. https://www.anylist.com/
+
+Android Developers. (2025). *Android Studio documentation*. https://developer.android.com/studio
+
+Android Developers. (2025). *Jetpack Compose documentation*. https://developer.android.com/jetpack/compose
+
+Bring! Labs AG. (2025). *Bring! Shopping list & recipes*. https://www.getbring.com/
+
+Google Developers. (2025). *Google Maps Platform documentation*. https://developers.google.com/maps
+
+Listonic. (2025). *Smart grocery shopping list*. https://listonic.com/
+
+Oracle. (2025). *MySQL reference manual*. https://dev.mysql.com/doc/
+
+Postman. (2025). *Postman API testing platform*. https://www.postman.com/
+
+Spring. (2025). *Spring Boot reference documentation*. https://spring.io/projects/spring-boot
+
+SuperCook. (2025). *Recipe generator*. https://www.supercook.com/
