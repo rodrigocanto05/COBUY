@@ -22,7 +22,6 @@ class GroupMembersViewModel : ViewModel() {
     var uiState by mutableStateOf(GroupMembersUiState())
         private set
 
-    // carregar membros
     fun loadMembers(groupId: Int) {
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true, error = null)
@@ -50,7 +49,7 @@ class GroupMembersViewModel : ViewModel() {
         }
     }
 
-    // expulsar membro (owner)
+
     fun removeMember(
         groupId: Int,
         memberId: Int,
@@ -67,7 +66,6 @@ class GroupMembersViewModel : ViewModel() {
                 val response =
                     GroupApi.service.removeMember(groupId, memberId, requesterId)
                 if (response.isSuccessful) {
-                    // remove da lista local
                     uiState = uiState.copy(
                         members = uiState.members.filterNot { it.id == memberId }
                     )
@@ -84,7 +82,6 @@ class GroupMembersViewModel : ViewModel() {
         }
     }
 
-    // sair do grupo
     fun leaveGroup(
         groupId: Int,
         onResult: (Boolean, String?) -> Unit
@@ -113,7 +110,4 @@ class GroupMembersViewModel : ViewModel() {
         }
     }
 
-    fun clearError() {
-        uiState = uiState.copy(error = null)
-    }
 }

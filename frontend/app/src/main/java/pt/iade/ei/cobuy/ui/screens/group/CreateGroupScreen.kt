@@ -29,13 +29,11 @@ import kotlin.random.Random
 fun CreateGroupScreen(navController: NavController) {
     val context = LocalContext.current
     val viewModel: GroupViewModel = viewModel()
+    val currentUserId = SessionViewModel.currentUserId
 
     var groupName by remember { mutableStateOf("") }
     var generatedCode by remember { mutableStateOf(generateCode()) }
     var isLoading by remember { mutableStateOf(false) }
-
-    // em vez de userId = 1
-    val currentUserId = SessionViewModel.currentUserId
 
     Scaffold(
         topBar = { CoBuyTopBar("Criar Grupo", navController = navController) },
@@ -95,7 +93,6 @@ fun CreateGroupScreen(navController: NavController) {
                         return@PrimaryButton
                     }
 
-                    // se por algum motivo não houver user em sessão
                     val userId = currentUserId
                     if (userId == null) {
                         Toast.makeText(
@@ -118,9 +115,6 @@ fun CreateGroupScreen(navController: NavController) {
                             generatedCode = generateCode()
                             groupName = ""
 
-                            // Aqui podes navegar para a lista de grupos se quiseres
-                            // navController.popBackStack()
-                            // navController.navigate(NavPath.MyGroups.route)
 
                         } else {
                             Toast.makeText(

@@ -10,14 +10,14 @@ import retrofit2.http.*
 
 interface ListApi {
 
-    // GET listas de um grupo
+
     @GET("api/groups/{groupId}/lists")
     suspend fun getGroupLists(
         @Path("groupId") groupId: Int,
         @Query("userId") userId: Int
     ): Response<List<ShoppingList>>
 
-    // POST criar lista num grupo
+
     @POST("api/groups/{groupId}/lists")
     suspend fun createList(
         @Path("groupId") groupId: Int,

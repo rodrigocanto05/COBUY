@@ -12,7 +12,6 @@ fun HamburguerCaseiroScreen(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.40 kg → 400 g
         IngredientUi(
             id = 10,
             name = "Carne picada de vaca",

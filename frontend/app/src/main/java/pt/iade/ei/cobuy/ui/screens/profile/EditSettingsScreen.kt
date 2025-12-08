@@ -53,14 +53,13 @@ fun EditSettingsScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
 
-            // -------- EMAIL --------
+
             CustomTextField(
                 value = email,
                 onValueChange = { email = it },
                 label = "Novo Email"
             )
 
-            // -------- PASSWORD --------
             CustomTextField(
                 value = oldPassword,
                 onValueChange = { oldPassword = it },
@@ -75,11 +74,9 @@ fun EditSettingsScreen(
 
             PrimaryButton("Guardar Alterações") {
 
-                // 1 — atualizar email
                 authViewModel.updateEmail(email) { okEmail ->
                     if (!okEmail) return@updateEmail
 
-                    // 2 — atualizar password (se o user preencheu)
                     if (oldPassword.isNotBlank() && newPassword.isNotBlank()) {
                         authViewModel.updatePassword(oldPassword, newPassword) { okPass ->
                             if (okPass) navController.popBackStack()

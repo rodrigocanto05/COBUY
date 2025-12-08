@@ -35,7 +35,7 @@ fun EditProfileScreen(
     val user by authViewModel.currentUser
 
     var name by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("M") }   // default
+    var gender by remember { mutableStateOf("M") }
 
     LaunchedEffect(user) {
         user?.let {
@@ -51,7 +51,7 @@ fun EditProfileScreen(
         onNameChange = { name = it },
         onGenderChange = { gender = it },
         onSave = {
-            // Mantém a lógica: atualiza apenas nome e género
+
             authViewModel.updateUser(name, gender) { ok ->
                 if (ok) {
                     navController.popBackStack()
@@ -87,7 +87,7 @@ fun EditProfileScreenContent(
 
             Spacer(Modifier.height(8.dp))
 
-            // Campos de edição
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -99,7 +99,7 @@ fun EditProfileScreenContent(
                     label = "Nome"
                 )
 
-                // ---- Género igual ao RegisterScreen ----
+
                 Text(
                     text = "Género",
                     fontWeight = FontWeight.SemiBold,

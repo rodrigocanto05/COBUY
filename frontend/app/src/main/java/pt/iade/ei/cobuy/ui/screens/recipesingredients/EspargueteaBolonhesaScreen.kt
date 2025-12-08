@@ -12,13 +12,11 @@ fun EspargueteaBolonhesa(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.30 kg → 300 g
         IngredientUi(
             id = 1,
             name = "Esparguete",
             quantityText = "300 g"
         ),
-        // 0.40 kg → 400 g
         IngredientUi(
             id = 10,
             name = "Carne picada de vaca",
@@ -34,13 +32,11 @@ fun EspargueteaBolonhesa(
             name = "Dentes de alho",
             quantityText = "2 un"
         ),
-        // 100 ml
         IngredientUi(
             id = 51,
             name = "Molho de tomate",
             quantityText = "100 ml"
         ),
-        // 50 ml
         IngredientUi(
             id = 52,
             name = "Polpa de tomate",

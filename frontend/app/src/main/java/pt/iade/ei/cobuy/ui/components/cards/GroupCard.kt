@@ -47,7 +47,7 @@ fun GroupCard(group: Group, navController: NavController) {
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
-                // Nome do grupo
+
                 Text(
                     text = group.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -57,10 +57,10 @@ fun GroupCard(group: Group, navController: NavController) {
                     )
                 )
 
-                // Data de criação (opcional)
+
                 group.createdAt?.let {
                     Text(
-                        text = "Criado em: ${it.substring(0, 10)}", // mostra só YYYY-MM-DD
+                        text = "Criado em: ${it.substring(0, 10)}",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = TextDark.copy(alpha = 0.7f),
                             fontSize = 13.sp
@@ -74,7 +74,7 @@ fun GroupCard(group: Group, navController: NavController) {
                     navController.navigate(
                         NavPath.MyLists.withArgs(
                             group.id ?: 0,
-                            group.name              // 👈 passas o nome do grupo
+                            group.name
                         )
                     )
                 },

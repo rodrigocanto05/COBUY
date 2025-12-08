@@ -17,7 +17,6 @@ fun LasanhadeCarneScreen(
             name = "Placas de lasanha",
             quantityText = "12 un"
         ),
-        // 0.50 kg → 500 g
         IngredientUi(
             id = 10,
             name = "Carne picada de vaca",
@@ -33,13 +32,11 @@ fun LasanhadeCarneScreen(
             name = "Dentes de alho",
             quantityText = "2 un"
         ),
-        // 0.20 L → 200 ml
         IngredientUi(
             id = 51,
             name = "Molho de tomate",
             quantityText = "200 ml"
         ),
-        // 150 g
         IngredientUi(
             id = 21,
             name = "Queijo ralado",
@@ -55,13 +52,11 @@ fun LasanhadeCarneScreen(
             name = "Farinha de trigo",
             quantityText = "20 g"
         ),
-        // 0.50 L → 500 ml
         IngredientUi(
             id = 17,
             name = "Leite",
             quantityText = "500 ml"
         ),
-        // 0.02 L → 20 ml
         IngredientUi(
             id = 50,
             name = "Azeite",

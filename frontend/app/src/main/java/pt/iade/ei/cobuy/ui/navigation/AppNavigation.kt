@@ -38,7 +38,6 @@ fun appNavigation() {
         startDestination = NavPath.Home.route
     ) {
 
-        // *************** SCREENS ***************
         composable(NavPath.Home.route) { HomeScreen(navController) }
         composable(NavPath.Login.route) { LoginScreen(navController) }
         composable(NavPath.Register.route) { RegisterScreen(navController) }
@@ -93,6 +92,13 @@ fun appNavigation() {
             )
         }
 
+        composable("arrozdoce") {
+            ArrozDoceScreen(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
+
         composable("frangogrelhado") {
             FrangoGrelhadoScreen(
                 navController = navController,
@@ -142,6 +148,13 @@ fun appNavigation() {
             )
         }
 
+        composable("pizzacaseira") {
+            PizzaCaseiraScreen(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
+
         composable("panquecas") {
             PanquecasScreen(
                 navController = navController,
@@ -169,5 +182,45 @@ fun appNavigation() {
                 onAddIngredientToShoppingList = {}
             )
         }
+
+        composable("wrapfrangoalface") {
+            WrapdeFrangocomAlfaceScreen(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
+
+            composable("saladamediterranica") {
+                SaladaMediterranicaScreen(
+                    navController = navController,
+                    onAddIngredientToShoppingList = {}
+                )
+            }
+
+        composable("hamburgercaseiro") {
+            HamburguerCaseiroScreen(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
+        composable("bolodechocolate") {
+            BolodeChocolateScreen(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
+        composable("gelatinaiogurte") {
+            GelatinacomIogurteScreen(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
+        composable("bolonhesa") {
+            EspargueteaBolonhesa(
+                navController = navController,
+                onAddIngredientToShoppingList = {}
+            )
+        }
     }
 }
+

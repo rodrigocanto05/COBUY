@@ -45,7 +45,7 @@ fun MembersSideCard(
     isCurrentUserOwner: Boolean = false
 ) {
     var sheetWidth by remember { mutableStateOf(0f) }
-    var offsetX by remember { mutableStateOf(0f) } // 0 = aberto, sheetWidth = totalmente escondido
+    var offsetX by remember { mutableStateOf(0f) }
 
     val animatedOffsetX by animateFloatAsState(
         targetValue = offsetX,
@@ -157,7 +157,6 @@ fun MembersSideCard(
                                 .weight(1f)
                                 .fillMaxWidth()
                         ) {
-                            // >>> ESTA É A PARTE DO PASSO 1.3 (items + parâmetros novos)
                             items(memberships) { membership ->
                                 MemberRow(
                                     membership = membership,

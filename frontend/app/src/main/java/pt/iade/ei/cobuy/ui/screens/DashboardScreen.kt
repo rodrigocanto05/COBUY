@@ -45,7 +45,6 @@ fun DashboardScreen(
 ) {
     val context = LocalContext.current
 
-    // ViewModels
     val groupViewModel: GroupViewModel = viewModel()
     val authViewModel: AuthViewModel = viewModel(
         factory = AuthViewModelFactory(context)
@@ -54,16 +53,13 @@ fun DashboardScreen(
     val user by authViewModel.currentUser
     var groupCount by remember { mutableStateOf(0) }
 
-    // locais salvos (ViewModel partilhado)
     val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
     val savedLocationsCount = savedPlaces.size
 
-    // 1) Carregar info do user (apenas 1 vez)
     LaunchedEffect(Unit) {
         authViewModel.loadUser()
     }
 
-    // 2) Quando o user estiver carregado, buscar os grupos desse user
     LaunchedEffect(user?.id) {
         val currentUser = user
         if (currentUser != null) {
@@ -75,10 +71,8 @@ fun DashboardScreen(
         }
     }
 
-    // Obter primeiro nome
     val firstName = user?.name?.substringBefore(" ") ?: "Utilizador"
 
-    // Obter iniciais (2 primeiras letras úteis)
     val initials = user?.name
         ?.split(" ")
         ?.filter { it.isNotBlank() }
@@ -149,7 +143,6 @@ fun DashboardScreen(
             verticalArrangement = Arrangement.Center
         ) {
 
-            // LOGO
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "App Logo",
@@ -158,7 +151,6 @@ fun DashboardScreen(
                     .padding(bottom = 16.dp)
             )
 
-            // FRASE DE BOAS-VINDAS
             Text(
                 text = "Bem-vindo, $firstName!",
                 fontWeight = FontWeight.Bold,
@@ -177,7 +169,6 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(36.dp))
 
-            // STATUS
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,

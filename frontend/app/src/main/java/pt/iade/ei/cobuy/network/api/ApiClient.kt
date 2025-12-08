@@ -11,23 +11,17 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    // Guarda o contexto da app (para o TokenManager)
     private lateinit var appContext: Context
 
     fun initialize(context: Context) {
         appContext = context.applicationContext
     }
 
-    // ----------------------------------------
-    // LOGGING COMPLETO (inclui corpos grandes)
-    // ----------------------------------------
+
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    // ----------------------------------------
-    // CLIENTE HTTP DO BACKEND (tem TOKEN)
-    // ----------------------------------------
     private val backendClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor(TokenInterceptor(App.instance.tokenManager)) // Auth
@@ -38,9 +32,6 @@ object ApiClient {
             .build()
     }
 
-    // ----------------------------------------
-    // BACKEND RETROFIT
-    // ----------------------------------------
     private const val BACKEND_URL = "http://10.0.2.2:8082/"
 
     val backendRetrofit: Retrofit by lazy {
@@ -59,9 +50,7 @@ object ApiClient {
         backendRetrofit.create(SupermarketApi::class.java)
     }
 
-    // ----------------------------------------
-    // GOOGLE CLIENT (SEM TOKEN, MAS COM LOGS)
-    // ----------------------------------------
+
     private val googleClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor(logging) // Logs apenas
@@ -71,9 +60,6 @@ object ApiClient {
             .build()
     }
 
-    // ----------------------------------------
-    // GOOGLE RETROFIT
-    // ----------------------------------------
     private const val GOOGLE_URL = "https://maps.googleapis.com/maps/api/"
 
     private val googleRetrofit: Retrofit by lazy {

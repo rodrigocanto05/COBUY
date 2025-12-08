@@ -3,9 +3,9 @@ package pt.iade.ei.cobuy.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Laranjas
-val OrangeLight   = Color(0xFFFFCC80) // claro (para gradientes)
-val OrangePrimary = Color(0xFFFF9800) // primária
-val OrangeDark    = Color(0xFFF57C00) // escura (opcional)
+val OrangeLight   = Color(0xFFFFCC80)
+val OrangePrimary = Color(0xFFFF9800)
+val OrangeDark    = Color(0xFFF57C00)
 
 // Fundo e texto
 val BackgroundLight = Color(0xFFFDFDFD)

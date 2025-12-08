@@ -50,7 +50,6 @@ import pt.iade.ei.cobuy.ui.screens.MembersSideCard
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 
-// -------------------- MY LISTS SCREEN --------------------
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -63,16 +62,12 @@ fun GroupListScreen(
 ) {
     val listsUiState = listsViewModel.uiState
     val membersUiState = membersViewModel.uiState
+    val context = LocalContext.current
+    val currentUserId = SessionViewModel.currentUserId
 
     var showCreateDialog by remember { mutableStateOf(false) }
     var showMembersSheet by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-
-    // user atual guardado no SessionViewModel
-    val currentUserId = SessionViewModel.currentUserId
-
-    // true se o user atual for owner neste grupo
     val isCurrentUserOwner = remember(membersUiState.members, currentUserId) {
         currentUserId != null &&
                 membersUiState.members.any {
@@ -80,12 +75,13 @@ fun GroupListScreen(
                 }
     }
 
-    // Carregar listas quando o ecrã abre ou muda de grupo/user
+
     LaunchedEffect(groupId, currentUserId) {
         currentUserId?.let { uid ->
             listsViewModel.loadGroupLists(groupId, uid)
         }
     }
+
 
     Scaffold(
         topBar = {

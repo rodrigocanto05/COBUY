@@ -12,25 +12,21 @@ fun ArrozdeMarisco(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.35 kg → 350 g
         IngredientUi(
             id = 3,
             name = "Arroz carolino",
             quantityText = "350 g"
         ),
-        // 0.30 kg → 300 g
         IngredientUi(
             id = 13,
             name = "Miolo de camarão",
             quantityText = "300 g"
         ),
-        // 0.25 kg → 250 g
         IngredientUi(
             id = 14,
             name = "Miolo de mexilhão",
             quantityText = "250 g"
         ),
-        // 0.25 kg → 250 g
         IngredientUi(
             id = 15,
             name = "Amêijoas",
@@ -51,19 +47,16 @@ fun ArrozdeMarisco(
             name = "Pimento vermelho",
             quantityText = "1 un"
         ),
-        // 0.20 L → 200 ml
         IngredientUi(
             id = 51,
             name = "Molho de tomate",
             quantityText = "200 ml"
         ),
-        // 0.80 L → 800 ml
         IngredientUi(
             id = 57,
             name = "Caldo de peixe",
             quantityText = "800 ml"
         ),
-        // 0.03 L → 30 ml
         IngredientUi(
             id = 50,
             name = "Azeite",

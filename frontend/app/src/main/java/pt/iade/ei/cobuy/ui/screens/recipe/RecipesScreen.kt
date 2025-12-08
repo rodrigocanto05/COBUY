@@ -35,7 +35,6 @@ data class Recipe(
 )
 
 
-// Lista das 20 receitas
 private val recipeList = listOf(
     Recipe(1, "Massa Carbonara", R.drawable.massa_carbonara, "massacarbonara"),
     Recipe(2, "Frango Grelhado", R.drawable.frangogrelhado, "frangogrelhado"),

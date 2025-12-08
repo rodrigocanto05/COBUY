@@ -32,7 +32,7 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 import pt.iade.ei.cobuy.ui.theme.TextLight
 
 @Composable
-fun ShoppingItemCard(item: ListItem, onItemClicked: (ListItem) -> Unit) { // Corrected type
+fun ShoppingItemCard(item: ListItem, onItemClicked: (ListItem) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

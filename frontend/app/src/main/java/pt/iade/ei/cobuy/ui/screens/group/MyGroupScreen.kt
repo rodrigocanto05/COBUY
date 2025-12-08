@@ -41,7 +41,6 @@ fun MyGroupsScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     var isSearchVisible by remember { mutableStateOf(false) }
 
-    // Chamada ao backend assim que o ecrã abre
     LaunchedEffect(Unit) {
         isLoading = true
 
@@ -57,7 +56,6 @@ fun MyGroupsScreen(navController: NavController) {
         }
     }
 
-    // lista filtrada para pesquisa
     val filteredUserGroups = remember(userGroups, searchQuery) {
         if (searchQuery.isBlank()) userGroups
         else userGroups.filter { it.name.contains(searchQuery, ignoreCase = true) }
@@ -148,7 +146,6 @@ fun MyGroupsScreen(navController: NavController) {
                 }
 
                 else -> {
-                    // 🔍 Lupa no canto direito
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -171,7 +168,6 @@ fun MyGroupsScreen(navController: NavController) {
                         }
                     }
 
-                    // 🔍 Barra de pesquisa
                     AnimatedVisibility(visible = isSearchVisible) {
                         OutlinedTextField(
                             value = searchQuery,
@@ -193,7 +189,6 @@ fun MyGroupsScreen(navController: NavController) {
                         )
                     }
 
-                    // LISTA COM SCROLL
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         modifier = Modifier.fillMaxSize(),

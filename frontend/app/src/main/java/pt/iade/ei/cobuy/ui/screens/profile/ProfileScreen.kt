@@ -75,7 +75,6 @@ fun ProfileScreenContent(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // LOGO (igual ao Dashboard)
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Foto de Perfil",
@@ -86,7 +85,6 @@ fun ProfileScreenContent(
 
             Spacer(Modifier.height(8.dp))
 
-            // CARD
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
@@ -125,7 +123,6 @@ fun ProfileScreenContent(
 
             Spacer(Modifier.height(32.dp))
 
-            // BOTÃO EDITAR PERFIL (75% largura, centrado)
             PrimaryButton(
                 text = "Editar Perfil",
                 onClick = { navController.navigate(NavPath.EditProfile.route) },
@@ -136,7 +133,6 @@ fun ProfileScreenContent(
 
             Spacer(Modifier.height(16.dp))
 
-            // BOTÃO EDITAR EMAIL/PASSWORD (75% largura, centrado)
             CustomOutlinedButton(
                 text = "Editar Email/Password",
                 onClick = { navController.navigate(NavPath.EditSettings.route) },

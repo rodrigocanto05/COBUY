@@ -12,7 +12,6 @@ fun ChilicomCarneScreen(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.50 kg → 500 g
         IngredientUi(
             id = 10,
             name = "Carne picada",
@@ -33,13 +32,11 @@ fun ChilicomCarneScreen(
             name = "Pimento vermelho",
             quantityText = "1 un"
         ),
-        // 0.40 kg → 400 g
         IngredientUi(
             id = 41,
             name = "Feijão vermelho cozido",
             quantityText = "400 g"
         ),
-        // 0.40 L → 400 ml
         IngredientUi(
             id = 51,
             name = "Molho de tomate",

@@ -20,14 +20,12 @@ interface GroupApi {
     @GET("api/groups/{id}")
     suspend fun getGroupById(@Path("id") id: Int): Response<Group>
 
-    // ---------- GRUPOS DO UTILIZADOR ----------
 
     @GET("api/groups/user/{userId}")
     suspend fun getUserGroups(
         @Path("userId") userId: Int
     ): Response<List<UserGroup>>
 
-    // ---------- CRIAR GRUPO ----------
 
     @POST("api/groups")
     suspend fun createGroup(
@@ -37,7 +35,6 @@ interface GroupApi {
         @Body group: Group
     ): Response<Group>
 
-    // ---------- ENTRAR EM GRUPO POR CÓDIGO ----------
 
     @POST("api/groups/join/{code}")
     suspend fun joinGroup(
@@ -47,7 +44,6 @@ interface GroupApi {
                 ?: error("User não definido em SessionManager")
     ): Response<Group>
 
-    // ---------- LISTAS DE UM GRUPO ----------
 
     @GET("api/lists/group/{groupId}")
     suspend fun getGroupLists(
@@ -57,7 +53,6 @@ interface GroupApi {
                 ?: error("User não definido em SessionManager")
     ): Response<List<ShoppingList>>
 
-    // ---------- CRIAR LISTA ----------
 
     @POST("api/lists")
     suspend fun createList(
@@ -67,14 +62,13 @@ interface GroupApi {
         @Body body: CreateListRequest
     ): Response<ShoppingList>
 
-    // ---------- MEMBROS DO GRUPO ----------
 
     @GET("api/groups/{groupId}/members")
     suspend fun getGroupMembers(
         @Path("groupId") groupId: Int
     ): Response<List<Membership>>
 
-    // ---------- SAIR DO GRUPO ----------
+
     @HTTP(
         method = "DELETE",
         path = "api/memberships/leave",
@@ -84,7 +78,7 @@ interface GroupApi {
         @Body body: LeaveGroupRequest
     ): Response<Void>
 
-    // ---------- EXPLUSAR MEMBRO (apenas owner) ----------
+
     @DELETE("api/memberships/{groupId}/remove/{userId}")
     suspend fun removeMember(
         @Path("groupId") groupId: Int,

@@ -12,13 +12,11 @@ fun BacalhaaBrasScreen(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.50 kg → 500 g
         IngredientUi(
             id = 11,
             name = "Bacalhau desfiado",
             quantityText = "500 g"
         ),
-        // 0.20 kg → 200 g
         IngredientUi(
             id = 69,
             name = "Batata palha",
@@ -34,7 +32,6 @@ fun BacalhaaBrasScreen(
             name = "Dentes de alho",
             quantityText = "2 un"
         ),
-        // 0.03 L → 30 ml
         IngredientUi(
             id = 50,
             name = "Azeite",

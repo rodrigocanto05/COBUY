@@ -12,13 +12,11 @@ fun SalmãonoFornocomBatatasScreen(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.60 kg → 600 g
         IngredientUi(
             id = 12,
             name = "Salmão",
             quantityText = "600 g"
         ),
-        // 2 kg → 2000 g
         IngredientUi(
             id = 30,
             name = "Batatas",
@@ -34,7 +32,6 @@ fun SalmãonoFornocomBatatasScreen(
             name = "Dentes de alho",
             quantityText = "2 un"
         ),
-        // 0.04 L → 40 ml
         IngredientUi(
             id = 50,
             name = "Azeite",

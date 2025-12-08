@@ -17,7 +17,6 @@ fun SopadeLegumesScreen(
             name = "Cenoura",
             quantityText = "2 un"
         ),
-        // 0.3 kg → 300 g
         IngredientUi(
             id = 30,
             name = "Batata",
@@ -33,13 +32,11 @@ fun SopadeLegumesScreen(
             name = "Courgette",
             quantityText = "1 un"
         ),
-        // 1 L → 1000 ml
         IngredientUi(
             id = 56,
             name = "Água",
             quantityText = "1000 ml"
         ),
-        // 0.03 L → 30 ml
         IngredientUi(
             id = 50,
             name = "Azeite",

@@ -12,7 +12,6 @@ fun FrangoGrelhadoScreen(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.40 kg → 400 g
         IngredientUi(
             id = 4,
             name = "Peito de frango",
@@ -38,13 +37,11 @@ fun FrangoGrelhadoScreen(
             name = "Pimento",
             quantityText = "1 un"
         ),
-        // 0.30 kg → 300 g
         IngredientUi(
             id = 1,
             name = "Arroz",
             quantityText = "300 g"
         ),
-        // 0.03 L → 30 ml
         IngredientUi(
             id = 58,
             name = "Azeite",

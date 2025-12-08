@@ -14,9 +14,6 @@ import pt.iade.ei.cobuy.storage.model.UserGroup
 
 class GroupViewModel : ViewModel() {
 
-    // ----------------------------------------------------------
-    // CREATE GROUP
-    // ----------------------------------------------------------
     fun createGroup(
         userId: Int,
         groupName: String,
@@ -43,9 +40,6 @@ class GroupViewModel : ViewModel() {
         }
     }
 
-    // ----------------------------------------------------------
-    // GET USER GROUPS  ->  GET /api/groups/user/{userId}
-    // ----------------------------------------------------------
     fun getUserGroups(
         onResult: (List<UserGroup>?, String?) -> Unit
     ) {
@@ -90,9 +84,6 @@ class GroupViewModel : ViewModel() {
         }
     }
 
-    // ----------------------------------------------------------
-    // GET LISTS OF A GROUP
-    // ----------------------------------------------------------
     fun getGroupLists(
         groupId: Int,
         userId: Int,
@@ -123,9 +114,6 @@ class GroupViewModel : ViewModel() {
         }
     }
 
-    // ----------------------------------------------------------
-    // JOIN GROUP
-    // ----------------------------------------------------------
     fun joinGroup(
         code: String,
         userId: Int,

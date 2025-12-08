@@ -12,13 +12,11 @@ fun ArrozDoceScreen(
     onAddIngredientToShoppingList: (IngredientUi) -> Unit
 ) {
     val ingredients = listOf(
-        // 0.20 kg → 200 g
         IngredientUi(
             id = 3,
             name = "Arroz carolino",
             quantityText = "200 g"
         ),
-        // 1 L → 1000 ml
         IngredientUi(
             id = 17,
             name = "Leite",

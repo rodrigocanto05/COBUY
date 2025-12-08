@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
@@ -30,8 +31,7 @@ fun JoinGroupScreen(navController: NavController) {
 
     var groupCode by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    val userId = 1  // TODO: substituir pelo user logado (DataStore / SharedPrefs)
+    val userId = SessionViewModel.currentUserId
 
     Scaffold(
         topBar = { CoBuyTopBar("Entrar em Grupo", navController) },
@@ -53,14 +53,19 @@ fun JoinGroupScreen(navController: NavController) {
                 label = "Código do grupo"
             )
 
-            // BOTÃO DE ENTRAR
             PrimaryButton("Entrar no Grupo") {
                 if (groupCode.isBlank()) {
                     errorMessage = "Insere um código válido"
                     return@PrimaryButton
                 }
 
-                viewModel.joinGroup(groupCode.trim(), userId) { group, error ->
+                val uid = userId
+                if (uid == null) {
+                    errorMessage = "Erro: utilizador não autenticado."
+                    return@PrimaryButton
+                }
+
+                viewModel.joinGroup(groupCode.trim(), uid) { group, error ->
                     if (error != null) {
                         errorMessage = error
                     } else {
@@ -70,7 +75,6 @@ fun JoinGroupScreen(navController: NavController) {
                 }
             }
 
-            // ERRO
             if (errorMessage != null) {
                 Text(text = errorMessage!!, color = Color.Red)
             }

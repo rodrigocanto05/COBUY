@@ -71,7 +71,6 @@ class GroupListsViewModel : ViewModel() {
                 )
 
                 if (response.isSuccessful) {
-                    // Depois de criar, volta a carregar as listas para garantir sincronização
                     loadGroupLists(groupId, userId)
                 } else {
                     uiState = uiState.copy(
@@ -88,7 +87,4 @@ class GroupListsViewModel : ViewModel() {
         }
     }
 
-    fun clearError() {
-        uiState = uiState.copy(error = null)
-    }
 }

@@ -50,7 +50,6 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            // LOGO
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo CoBuy",
@@ -59,7 +58,6 @@ fun LoginScreen(navController: NavController) {
                     .padding(bottom = 20.dp)
             )
 
-            // TÍTULO
             Text(
                 text = "Iniciar Sessão",
                 style = MaterialTheme.typography.headlineSmall.copy(
@@ -71,7 +69,7 @@ fun LoginScreen(navController: NavController) {
 
             Spacer(Modifier.height(28.dp))
 
-            // CAMPOS DE ENTRADA
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -79,7 +77,7 @@ fun LoginScreen(navController: NavController) {
                 CustomTextField(
                     value = emailOrPhone,
                     onValueChange = { emailOrPhone = it },
-                    label = "Email ou Telefone"
+                    label = "Email"
                 )
 
                 CustomTextField(
@@ -103,7 +101,6 @@ fun LoginScreen(navController: NavController) {
                 )
             }
 
-            // BOTÃO DE LOGIN
             PrimaryButton(text = "Entrar") {
                 viewModel.login(emailOrPhone, password) { ok, err ->
                     if (ok) {
@@ -118,7 +115,6 @@ fun LoginScreen(navController: NavController) {
 
             Spacer(Modifier.height(12.dp))
 
-            // TEXTO DE REGISTO
             TextButton(onClick = { navController.navigate(NavPath.Register.route) }) {
                 Text(
                     text = "Ainda não tem conta? Criar agora",

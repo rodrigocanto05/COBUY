@@ -28,7 +28,7 @@ fun COBUYTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography = COBUYTypography, // <- isto compila quando Typography.kt está OK
+        typography = COBUYTypography,
         content = content
     )
 }

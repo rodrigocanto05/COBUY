@@ -35,7 +35,6 @@ fun HomeScreen(navController: NavController) {
         ) {
             Spacer(Modifier.height(40.dp))
 
-            // Logo
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "CoBuy Logo",
@@ -44,7 +43,6 @@ fun HomeScreen(navController: NavController) {
                     .padding(top = 24.dp)
             )
 
-            // Nome e slogan
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(top = 16.dp)
@@ -70,7 +68,6 @@ fun HomeScreen(navController: NavController) {
                 )
             }
 
-            // Botões principais
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()

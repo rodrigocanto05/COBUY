@@ -17,7 +17,6 @@ fun WrapdeFrangocomAlfaceScreen(
             name = "Tortilhas de trigo",
             quantityText = "2 un"
         ),
-        // 0.20 kg → 200 g
         IngredientUi(
             id = 9,
             name = "Peito de frango",
