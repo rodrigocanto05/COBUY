@@ -8,13 +8,13 @@
 ---
 # 2. Distribuição das principais tarefas
 
-| **Tarefas Principais** | **Rodrigo Canto** | **Rodrigo Daibert** | **Marco Fonseca** | **Luís Quirin** | **Total** |
+| **Tarefas Principais** | **Rodrigo Canto**(~34%) | **Rodrigo Daibert**(~32%) | **Marco Fonseca**(~22%) | **Luís Quirin**(~12%) | **Total** |
 |----------------------|-------------------|----------------------|-------------------|------------------|-----------|
 | **1. Levantamento de requisitos** | 25% | 25% | 25% | 25% | **100%** |
 | **2. Pesquisa de mercado** | 25% | 25% | 25% | 25% | **100%** |
 | **3. Design e mockups (Figma)** | 30% | 10% | 5% | 55% | **100%** |
 | **4. Base de Dados (MER + tabelas + inserts + queries)** | 85% | 0% | 15% | 0% | **100%** |
-| **5. Desenvolvimento Android (Frontend)** | 20% | 60% | 20% | 0% | **100%** |
+| **5. Desenvolvimento Android (Frontend)** | 15% | 70% | 15% | 0% | **100%** |
 | **6. Desenvolvimento da API (Backend – Spring Boot, Postman)** | 70% | 25% | 0% | 5% | **100%** |
 | **7. Integração com Mapas / Rotas / Localização** | 75% | 25% | 0% | 0% | **100%** |
 | **8. Implementação de Grupos e Listas** | 0% | 100% | 0% | 0% | **100%** |
@@ -118,264 +118,305 @@ O público-alvo da COBUY é bastante abrangente, englobando vários perfis:
 
 ---
 
-# Guiões de Teste 
+# 7. Descrição da solução implementada
 
-## 1) Registo
-**Objetivo:** Criar uma conta nova.
+### i. Descrição genérica da solução implementada
+A **COBUY** é uma aplicação móvel colaborativa que facilita a gestão de compras e o planeamento alimentar entre utilizadores que partilham responsabilidades no quotidiano. A aplicação permite criar listas de compras partilhadas, consultar receitas completas, adicionar ingredientes automaticamente às listas e localizar supermercados próximos a partir do IADE.
 
-**Passos:**
-1. Abrir a app 
-2. Tocar em **“Criar conta”**
-3. Preencher Nome, Email, Password
-4. Tocar em **“Registar”**
-5. App entra automaticamente no dashboard
+A solução comunica com um backend em Spring Boot, utiliza uma base de dados MySQL e integra funcionalidades nativas de Android. O objetivo foi desenvolver uma ferramenta intuitiva, eficiente e orientada à redução de desperdício e melhoria da organização dos utilizadores.
 
-**Resultado esperado:**
-- Conta criada e sessão iniciada
-- Password nunca visível
-- Nome e email aparecem no perfil
+### ii. Enquadramento nas diversas Unidades Curriculares
 
-**Erros a validar:**
-- Email já existe → *“Email já registado”*
-- Campos inválidos → mensagem junto ao campo
+- **Programação de Dispositivos Móveis** – Desenvolvimento da aplicação Android, criação das interfaces, navegação, componentes visuais e comunicação com a API através de Kotlin.
 
----
+- **Programação Orientada a Objetos** – Estruturação da lógica de negócio, criação das classes, entidades e relações, implementação dos controladores e serviços, bem como desenvolvimento do backend em **Spring Boot**, aplicando princípios como encapsulamento, herança e modularidade.
 
-## 2) Login
-**Objetivo:** Autenticar utilizador existente.
+- **Bases de Dados** – Modelação do diagrama MER, definição das entidades e relacionamentos, normalização, criação das tabelas, views e implementação dos dados e queries na base de dados MySQL.
 
-**Passos:**
-1. Clicar em **Iniciar Sessão**
-2. Preencher Email e Password
-3. Tocar em **“Entrar”**
-4. App abre dashboard com nome do utilizador
+- **Competências Comunicacionais** – Produção do relatório técnico, apresentação oral, vídeo demonstrativo e criação do poster final, garantindo uma comunicação clara e eficaz do trabalho desenvolvido.
 
-**Resultado esperado:**
-- Sessão iniciada
-- Mantém login se app fechar e reabrir
+- **Matemática Discreta** – Aplicação de conceitos estruturais, relações entre conjuntos (ex.: grupos, listas e elementos), e apoio à definição lógica do módulo de receitas e proporções.
 
-**Erros a validar:**
-- Credenciais erradas → *“Email ou password inválidos”*
-- Sem internet → *“Sem ligação. Tente novamente”*
+### iii. Requisitos Técnicos Finais
 
----
+#### Requisitos Funcionais
+- Registo e autenticação de utilizadores.
+- Gestão de grupos colaborativos.
+- Criação e edição de listas de compras partilhadas.
+- Gestão de itens (adicionar, remover, concluir).
+- Consulta de receitas completas com modo de preparação.
+- Adicionar automaticamente ingredientes da receita à lista.
+- Localização de supermercados próximos a partir do IADE.
+- Visualização de rotas até um supermercado.
+- Consultar/Editar perfil de utilizador.
 
-## 3) Mapas (Supermercados Próximos)
-**Objetivo:** Encontrar supermercados próximos e navegar até um.
+#### Requisitos Não Funcionais (previsão do início do projeto)
+- Consultar receitas com Inteligencia Artificial.
+- Notifições quando o utilizador entra num supermercado.
+- Supermercados proximos com base na localização atual.
 
-**Passos:**
-1. Menu → **“Mapa”**
-2. Ativar permissões de localização (se pedido)
-3. Ver pins no mapa com supermercados
-4. Tocar num pin → ver nome, distância
-5. Tocar em **“Ver rota”** → abre navegação
 
-**Resultado esperado:**
-- Localização centralizada
-- Pins clicáveis
-- Rota aberta no mapa/navegador do telemóvel
+### iv. Arquitetura da Solução
+A arquitetura segue um modelo **cliente-servidor**:
 
-**Erros a validar:**
-- GPS desligado → *“Ative o GPS para ver supermercados próximos”*
-- Sem supermercados → *“Sem locais perto de si”*
+**Aplicação Android (Frontend)**  
+- Kotlin + Jetpack Compose  
+- UI, navegação, comunicação com API  
 
----
+**API REST — Spring Boot(Backend)**  
+- Endpoints para utilizadores, grupos, listas, receitas e mapas  
+- Autenticação JWT  
+- Serviços para lógica de negócio  
 
-## 4) Grupos
-**Objetivo:** Criar e navegar grupos.
+**Base de Dados — MySQL**  
+- Modelos normalizados  
+- Armazena utilizadores, listas, itens, receitas...  
 
-**Passos:**
-1. Menu → **“Grupos”**
-2. Ver lista de grupos
-3. Tocar em **“+ Criar grupo”**
-4. Inserir nome → confirmar
-5. Abrir grupo para ver membros e listas
+**Integrações Externas**
+- Google Maps API (Places + Directions)
 
-**Resultado esperado:**
-- Grupo aparece imediatamente
-- Visualização de membros e listas do grupo
+### v. Tecnologias utilizadas
+- **Frontend:** Android Studio, Kotlin, Jetpack Compose  
+- **Backend:** Spring Boot, Spring Security, JPA/Hibernate  
+- **BD:** MySQLWorkbench, MAMP  
+- **APIs:** Google Maps API  
+- **Outras:** GitHub, Figma, Postman  
 
-**Erros a validar:**
-- Nome vazio → *“Indique um nome para o grupo”*
-- Ação sem permissões → aviso claro
+## 7.vi. Versão atualizada dos Casos de Utilização
 
----
-
-## 5) Listas de Compras (no Grupo)
-**Objetivo:** Criar listas e gerir itens.
-
-**Passos:**
-1. Abrir um grupo
-2. Secção **“Listas”**
-3. **“+ Nova lista”** → “Compras semanais”
-4. Abrir lista recém-criada
-5. **“+ Adicionar item”** → “Leite”, 6 unidades
-6. Ver item na lista
-7. Marcar item como concluído
-8. Usar filtro **“Por comprar”**
-
-**Resultado esperado:**
-- Lista criada com sucesso
-- Item visível com quantidade e unidade
-- Checkbox altera estado do item
-- Filtro esconde itens concluídos
-
-**Erros a validar:**
-- Item sem nome → *“Indique o nome do item”*
-- Lista sem título → *“Indique o título da lista”*
-- Falha de internet → mensagem e retry
+### **Lista de Casos de Utilização**
+1. Criar Conta  
+2. Autenticar Utilizador  
+3. Consultar Página Inicial  
+4. Criar Grupo  
+5. Entrar num Grupo  
+6. Ver Grupos Existentes  
+7. Gerir Membros do Grupo  
+8. Consultar Listas do Grupo  
+9. Criar Lista de Compras  
+10. Consultar Lista de Compras (Simulado)  
+11. Adicionar Item à Lista (Simulado)  
+12. Marcar Item como Concluído (Simulado)  
+13. Consultar Receitas  
+14. Ver Detalhes da Receita  
+15. Adicionar Ingredientes da Receita à Lista  
+16. Ver Supermercados Próximos  
+17. Obter Informações de um Supermercado  
+18. Guardar Supermercado nos Favoritos  
+19. Ver Locais Guardados  
+20. Ver Rota até ao Supermercado  
+21. Consultar Perfil  
+22. Editar Perfil  
+23. Alterar Email ou Password  
 
 ---
 
-### Notas
-- Exceto registo/login, todos os guiões assumem utilizador autenticado
-- App deve mostrar loaders durante sincronização
-- Todas as mensagens de erro devem ser claras e perto do campo
+### **1. Criar Conta**
+**Ator:** Utilizador  
+**Objetivo:** Registar uma nova conta na aplicação.  
+**Fluxo principal:**  
+- O utilizador introduz nome, email, password, confirmação de password e género.  
+- O sistema valida os dados.  
+- A conta é criada e o utilizador entra automaticamente na aplicação.
+
+**Exceções:**  
+- Email já registado.  
+- Campos inválidos ou incompletos.
 
 ---
 
-## 8. Project Charter
+### **2. Autenticar Utilizador (Login)**
+**Objetivo:** Permitir ao utilizador aceder à conta.  
+**Fluxo principal:**  
+- O utilizador introduz email/telefone e password.  
+- O sistema valida credenciais e abre o dashboard.
 
-### 8.1 Descrição genérica
-
-A aplicação **COBUY** é uma solução mobile colaborativa que pretende facilitar a organização das compras em grupo. Os utilizadores partilham uma lista de compras em tempo real, podem visualizar os supermercados mais próximos através de localização e visualizar ingredientes e quantidades a partir de refeições introduzidas.  
-
-### 8.2 Enquadramento nas diversas Unidades Curriculares
-
-O projeto **COBUY** resulta da integração dos conhecimentos adquiridos em várias Unidades Curriculares do 3.º semestre:  
-
-- **Programação de Dispositivos Móveis**: desenvolvimento da aplicação.  
-- **Programação Orientada a Objetos**: implementação da lógica de negócio.  
-- **Bases de Dados**: modelação em MySQLWorkbench (para sincronização servidor).  
-- **Competências Comunicacionais**: relatório, poster e vídeo.  
-- **Matemática Discreta**: quantidades em receitas (proporções).  
-
-### 8.3 Requisitos técnicos 
-
-**Funcionais:**  
-Login, Registo, Mapas(ainda nao da para guardar supermecados favoritos), Grupos.
-
-**Não funcionais:**  
-Listas, Mapas (guardar sup. fav.), consultar receitas, dar igredientes de receitas.
-
-### 8.4 Arquitetura da solução 
-
-- Arquitetura **MVC**  
-- **View**: Android (Kotlin, Jetpack Compose)  
-- **Controller**: Serviços locais + API REST (Spring Boot)  
-- **Model**: MySQLWorkbench  
-- **Localização**: Google Maps API (Places + Directions)  
-- **Receitas**: Inteligência Artificial (provisório)  
-
-### 8.5 Tecnologias a utilizar
-
-- **Frontend:** Android Studio  
-- **Backend:** Spring Boot  
-- **Base de Dados:** MySQLWorkbench  
-- **Integrações externas:** Google Maps API (localização/rotas)  
-- **Ferramentas:** GitHub, Figma  
+**Exceções:**  
+- Credenciais incorretas.  
 
 ---
 
-## 9. Planeamento e Calendarização (Atualizado)
-
-O planeamento temporal do projeto encontra-se representado no gráfico de Gantt:
-<img width="911" height="500" alt="image" src="https://github.com/user-attachments/assets/2d2c6906-5add-49da-8994-024d595d5d0c" />
-
----
-
-### 9.2. Mockups e Interfaces
-
-Abaixo apresentam-se alguns mockups da aplicação **COBUY**:
-
-#### Tela de Registo
-<img width="100" height="201" alt="tela inicial" src="https://github.com/user-attachments/assets/cc15472d-c143-448b-af0c-00b28a1426df" />
-
-#### Tela de Início
-<img width="100" height="201" alt="tela inicial1" src="https://github.com/user-attachments/assets/10d6dde8-a488-474d-9466-2ab04e22233c" />
-
-#### Tela de Perfil
-<img width="100" height="201" alt="Screenshot_181" src="https://github.com/user-attachments/assets/547384b1-f526-4ac7-9847-99e3d4a4c80a" />
-
-#### Tela de Mapa 
-<img width="100" height="201" alt="tela superr" src="https://github.com/user-attachments/assets/be92f9cc-f387-46d1-8518-ae31e3c19f0e" />
-
-#### Tela Lista 
-<img width="100" height="201" alt="Screenshot_182" src="https://github.com/user-attachments/assets/10d5614c-71a2-45a3-b8bc-25a95666bb22" />
+### **3. Consultar Página Inicial**
+**Objetivo:** Aceder ao painel com informação geral do utilizador.  
+**Fluxo:**  
+- O utilizador vê os seus grupos, locais guardados e opções principais (entrar grupo, criar grupo).
 
 ---
 
-### 9.3 WBS (Work Breakdown Structure)
+### **4. Criar Grupo**
+**Objetivo:** Criar um novo grupo para organização colaborativa.  
+**Fluxo:**  
+- O utilizador introduz o nome do grupo.  
+- O sistema gera um código único.  
+- O grupo é criado e o utilizador torna-se Owner.
 
-**1.Planeamento e Gestão do Projeto**
+---
 
-- Levantamento de requisitos
-  
-- Análise do briefing e definição de objetivos
-  
-- Pesquisa de mercado e benchmarking
-  
-- Calendarização (gráfico de Gantt)
+### **5. Entrar num Grupo**
+**Objetivo:** Ingressar num grupo existente através de código.  
+**Fluxo:**  
+- O utilizador introduz o código do grupo.  
+- O sistema valida e adiciona o utilizador ao grupo.
 
-**2.Design e Prototipagem**
+**Exceções:**  
+- Código inexistente ou inválido.
 
-- Criação de mockups no Figma
-  
-- Definição do fluxo de navegação da app
-  
-- Testes de usabilidade inicial
+---
 
-**3.Desenvolvimento Técnico**
+### **6. Ver Grupos Existentes**
+**Objetivo:** Consultar a lista dos grupos a que o utilizador pertence.  
+**Fluxo:**  
+- O sistema apresenta todos os grupos, cada um com botão “Entrar”.
 
--- Frontend (Android Studio, Kotlin):
-  
-- Implementação das interfaces principais (login, lista de compras, rotas, refeições)
+---
 
--- Backend (Spring Boot):
-  
-- Desenvolvimento da API REST
+### **7. Gerir Membros do Grupo**
+**Objetivo:** Consultar e administrar membros de um grupo.  
+**Fluxo:**  
+- O utilizador acede à página “Membros”.  
+- O Owner pode expulsar membros.  
+- Qualquer utilizador pode sair do grupo.
 
-- Gestão de autenticação e grupos
-  
--- Base de Dados (MySQL):
-  
-- Modelação no Workbench
+**Exceções:**  
+- Falta de permissões para expulsar.
 
-- Sincronização com servidor
-  
--- Integrações externas:
-  
-- Google Maps API (supermercados e rotas)
+---
 
-- Módulo de receitas inteligentes
+### **8. Consultar Listas do Grupo**
+**Objetivo:** Ver todas as listas associadas ao grupo.  
+**Fluxo:**  
+- O sistema apresenta cartões com nome da lista e data de criação.  
+- O utilizador pode abrir qualquer lista.
 
-**4.Funcionalidades-chave da App**
+---
 
-- Listas de compras colaborativas em tempo real
-  
-- Localização inteligente e rotas para supermercados
-  
-- Refeições inteligentes (ingredientes e quantidades automáticas)
-  
-- Gestão de grupos e permissões
+### **9. Criar Lista de Compras**
+**Objetivo:** Adicionar uma nova lista ao grupo selecionado.  
+**Fluxo:**  
+- O utilizador seleciona “Criar lista”.  
+- Introduz nome e descrição opcional.  
+- O sistema cria a lista e retorna à página das listas.
 
-**5.Testes e Validação**
+---
 
-- Testes funcionais (listas, rotas, receitas)
-  
-- Testes de usabilidade com utilizadores
-  
-- Correções e ajustes finais
+### **10. Consultar Lista de Compras (Simulado)**
+**Objetivo:** Ver os itens de uma lista.  
+**Fluxo sugerido:**  
+- O utilizador abre a lista.  
+- A lista mostra todos os itens, quantidades e estado (feito/não feito).
 
-**6.Entrega e Comunicação**
+---
 
-- Relatório final escrito
-  
-- Poster do projeto
-  
-- Vídeo de apresentação
-  
-- Submissão e defesa do projeto
+### **11. Adicionar Item à Lista (Simulado)**
+**Fluxo sugerido:**  
+- O utilizizador seleciona “Adicionar item”.  
+- Introduz nome, quantidade e unidade.  
+- O sistema adiciona o item à lista.
+
+---
+
+### **12. Marcar Item como Concluído (Simulado)**
+**Fluxo sugerido:**  
+- O utilizador toca no checkbox do item.  
+- O sistema atualiza o estado e sincroniza com o grupo.
+
+---
+
+### **13. Consultar Receitas**
+**Objetivo:** Ver todas as receitas disponíveis.  
+**Fluxo:**  
+- O utilizador abre o separador “Receitas”.  
+- O sistema apresenta uma grelha de receitas com imagem e nome.
+
+---
+
+### **14. Ver Detalhes da Receita**
+**Objetivo:** Aceder aos ingredientes e modo de preparação.  
+**Fluxo:**  
+- O utilizador seleciona uma receita.  
+- O sistema apresenta ingredientes, quantidades e passos.
+
+---
+
+### **15. Adicionar Ingredientes da Receita à Lista**
+**Objetivo:** Enviar automaticamente ingredientes para uma lista de compras.  
+**Fluxo:**  
+- O utilizador escolhe uma lista onde adicionar os ingredientes.  
+- O sistema adiciona os itens automaticamente.
+
+---
+
+### **16. Ver Supermercados Próximos**
+**Objetivo:** Ver no mapa os supermercados nas proximidades.  
+**Fluxo:**  
+- O utilizador abre o separador de localização.  
+- O sistema pede permissão de localização.  
+- São apresentados vários supermercados no mapa.
+
+**Exceções:**  
+- Localização desativada.  
+- Nenhum local encontrado.
+
+---
+
+### **17. Obter Informações de um Supermercado**
+**Objetivo:** Abrir opções do supermercado selecionado.  
+**Fluxo:**  
+- O utilizador toca num pin no mapa.  
+- O sistema apresenta card com opções:  
+  - Guardar nos Favoritos  
+  - Ver rotas  
+  - Cancelar
+
+---
+
+### **18. Guardar Supermercado nos Favoritos**
+**Fluxo:**  
+- O utilizador seleciona “Guardar nos Favoritos”.  
+- O supermercado é adicionado à lista de locais guardados.
+
+---
+
+### **19. Ver Locais Guardados**
+**Objetivo:** Consultar todos os locais favoritos.  
+**Fluxo:**  
+- O utilizador abre “Locais Salvos”.  
+- Vê lista de locais com opção de remover.
+
+---
+
+### **20. Ver Rota até ao Supermercado**
+**Fluxo:**  
+- O utilizador seleciona “Ver rotas”.  
+- O sistema abre o percurso no Google Maps.
+
+---
+
+### **21. Consultar Perfil**
+**Objetivo:** Ver dados pessoais do utilizador.  
+**Fluxo:**  
+- O utilizizador abre o separador do perfil.  
+- O sistema apresenta nome, email e género.
+
+---
+
+### **22. Editar Perfil**
+**Fluxo:**  
+- O utilizador altera nome ou género.  
+- O sistema atualiza a informação.
+
+---
+
+### **23. Alterar Email ou Password**
+**Fluxo:**  
+- O utilizizador introduz novo email/password e a password atual.  
+- O sistema valida e atualiza.
+
+**Exceções:**  
+- Password atual incorreta.  
+- Email inválido.
+
+
 
 ---
 
