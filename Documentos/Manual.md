@@ -78,7 +78,7 @@ Nesta funcionalidade, o utilizador pode realizar várias ações relacionadas co
 4. Qualquer utilizador, incluindo o Owner, pode abandonar o grupo selecionando a opção **“Sair do grupo”** no final da página.
 5. A partir da mesma área do grupo, o utilizador pode ainda consultar o **código do grupo**, que é apresentado num cartão próprio e pode ser partilhado com novos membros.
 
-
+<img width="175" height="400" alt="aaa-removebg-preview" src="https://github.com/user-attachments/assets/d5efdc00-a78c-4bfb-9e4d-46c337e6cbd0" />
 
 ---
 
@@ -170,7 +170,7 @@ Mostra:
 - Email  
 - Género  
 
-![screenshot](caminho-da-print)
+<img width="175" height="400" alt="saa-removebg-preview" src="https://github.com/user-attachments/assets/7b82a3fc-fd69-4d9f-8bd6-3bb80beaac99" />
 
 ### 8.2 Editar Perfil
 1. Selecionar campo a alterar.
