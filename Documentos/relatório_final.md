@@ -434,7 +434,7 @@ https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/REST.md
 
 ### ix. Manual de utilização
 
-
+https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/Manual.md
 
 ---
 
