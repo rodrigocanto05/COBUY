@@ -120,3 +120,4 @@ fun SavedLocationsScreen(
         }
     }
 }
+

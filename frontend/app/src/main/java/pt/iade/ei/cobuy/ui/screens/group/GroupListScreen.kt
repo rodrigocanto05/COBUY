@@ -44,12 +44,12 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.screens.MembersSideCard
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
-
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -75,13 +75,11 @@ fun GroupListScreen(
                 }
     }
 
-
     LaunchedEffect(groupId, currentUserId) {
         currentUserId?.let { uid ->
             listsViewModel.loadGroupLists(groupId, uid)
         }
     }
-
 
     Scaffold(
         topBar = {
@@ -92,7 +90,9 @@ fun GroupListScreen(
                     TextButton(
                         onClick = {
                             showMembersSheet = !showMembersSheet
-                            membersViewModel.loadMembers(groupId)
+                            if (showMembersSheet) {
+                                membersViewModel.loadMembers(groupId)
+                                membersViewModel.loadGroupCode(groupId)                            }
                         }
                     ) {
                         Text(
@@ -180,6 +180,7 @@ fun GroupListScreen(
             MembersSideCard(
                 visible = showMembersSheet,
                 memberships = membersUiState.members,
+                groupCode = membersUiState.groupCode,   // <<< AQUI PASSAMOS O CÓDIGO
                 onDismiss = { showMembersSheet = false },
                 onLeaveGroup = {
                     membersViewModel.leaveGroup(groupId) { ok, msg ->

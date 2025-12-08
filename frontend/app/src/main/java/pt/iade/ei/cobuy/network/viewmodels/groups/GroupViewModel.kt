@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.iade.ei.cobuy.network.api.GroupApi
@@ -109,6 +111,35 @@ class GroupViewModel : ViewModel() {
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     onResult(null, e.localizedMessage ?: "Erro desconhecido")
+                }
+            }
+        }
+    }
+
+    fun getGroupCode(
+        groupId: Int,
+        callback: (String?, String?) -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = GroupApi.service.getGroupById(groupId)
+
+                if (response.isSuccessful) {
+                    val group = response.body()
+                    val code = group?.code
+
+                    withContext(Dispatchers.Main) {
+                        callback(code, null)
+                    }
+                } else {
+                    val msg = "Erro ${response.code()}: ${response.message()}"
+                    withContext(Dispatchers.Main) {
+                        callback(null, msg)
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback(null, e.message ?: "Erro desconhecido")
                 }
             }
         }

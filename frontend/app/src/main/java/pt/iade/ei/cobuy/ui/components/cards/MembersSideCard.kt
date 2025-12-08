@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
@@ -37,6 +39,7 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 fun MembersSideCard(
     visible: Boolean,
     memberships: List<Membership>,
+    groupCode: String? = null,              // <<< NOVO PARÂMETRO
     onDismiss: () -> Unit,
     onLeaveGroup: (() -> Unit)? = null,
     onInviteMember: (() -> Unit)? = null,
@@ -174,8 +177,21 @@ fun MembersSideCard(
                     Spacer(Modifier.height(12.dp))
 
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        if (!groupCode.isNullOrBlank()) {
+                            Text(
+                                text = "Código do grupo: $groupCode",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = TextDark.copy(alpha = 0.7f),
+                                    fontWeight = FontWeight.Medium
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(Modifier.height(12.dp))
+                        }
+
                         onInviteMember?.let {
                             Button(
                                 onClick = it,
@@ -261,4 +277,9 @@ private fun MemberRow(
             }
         }
     }
+}
+@Preview(showBackground = true)
+@Composable
+fun MembersSideCardPreview() {
+
 }

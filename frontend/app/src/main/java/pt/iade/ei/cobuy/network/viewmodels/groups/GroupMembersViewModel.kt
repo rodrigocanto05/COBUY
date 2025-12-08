@@ -14,7 +14,8 @@ import pt.iade.ei.cobuy.storage.model.Membership
 data class GroupMembersUiState(
     val isLoading: Boolean = false,
     val members: List<Membership> = emptyList(),
-    val error: String? = null
+    val error: String? = null,
+    val groupCode: String? = null
 )
 
 class GroupMembersViewModel : ViewModel() {
@@ -45,6 +46,24 @@ class GroupMembersViewModel : ViewModel() {
                     isLoading = false,
                     error = e.message ?: "Erro desconhecido"
                 )
+            }
+        }
+    }
+
+    fun loadGroupCode(groupId: Int) {
+        viewModelScope.launch {
+            try {
+                val response = GroupApi.service.getGroupById(groupId)
+
+                if (response.isSuccessful) {
+                    val group = response.body()
+                    val code = group?.code
+                    uiState = uiState.copy(groupCode = code)
+                } else {
+                    uiState = uiState.copy(groupCode = null)
+                }
+            } catch (e: Exception) {
+                uiState = uiState.copy(groupCode = null)
             }
         }
     }
