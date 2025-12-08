@@ -496,7 +496,7 @@ Apesar do esforço geral, algumas funcionalidades planeadas inicialmente não fo
 
 - **Receitas inteligentes geradas por IA**: o objetivo inicial era o utilizador escrever o nome de uma refeição e a aplicação, através de IA, gerar os ingredientes. A complexidade da integração e o tempo necessário para treinar ou consumir modelos externos levaram à substituição por uma solução mais simples e estável.
 
-- **Mapa com supermercados próximos baseados na localização real do utilizador**: embora exista integração com mapas, a funcionalidade ficou limitada a uma zona específica (IAD), devido a constrangimentos técnicos e de tempo. A deteção dinâmica da localização ainda não foi concluída.
+- **Mapa com supermercados próximos baseados na localização real do utilizador**: embora exista integração com mapas, a funcionalidade ficou limitada a uma zona específica (IADE), devido a constrangimentos técnicos e de tempo. A deteção dinâmica da localização ainda não foi concluída.
 
 O grupo reconhece que algumas destas funcionalidades tinham potencial, mas eram demasiado ambiciosas para o calendário disponível.
 
@@ -531,15 +531,11 @@ Existe até a possibilidade futura de continuar o desenvolvimento do CoBuy, caso
 
 ## 10. Conclusão
 
-O desenvolvimento do projeto **CoBuy** representou uma oportunidade significativa para a aplicação prática dos conhecimentos adquiridos ao longo do semestre, integrando áreas como desenvolvimento mobile, modelação de dados, APIs REST, navegação por mapas e desenho de interfaces. O resultado final traduz-se numa aplicação funcional, útil e alinhada com o problema inicialmente identificado: a dificuldade de organizar compras colaborativas no quotidiano.
+O projeto CoBuy permitiu integrar conhecimentos de várias áreas do desenvolvimento de software, resultando numa aplicação funcional e alinhada com o objetivo inicial: simplificar e organizar as compras colaborativas do dia-a-dia. Foram implementadas funcionalidades essenciais como criação de grupos, listas partilhadas, integração com mapas e sistema de receitas, garantindo uma experiência consistente e intuitiva para o utilizador.
 
-A aplicação apresenta um conjunto consistente de funcionalidades, incluindo gestão de grupos, listas de compras partilhadas, receitas, integração com mapas e rotas, bem como mecanismos essenciais de autenticação. Embora algumas funcionalidades previstas inicialmente não tenham sido implementadas, o projeto manteve-se fiel à sua visão central e foi capaz de oferecer um produto sólido, intuitivo e tecnicamente bem estruturado.
+Apesar de algumas funcionalidades não terem sido concluídas devido a limitações de tempo e complexidade técnica, o projeto evoluiu de forma sólida e manteve-se fiel à visão principal. O trabalho realizado permitiu reforçar competências técnicas, promover trabalho colaborativo e enfrentar desafios reais de implementação.
 
-Ao longo do desenvolvimento, foram tomadas decisões estratégicas — como simplificar certas componentes ou reforçar outras — que permitiram otimizar o tempo, assegurar estabilidade e elevar a qualidade final da aplicação. Além disso, funcionalidades adicionais que não estavam na proposta inicial acabaram por enriquecer o projeto, demonstrando iniciativa e capacidade de adaptação da equipa.
-
-De forma global, o CoBuy constitui um projeto robusto, que cumpre os objetivos essenciais definidos na fase inicial e que demonstra a evolução técnica e organizacional do grupo. O resultado final reflete não só o esforço individual de cada membro, mas também a capacidade coletiva de superar desafios, reorganizar prioridades e entregar uma solução funcional e relevante.
-
-O projeto abre ainda portas para possíveis evoluções futuras, como integração de inteligência artificial para sugestões mais inteligentes, notificações em tempo real, melhorias de localização e funcionalidades avançadas de planeamento alimentar. Estas possibilidades reforçam o potencial do CoBuy enquanto aplicação real e reforçam a qualidade da base desenvolvida durante este semestre.
+No geral, o CoBuy representa um projeto completo, útil e com potencial para ser expandido no futuro, demonstrando a capacidade do grupo em conceber, desenvolver e entregar uma solução tecnológica coerente e funcional.
 
 ---
 
