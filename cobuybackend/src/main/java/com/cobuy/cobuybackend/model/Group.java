@@ -27,7 +27,6 @@ public class Group {
     @Column(name = "grp_created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    // 🔥 Adicionado para evitar loop JSON
     @OneToMany(mappedBy = "group")
     @JsonIgnore
     private List<Membership> memberships;

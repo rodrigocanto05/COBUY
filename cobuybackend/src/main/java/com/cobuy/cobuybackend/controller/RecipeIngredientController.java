@@ -17,7 +17,7 @@ public class RecipeIngredientController {
     private final ListItemRepository listItemRepository;
     private final UserRepository userRepository;
     private final MembershipRepository membershipRepository;
-    private final ItemRepository itemRepository;   // <-- ADICIONADO
+    private final ItemRepository itemRepository;   
 
     public RecipeIngredientController(
             RecipeRepository recipeRepository,
@@ -81,7 +81,6 @@ public class RecipeIngredientController {
 
         for (RecipeIngredient ri : selected) {
 
-            // 1. Converter Ingredient → Item
             Item item = itemRepository.findByName(ri.getIngredient().getName()).orElse(null);
 
             if (item == null) {
@@ -91,7 +90,6 @@ public class RecipeIngredientController {
                 item = itemRepository.save(item);
             }
 
-            // 2. Criar ListItem
             ListItem li = new ListItem();
             li.setList(list);
             li.setItem(item);

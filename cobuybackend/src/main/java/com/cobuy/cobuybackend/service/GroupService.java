@@ -35,9 +35,6 @@ public class GroupService {
         return groupRepository.findById(id);
     }
 
-    /**
-     * Cria grupo + membership owner automaticamente
-     */
     public Group createGroup(Integer userId, Group group) {
 
         User user = userRepository.findById(userId)

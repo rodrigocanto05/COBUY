@@ -35,7 +35,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<SavedPlace> savedPlaces;
 
-    // 🔥 Adicionado para evitar loop JSON
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Membership> memberships;

@@ -21,7 +21,6 @@ public class JwtService {
         return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
-    // gera token a partir de um User
     public String generateToken(User user) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + EXPIRATION_MS);

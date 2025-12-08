@@ -70,7 +70,6 @@ public class IngredientController {
         }
     }
 
-    // PUT /ingredients/{id} - atualiza ingrediente
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id,
                                     @RequestBody IngredientDTO body) {
@@ -98,7 +97,6 @@ public class IngredientController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE /ingredients/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (!ingredientRepository.existsById(id)) {

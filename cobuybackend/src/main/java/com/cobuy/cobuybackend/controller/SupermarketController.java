@@ -20,17 +20,13 @@ public class SupermarketController {
         this.supermarketRepository = supermarketRepository;
     }
 
-    // --------------------------
-    // GET TODOS
-    // --------------------------
+
     @GetMapping
     public List<Supermarket> getAll() {
         return supermarketRepository.findAll();
     }
 
-    // --------------------------
-    // GET POR ID
-    // --------------------------
+
     @GetMapping("/{id}")
     public ResponseEntity<Supermarket> getOne(@PathVariable Integer id) {
         return supermarketRepository.findById(id)
@@ -38,9 +34,7 @@ public class SupermarketController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // --------------------------
-    // CREATE DIRETO
-    // --------------------------
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Supermarket market) {
         Supermarket saved = supermarketRepository.save(market);
@@ -48,9 +42,7 @@ public class SupermarketController {
                 .body(saved);
     }
 
-    // -------------------------------------------------------
-    // NOVO ENDPOINT — RESOLVE MARKET (cria OU devolve existente)
-    // -------------------------------------------------------
+
     @PostMapping("/resolve")
     public ResponseEntity<?> resolveMarket(@RequestBody ResolveSupermarketRequest req) {
 
@@ -58,13 +50,11 @@ public class SupermarketController {
             return ResponseEntity.badRequest().body("Latitude e longitude são obrigatórias.");
         }
 
-        // 1º — Verificar se já existe supermercado nessas coordenadas
         var existing = supermarketRepository.findByCoordinates(req.lat, req.lng);
         if (existing.isPresent()) {
             return ResponseEntity.ok(existing.get());
         }
 
-        // 2º — Não existe → criar novo
         Supermarket newMarket = new Supermarket();
         newMarket.setName(req.name != null ? req.name : "Supermercado");
         newMarket.setLat(req.lat);

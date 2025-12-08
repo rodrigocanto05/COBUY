@@ -25,7 +25,6 @@ public class UserProfileController {
             return ResponseEntity.status(401).body("Não autenticado");
         }
 
-        // Agora devolve também o ID
         return ResponseEntity.ok(new Object() {
             public final Integer id = user.getId();
             public final String name = user.getName();
@@ -67,7 +66,6 @@ public class UserProfileController {
             return ResponseEntity.badRequest().body("Email é obrigatório");
         }
 
-        // impedir duplicados
         if (userRepo.existsByEmail(req.email) && !req.email.equals(user.getEmail())) {
             return ResponseEntity.status(409).body("Email já está em uso");
         }

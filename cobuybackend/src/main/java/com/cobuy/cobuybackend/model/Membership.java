@@ -13,7 +13,6 @@ public class Membership {
     @Column(name = "mem_id")
     private Integer id;
 
-    // ------------------ USER ------------------
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mem_usr_id", referencedColumnName = "usr_id")
     @JsonIgnoreProperties({
@@ -26,7 +25,6 @@ public class Membership {
     })
     private User user;
 
-    // ------------------ GROUP ------------------
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mem_grp_id", referencedColumnName = "grp_id")
     @JsonIgnoreProperties({
@@ -38,15 +36,12 @@ public class Membership {
     })
     private Group group;
 
-    // ------------------ ROLE ------------------
     @Column(name = "mem_role")
     private String role;
 
-    // ------------------ JOIN DATE ------------------
     @Column(name = "mem_joined_at")
     private LocalDateTime joinedAt;
 
-    // ------------------ AUTO FILL FIELDS ------------------
     @PrePersist
     public void prePersist() {
         if (joinedAt == null) {
@@ -57,7 +52,6 @@ public class Membership {
         }
     }
 
-    // ------------------ GETTERS & SETTERS ------------------
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
