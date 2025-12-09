@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import pt.iade.ei.cobuy.App
 import pt.iade.ei.cobuy.network.api.auth.TokenInterceptor
+import pt.iade.ei.cobuy.network.api.maps.SavedPlacesApi
+import pt.iade.ei.cobuy.network.api.maps.SupermarketApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -17,6 +19,7 @@ object ApiClient {
         appContext = context.applicationContext
     }
 
+    // ---------- BACKEND ----------
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -42,6 +45,8 @@ object ApiClient {
             .build()
     }
 
+    // --- APIS DO BACKEND ---
+
     val savedPlacesApi: SavedPlacesApi by lazy {
         backendRetrofit.create(SavedPlacesApi::class.java)
     }
@@ -50,6 +55,7 @@ object ApiClient {
         backendRetrofit.create(SupermarketApi::class.java)
     }
 
+    // ---------- GOOGLE MAPS ----------
 
     private val googleClient: OkHttpClient by lazy {
         OkHttpClient.Builder()

@@ -15,13 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.network.viewmodels.lists.ListItemsViewModel
+import pt.iade.ei.cobuy.network.viewmodels.lists.UnitViewModel
 import pt.iade.ei.cobuy.ui.components.cards.ShoppingItemCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
+import pt.iade.ei.cobuy.storage.model.Unit as UnitModel   // 👈 alias para a Unit do storage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,8 +32,15 @@ fun ListItemsScreen(
     listName: String,
     viewModel: ListItemsViewModel = viewModel()
 ) {
+    // ViewModel das unidades (instância, não a classe)
+    val unitViewModel: UnitViewModel = viewModel()
+
     LaunchedEffect(listId) {
         viewModel.loadItems(listId)
+    }
+
+    LaunchedEffect(Unit) {
+        unitViewModel.loadUnits()
     }
 
     val uiState = viewModel.uiState
@@ -44,19 +52,15 @@ fun ListItemsScreen(
     var newItemName by remember { mutableStateOf("") }
     var newItemQty by remember { mutableStateOf("") }
     var newItemUnit by remember { mutableStateOf("un") }
-
-    // dropdown das unidades
-    val unitOptions = listOf("un", "L", "kg")
+    var selectedUnit by remember { mutableStateOf<UnitModel?>(null) }
     var unitExpanded by remember { mutableStateOf(false) }
+    val unitOptions = listOf("un", "l", "kg")
 
     fun clearNewItemFields() {
         newItemName = ""
         newItemQty = ""
         newItemUnit = "un"
     }
-
-    // tenta usar o userId da sessão; se for null usa 2 (user de teste)
-    val userId = SessionViewModel.currentUserId ?: 2
 
     Scaffold(
         topBar = {
@@ -128,7 +132,7 @@ fun ListItemsScreen(
                             ShoppingItemCard(
                                 item = item,
                                 onItemClicked = { _ ->
-                                    // TODO: marcar done no backend mais tarde
+                                    // TODO: ligar ao toggleDone do ViewModel
                                 }
                             )
                         }
@@ -159,7 +163,6 @@ fun ListItemsScreen(
                             singleLine = true
                         )
 
-                        // DROPDOWN de unidades
                         ExposedDropdownMenuBox(
                             expanded = unitExpanded,
                             onExpandedChange = { unitExpanded = !unitExpanded }
@@ -202,15 +205,14 @@ fun ListItemsScreen(
                                 val qty = newItemQty.toDoubleOrNull() ?: 1.0
 
                                 val unitId = when (newItemUnit.lowercase()) {
-                                    "un", "uni", "und", "unid" -> 1   // ID da unidade "un"
-                                    "l", "lt", "litro", "litros" -> 2 // ID da unidade "L"
-                                    "kg", "quilo", "kilo" -> 3        // ID da unidade "kg"
+                                    "un", "uni", "und", "unid" -> 1
+                                    "L", "lt", "litro", "litros" -> 2
+                                    "kg", "quilo", "kilo" -> 3
                                     else -> 1
                                 }
 
                                 viewModel.addItem(
                                     listId = listId,
-                                    userId = userId,
                                     name = newItemName,
                                     qty = qty,
                                     unitId = unitId

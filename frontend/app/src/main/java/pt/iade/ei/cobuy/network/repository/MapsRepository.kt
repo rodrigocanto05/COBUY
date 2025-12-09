@@ -2,7 +2,7 @@ package pt.iade.ei.cobuy.network.repository
 
 import android.util.Log
 import pt.iade.ei.cobuy.network.api.ApiClient
-import pt.iade.ei.cobuy.network.api.SupermarketApi
+import pt.iade.ei.cobuy.network.api.maps.SupermarketApi
 import pt.iade.ei.cobuy.storage.model.Market
 
 class MapsRepository(

@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.api.lists
 
 import pt.iade.ei.cobuy.network.api.ApiClient
 import retrofit2.http.Body

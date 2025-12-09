@@ -14,9 +14,6 @@ import retrofit2.http.HTTP
 
 interface GroupApi {
 
-    @GET("api/groups")
-    suspend fun getAllGroups(): Response<List<Group>>
-
     @GET("api/groups/{id}")
     suspend fun getGroupById(@Path("id") id: Int): Response<Group>
 

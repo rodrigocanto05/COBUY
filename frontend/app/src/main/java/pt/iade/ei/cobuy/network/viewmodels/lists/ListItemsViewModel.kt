@@ -6,14 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pt.iade.ei.cobuy.network.api.ItemApi
-import pt.iade.ei.cobuy.network.api.ItemsApi
 import pt.iade.ei.cobuy.network.api.lists.ListItemsApi
-import pt.iade.ei.cobuy.network.api.lists.ListItemCreateRequest
-import pt.iade.ei.cobuy.network.api.lists.NetworkListItem
+import pt.iade.ei.cobuy.network.requests.AddItemRequest
+import pt.iade.ei.cobuy.network.requests.NetworkListItem
+import pt.iade.ei.cobuy.network.requests.toDomain
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.ListItem
-import java.math.BigDecimal
 
 data class ListItemsUiState(
     val isLoading: Boolean = false,
@@ -24,33 +22,19 @@ data class ListItemsUiState(
 class ListItemsViewModel : ViewModel() {
 
     private val api = ListItemsApi.service
-    private val itemApi: ItemApi = ItemsApi.service
 
     var uiState by mutableStateOf(ListItemsUiState())
         private set
 
-    // Mapper: NetworkListItem -> ListItem (modelo que a UI já usa)
-    private fun NetworkListItem.toDomain(): ListItem {
-        return ListItem(
-            id = id,
-            name = item.name,
-            qty = qty,
-            unit = unit.name,
-            done = done,
-            updatedAt = updatedAt
-        )
-    }
-
     fun loadItems(listId: Int) {
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true, error = null)
-
             try {
                 val userId = SessionViewModel.currentUserId
-                    ?: throw IllegalStateException("User não autenticado")
+                    ?: throw IllegalStateException("Utilizador não autenticado")
 
                 val result = api.getItems(listId, userId)
-                    .map { it.toDomain() }
+                    .map(NetworkListItem::toDomain)
 
                 uiState = uiState.copy(
                     isLoading = false,
@@ -68,7 +52,6 @@ class ListItemsViewModel : ViewModel() {
 
     fun addItem(
         listId: Int,
-        userId: Int,
         name: String,
         qty: Double,
         unitId: Int,
@@ -76,36 +59,72 @@ class ListItemsViewModel : ViewModel() {
     ) {
         viewModelScope.launch {
             try {
-                // 1) Criar o Item na BD
-                val createdItem = itemApi.createItem(
-                    ItemApi.CreateItemBody(
-                        name = name,
-                        unitId = unitId
-                    )
+                val userId = SessionViewModel.currentUserId
+                    ?: throw IllegalStateException("Utilizador não autenticado")
+
+                val body = AddItemRequest(
+                    name = name,
+                    qty = qty,
+                    unitId = unitId,
+                    userId = userId
                 )
 
-                // 2) Criar o ListItem associado à lista
-                val body = ListItemCreateRequest(
-                    itemId = createdItem.id,
-                    qty = BigDecimal(qty),
-                    unitId = unitId
-                )
-
-                val createdNetwork = api.addItem(
-                    listId = listId,
-                    userId = userId,
-                    body = body
-                )
-
-                val created = (createdNetwork as NetworkListItem).toDomain()
+                val createdNetwork = api.addItem(listId, body)
+                val created = createdNetwork.toDomain()
 
                 uiState = uiState.copy(
                     items = uiState.items + created
                 )
-
                 onResult(true, null)
             } catch (e: Exception) {
                 onResult(false, e.message ?: "Erro ao adicionar item")
+            }
+        }
+    }
+
+    fun toggleDone(
+        listId: Int,
+        itemId: Int,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val userId = SessionViewModel.currentUserId
+                    ?: throw IllegalStateException("Utilizador não autenticado")
+
+                val updatedNetwork = api.markAsDone(listId, itemId, userId)
+                val updated = updatedNetwork.toDomain()
+
+                uiState = uiState.copy(
+                    items = uiState.items.map {
+                        if (it.id == updated.id) updated else it
+                    }
+                )
+                onResult(true, null)
+            } catch (e: Exception) {
+                onResult(false, e.message ?: "Erro ao atualizar item")
+            }
+        }
+    }
+
+    fun deleteItem(
+        listId: Int,
+        itemId: Int,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val userId = SessionViewModel.currentUserId
+                    ?: throw IllegalStateException("Utilizador não autenticado")
+
+                api.deleteItem(listId, itemId, userId)
+
+                uiState = uiState.copy(
+                    items = uiState.items.filterNot { it.id == itemId }
+                )
+                onResult(true, null)
+            } catch (e: Exception) {
+                onResult(false, e.message ?: "Erro ao remover item")
             }
         }
     }
