@@ -1,12 +1,14 @@
-package pt.iade.ei.cobuy.network.api
+package pt.iade.ei.cobuy.network.api.lists
 
-import pt.iade.ei.cobuy.network.requests.CreateListRequest
+import pt.iade.ei.cobuy.network.api.ApiClient
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
-
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ShoppingListApi {
 
@@ -32,15 +34,10 @@ interface ShoppingListApi {
         val title: String,
         val group_id: Int
     )
-    companion object {
-        private const val BASE_URL = "http://10.0.2.2:8082/"
 
+    companion object {
         val service: ShoppingListApi by lazy {
-            Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ShoppingListApi::class.java)
+            ApiClient.backendRetrofit.create(ShoppingListApi::class.java)
         }
     }
 }

@@ -6,11 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pt.iade.ei.cobuy.network.api.GroupApi
-import pt.iade.ei.cobuy.network.requests.CreateListRequest
-import pt.iade.ei.cobuy.storage.model.ShoppingList
-import pt.iade.ei.cobuy.network.api.ShoppingListApi
+import pt.iade.ei.cobuy.network.api.lists.ShoppingListApi
 import pt.iade.ei.cobuy.network.repository.ShoppingListRepository
+import pt.iade.ei.cobuy.storage.model.ShoppingList
 
 data class GroupListsUiState(
     val isLoading: Boolean = false,
@@ -30,25 +28,16 @@ class GroupListsViewModel : ViewModel() {
             uiState = uiState.copy(isLoading = true, error = null)
 
             try {
-                val response = GroupApi.service.getGroupLists(groupId, userId)
-
-                if (response.isSuccessful) {
-                    val body = response.body().orEmpty()
-                    uiState = uiState.copy(
-                        isLoading = false,
-                        lists = body,
-                        error = null
-                    )
-                } else {
-                    uiState = uiState.copy(
-                        isLoading = false,
-                        error = "Erro HTTP: ${response.code()}"
-                    )
-                }
+                val lists = repository.getListsForGroup(groupId, userId)
+                uiState = uiState.copy(
+                    isLoading = false,
+                    lists = lists,
+                    error = null
+                )
             } catch (e: Exception) {
                 uiState = uiState.copy(
                     isLoading = false,
-                    error = e.message ?: "Erro desconhecido"
+                    error = e.message ?: "Erro ao carregar listas"
                 )
             }
         }
@@ -64,32 +53,26 @@ class GroupListsViewModel : ViewModel() {
             uiState = uiState.copy(isLoading = true, error = null)
 
             try {
-                val body = CreateListRequest(
+                val created = repository.createList(
                     groupId = groupId,
-                    title = title
+                    title = title,
+                    userId = userId
                 )
 
-                val response = GroupApi.service.createList(
-                    userId = userId,
-                    body = body
+                uiState = uiState.copy(
+                    isLoading = false,
+                    lists = uiState.lists + created,
+                    error = null
                 )
-
-                if (response.isSuccessful) {
-                    loadGroupLists(groupId, userId)
-                } else {
-                    uiState = uiState.copy(
-                        isLoading = false,
-                        error = "Erro HTTP: ${response.code()}"
-                    )
-                }
             } catch (e: Exception) {
                 uiState = uiState.copy(
                     isLoading = false,
-                    error = e.message ?: "Erro desconhecido"
+                    error = e.message ?: "Erro ao criar lista"
                 )
             }
         }
     }
+
     fun deleteList(
         listId: Int,
         userId: Int,

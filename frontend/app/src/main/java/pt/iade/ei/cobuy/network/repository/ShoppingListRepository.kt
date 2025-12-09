@@ -1,6 +1,6 @@
 package pt.iade.ei.cobuy.network.repository
 
-import pt.iade.ei.cobuy.network.api.ShoppingListApi
+import pt.iade.ei.cobuy.network.api.lists.ShoppingListApi
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 
 class ShoppingListRepository(
