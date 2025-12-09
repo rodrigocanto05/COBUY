@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pt.iade.ei.cobuy.network.api.ItemApi
+import pt.iade.ei.cobuy.network.api.ItemsApi
 import pt.iade.ei.cobuy.network.api.lists.ListItemsApi
 import pt.iade.ei.cobuy.network.api.lists.ListItemCreateRequest
 import pt.iade.ei.cobuy.network.api.lists.NetworkListItem
@@ -22,11 +24,12 @@ data class ListItemsUiState(
 class ListItemsViewModel : ViewModel() {
 
     private val api = ListItemsApi.service
+    private val itemApi: ItemApi = ItemsApi.service
 
     var uiState by mutableStateOf(ListItemsUiState())
         private set
 
-
+    // Mapper: NetworkListItem -> ListItem (modelo que a UI já usa)
     private fun NetworkListItem.toDomain(): ListItem {
         return ListItem(
             id = id,
@@ -66,15 +69,24 @@ class ListItemsViewModel : ViewModel() {
     fun addItem(
         listId: Int,
         userId: Int,
-        itemId: Int,
+        name: String,
         qty: Double,
         unitId: Int,
         onResult: (Boolean, String?) -> Unit
     ) {
         viewModelScope.launch {
             try {
+                // 1) Criar o Item na BD
+                val createdItem = itemApi.createItem(
+                    ItemApi.CreateItemBody(
+                        name = name,
+                        unitId = unitId
+                    )
+                )
+
+                // 2) Criar o ListItem associado à lista
                 val body = ListItemCreateRequest(
-                    itemId = itemId,
+                    itemId = createdItem.id,
                     qty = BigDecimal(qty),
                     unitId = unitId
                 )
@@ -85,7 +97,7 @@ class ListItemsViewModel : ViewModel() {
                     body = body
                 )
 
-                val created = createdNetwork.toDomain()
+                val created = (createdNetwork as NetworkListItem).toDomain()
 
                 uiState = uiState.copy(
                     items = uiState.items + created

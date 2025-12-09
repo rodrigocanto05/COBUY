@@ -1,24 +1,11 @@
 package pt.iade.ei.cobuy.ui.components.cards
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +22,14 @@ import pt.iade.ei.cobuy.ui.theme.TextLight
 
 @Composable
 fun ShoppingItemCard(item: ListItem, onItemClicked: (ListItem) -> Unit) {
+
+    // Format quantity: if 2.0 → "2", else 2.5 → "2.5"
+    val qtyText = item.qty?.let {
+        if (it % 1.0 == 0.0) it.toInt().toString() else it.toString()
+    } ?: ""
+
+    val unitText = item.unit ?: ""
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,7 +45,11 @@ fun ShoppingItemCard(item: ListItem, onItemClicked: (ListItem) -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
+            // LEFT SIDE — Icon + Name + Qty/Unit
             Row(verticalAlignment = Alignment.CenterVertically) {
+
+                // Checkbox icon
                 IconButton(onClick = { onItemClicked(item.copy(done = !item.done)) }) {
                     Icon(
                         imageVector = if (item.done) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
@@ -59,25 +58,45 @@ fun ShoppingItemCard(item: ListItem, onItemClicked: (ListItem) -> Unit) {
                         modifier = Modifier.size(26.dp)
                     )
                 }
+
                 Spacer(Modifier.width(8.dp))
-                Text(
-                    text = item.name,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        color = if (item.done) Color.Gray else TextDark,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
+
+                // NAME + QTY/UNIT stacked
+                Column {
+                    // Item name
+                    Text(
+                        text = item.name,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = if (item.done) Color.Gray else TextDark,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium
+                        )
                     )
-                )
+
+                    // Quantity + unit below (only if available)
+                    if (qtyText.isNotEmpty() || unitText.isNotEmpty()) {
+                        Text(
+                            text = "$qtyText $unitText",
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = Color.Gray,
+                                fontSize = 13.sp
+                            )
+                        )
+                    }
+                }
             }
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun ShoppingItemCardDonePreview() {
     val doneItem = ListItem(
         id = 2,
         name = "Arroz",
+        qty = 2.0,
+        unit = "kg",
         done = true
     )
 
@@ -88,4 +107,3 @@ fun ShoppingItemCardDonePreview() {
         )
     }
 }
-

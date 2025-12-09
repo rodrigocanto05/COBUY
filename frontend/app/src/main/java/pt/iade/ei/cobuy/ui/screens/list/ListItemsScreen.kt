@@ -3,18 +3,9 @@ package pt.iade.ei.cobuy.ui.screens.list
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.network.viewmodels.lists.ListItemsViewModel
 import pt.iade.ei.cobuy.ui.components.cards.ShoppingItemCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -51,17 +43,20 @@ fun ListItemsScreen(
     var showAddDialog by remember { mutableStateOf(false) }
     var newItemName by remember { mutableStateOf("") }
     var newItemQty by remember { mutableStateOf("") }
-    var newItemUnit by remember { mutableStateOf("") }
+    var newItemUnit by remember { mutableStateOf("un") }
+
+    // dropdown das unidades
+    val unitOptions = listOf("un", "L", "kg")
+    var unitExpanded by remember { mutableStateOf(false) }
 
     fun clearNewItemFields() {
         newItemName = ""
         newItemQty = ""
-        newItemUnit = ""
+        newItemUnit = "un"
     }
 
-    val userId = 1
-    val defaultItemId = 1
-    val defaultUnitId = 1
+    // tenta usar o userId da sessão; se for null usa 2 (user de teste)
+    val userId = SessionViewModel.currentUserId ?: 2
 
     Scaffold(
         topBar = {
@@ -132,7 +127,8 @@ fun ListItemsScreen(
                         items(items, key = { it.id }) { item ->
                             ShoppingItemCard(
                                 item = item,
-                                onItemClicked = { updated ->
+                                onItemClicked = { _ ->
+                                    // TODO: marcar done no backend mais tarde
                                 }
                             )
                         }
@@ -162,12 +158,41 @@ fun ListItemsScreen(
                             label = { Text("Quantidade") },
                             singleLine = true
                         )
-                        TextField(
-                            value = newItemUnit,
-                            onValueChange = { newItemUnit = it },
-                            label = { Text("Unidade (ex: uni, L, kg)") },
-                            singleLine = true
-                        )
+
+                        // DROPDOWN de unidades
+                        ExposedDropdownMenuBox(
+                            expanded = unitExpanded,
+                            onExpandedChange = { unitExpanded = !unitExpanded }
+                        ) {
+                            TextField(
+                                value = newItemUnit,
+                                onValueChange = {},
+                                readOnly = true,
+                                label = { Text("Unidade") },
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .fillMaxWidth(),
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(
+                                        expanded = unitExpanded
+                                    )
+                                }
+                            )
+                            ExposedDropdownMenu(
+                                expanded = unitExpanded,
+                                onDismissRequest = { unitExpanded = false }
+                            ) {
+                                unitOptions.forEach { option ->
+                                    DropdownMenuItem(
+                                        text = { Text(option) },
+                                        onClick = {
+                                            newItemUnit = option
+                                            unitExpanded = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
                 },
                 confirmButton = {
@@ -176,16 +201,25 @@ fun ListItemsScreen(
                             if (newItemName.isNotBlank()) {
                                 val qty = newItemQty.toDoubleOrNull() ?: 1.0
 
+                                val unitId = when (newItemUnit.lowercase()) {
+                                    "un", "uni", "und", "unid" -> 1   // ID da unidade "un"
+                                    "l", "lt", "litro", "litros" -> 2 // ID da unidade "L"
+                                    "kg", "quilo", "kilo" -> 3        // ID da unidade "kg"
+                                    else -> 1
+                                }
+
                                 viewModel.addItem(
                                     listId = listId,
                                     userId = userId,
-                                    itemId = defaultItemId,
+                                    name = newItemName,
                                     qty = qty,
-                                    unitId = defaultUnitId
-                                ) { ok, _ ->
+                                    unitId = unitId
+                                ) { ok, error ->
                                     if (ok) {
                                         showAddDialog = false
                                         clearNewItemFields()
+                                    } else if (error != null) {
+                                        println("ERRO AO ADICIONAR ITEM: $error")
                                     }
                                 }
                             }
