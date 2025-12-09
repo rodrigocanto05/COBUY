@@ -12,7 +12,7 @@ Este manual explica de forma simples cada funcionalidade essencial da app.
 1. Abrir a aplicação.
 2. Selecionar **“Criar Conta”**.
 3. Preencher Nome, Email, Password e Género.
-4. Tocar em **“Registar”**.
+4. Tocar em **“Criar Conta”**.
 5. O utilizador é redirecionado automaticamente para o dashboard inicial.
 
 <img width="190" height="525" alt="image-removebg-preview-3" src="https://github.com/user-attachments/assets/506b327c-24a7-454a-8b61-bb879f9ecf44" /> <img width="175" height="375" alt="Captura_de_ecrã_2025-12-08__às_11 05 45-removebg-preview" src="https://github.com/user-attachments/assets/e7437175-bb3c-46a4-b5dd-2b84d76e684e" />

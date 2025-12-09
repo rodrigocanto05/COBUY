@@ -13,10 +13,10 @@
 | **1. Levantamento de requisitos** | 25% | 25% | 25% | 25% | **100%** |
 | **2. Pesquisa de mercado** | 25% | 25% | 25% | 25% | **100%** |
 | **3. Design e mockups (Figma)** | 30% | 10% | 5% | 55% | **100%** |
-| **4. Base de Dados (MER + tabelas + inserts + queries)** | 85% | 0% | 15% | 0% | **100%** |
+| **4. Base de Dados** | 85% | 0% | 15% | 0% | **100%** |
 | **5. Desenvolvimento Android (Frontend)** | 15% | 70% | 15% | 0% | **100%** |
 | **6. Desenvolvimento da API (Backend – Spring Boot, Postman)** | 70% | 25% | 0% | 5% | **100%** |
-| **7. Integração com Mapas / Rotas / Localização** | 75% | 25% | 0% | 0% | **100%** |
+| **7. Integração com Mapas / Rotas / Locais Salvos** | 75% | 25% | 0% | 0% | **100%** |
 | **8. Implementação de Grupos e Listas** | 0% | 100% | 0% | 0% | **100%** |
 | **9. Implementação de Receitas** | 0% | 0% | 100% | 0% | **100%** |
 | **10. Testes e validação (funcionais + usabilidade)** | 25% | 45% | 30% | 0% | **100%** |
@@ -32,7 +32,7 @@ Para responder a estas falhas, a COBUY integra três funcionalidades principais:
 
 - **Listas de compras colaborativas em tempo real**, permitindo que vários utilizadores adicionem, editem ou concluam itens numa lista partilhada. Esta sincronização evita esquecimentos e compras repetidas.
   
-- **Localização inteligente**, que identifica supermercados próximos e apresenta rotas, facilitando a escolha do local mais conveniente e reduzindo o tempo gasto em deslocações.
+- **Localização inteligente**, que identifica supermercados próximos do IADE e apresenta rotas, facilitando a escolha do local mais conveniente e reduzindo o tempo gasto em deslocações.
 
 - **Módulo de receitas**, onde os utilizadores podem consultar receitas completas, visualizar o modo de preparação e os ingredientes necessários. Caso pretendam, podem adicionar automaticamente esses ingredientes às suas listas de compras, tornando o planeamento das refeições mais simples e eficiente.
 
@@ -53,7 +53,7 @@ Os principais objetivos definidos para o desenvolvimento da COBUY foram:
 - **Centralizar a gestão das compras domésticas** através de listas partilhadas e atualizadas em tempo real.
 - **Reduzir compras duplicadas e esquecimentos**, garantindo que todos os utilizadores têm acesso à mesma informação.
 - **Facilitar a colaboração entre membros de um grupo**, promovendo uma divisão equilibrada das tarefas.
-- **Integrar funcionalidades de localização**, permitindo encontrar rapidamente supermercados próximos e aceder às rotas.
+- **Integrar funcionalidades de localização**, permitindo encontrar rapidamente supermercados próximos do IADE e aceder às rotas.
 - **Apoiar o planeamento alimentar** através de um módulo de receitas que apresenta ingredientes e modo de preparação, permitindo adicionar os ingredientes necessários à lista de compras.
 - **Desenvolver uma aplicação intuitiva e acessível**, capaz de melhorar o dia a dia do utilizador através da tecnologia.
 
@@ -146,6 +146,7 @@ A solução comunica com um backend em Spring Boot, utiliza uma base de dados My
 - Consulta de receitas completas com modo de preparação.
 - Adicionar automaticamente ingredientes da receita à lista.
 - Localização de supermercados próximos a partir do IADE.
+- Guardar/Remover supermercados proximos nos Locais Salvos.
 - Visualização de rotas até um supermercado.
 - Consultar/Editar perfil de utilizador.
 
