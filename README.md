@@ -1,6 +1,5 @@
-#Links
-
 ## Proposta Inícial 
+https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/proposta_inicial.md
 
 ## Relatório Intermédio 
 https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/relat%C3%B3rio_interm%C3%A9dio.md
