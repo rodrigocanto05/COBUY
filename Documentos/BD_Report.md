@@ -381,7 +381,7 @@ Associa utilizadores a supermercados guardados.
   
 ---
 
-###1.5 Views da Base de Dados
+### 1.5 Views da Base de Dados
 
 Foram criadas views para facilitar o acesso a informação agregada e simplificar consultas recorrentes. 
 As principais views implementadas são:
