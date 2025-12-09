@@ -17,7 +17,7 @@
 | **5. Desenvolvimento Android (Frontend)** | 15% | 70% | 15% | 0% | **100%** |
 | **6. Desenvolvimento da API (Backend – Spring Boot, Postman)** | 70% | 25% | 0% | 5% | **100%** |
 | **7. Integração com Mapas / Rotas / Locais Salvos** | 75% | 25% | 0% | 0% | **100%** |
-| **8. Implementação de Grupos e Listas** | 0% | 100% | 0% | 0% | **100%** |
+| **8. Implementação de Grupos e Listas** | 0% | 75% | 0% | 25% | **100%** |
 | **9. Implementação de Receitas** | 0% | 0% | 100% | 0% | **100%** |
 | **10. Testes e validação (funcionais + usabilidade)** | 25% | 45% | 30% | 0% | **100%** |
 | **11. Relatório final + poster + vídeo de apresentação** | 25% | 25% | 25% | 25% | **100%** |
