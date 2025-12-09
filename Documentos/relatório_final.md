@@ -8,7 +8,7 @@
 ---
 # 2. Distribuição das principais tarefas
 
-| **Tarefas Principais** | **Rodrigo Canto**(~34%) | **Rodrigo Daibert**(~32%) | **Marco Fonseca**(~22%) | **Luís Quirin**(~12%) | **Total** |
+| **Tarefas Principais** | **Rodrigo Canto**(~33%) | **Rodrigo Daibert**(~30%) | **Marco Fonseca**(~22%) | **Luís Quirin**(~15%) | **Total** |
 |----------------------|-------------------|----------------------|-------------------|------------------|-----------|
 | **1. Levantamento de requisitos** | 25% | 25% | 25% | 25% | **100%** |
 | **2. Pesquisa de mercado** | 25% | 25% | 25% | 25% | **100%** |
