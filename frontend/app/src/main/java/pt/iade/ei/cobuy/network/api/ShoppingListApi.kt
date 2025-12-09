@@ -8,32 +8,39 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 
-interface ListApi {
+interface ShoppingListApi {
 
-
-    @GET("api/groups/{groupId}/lists")
-    suspend fun getGroupLists(
+    @GET("api/lists/group/{groupId}")
+    suspend fun getListsByGroup(
         @Path("groupId") groupId: Int,
         @Query("userId") userId: Int
     ): Response<List<ShoppingList>>
 
-
-    @POST("api/groups/{groupId}/lists")
+    @POST("api/lists")
     suspend fun createList(
-        @Path("groupId") groupId: Int,
-        @Query("userId") userId: Int,
-        @Body body: CreateListRequest
+        @Body body: CreateListBody,
+        @Query("userId") userId: Int
     ): Response<ShoppingList>
 
+    @DELETE("api/lists/{listId}")
+    suspend fun deleteList(
+        @Path("listId") listId: Int,
+        @Query("userId") userId: Int
+    ): Response<Unit>
+
+    data class CreateListBody(
+        val title: String,
+        val group_id: Int
+    )
     companion object {
         private const val BASE_URL = "http://10.0.2.2:8082/"
 
-        val service: ListApi by lazy {
+        val service: ShoppingListApi by lazy {
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(ListApi::class.java)
+                .create(ShoppingListApi::class.java)
         }
     }
 }

@@ -9,6 +9,8 @@ import kotlinx.coroutines.launch
 import pt.iade.ei.cobuy.network.api.GroupApi
 import pt.iade.ei.cobuy.network.requests.CreateListRequest
 import pt.iade.ei.cobuy.storage.model.ShoppingList
+import pt.iade.ei.cobuy.network.api.ShoppingListApi
+import pt.iade.ei.cobuy.network.repository.ShoppingListRepository
 
 data class GroupListsUiState(
     val isLoading: Boolean = false,
@@ -17,6 +19,8 @@ data class GroupListsUiState(
 )
 
 class GroupListsViewModel : ViewModel() {
+
+    private val repository = ShoppingListRepository(ShoppingListApi.service)
 
     var uiState by mutableStateOf(GroupListsUiState())
         private set
@@ -86,5 +90,23 @@ class GroupListsViewModel : ViewModel() {
             }
         }
     }
+    fun deleteList(
+        listId: Int,
+        userId: Int,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.deleteList(listId, userId)
 
+                uiState = uiState.copy(
+                    lists = uiState.lists.filterNot { it.id == listId }
+                )
+
+                onResult(true, null)
+            } catch (e: Exception) {
+                onResult(false, e.message ?: "Erro ao apagar lista")
+            }
+        }
+    }
 }

@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,13 +44,13 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
-import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.cards.ShoppingListCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.screens.MembersSideCard
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -181,6 +180,29 @@ fun GroupListScreen(
                                                     listName = list.title
                                                 )
                                             )
+                                        },
+                                        onDelete = {
+                                            val uid = currentUserId
+                                            if (uid != null) {
+                                                listsViewModel.deleteList(
+                                                    listId = list.id,
+                                                    userId = uid
+                                                ) { ok, msg ->
+                                                    if (ok) {
+                                                        Toast.makeText(
+                                                            context,
+                                                            "Lista apagada com sucesso!",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    } else {
+                                                        Toast.makeText(
+                                                            context,
+                                                            msg ?: "Erro ao apagar lista",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
+                                                }
+                                            }
                                         }
                                     )
                                 }
