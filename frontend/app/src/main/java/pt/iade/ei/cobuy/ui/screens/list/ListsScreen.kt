@@ -44,6 +44,7 @@ import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
+import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.cards.ShoppingListCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.navigation.NavPath
@@ -61,6 +62,8 @@ fun GroupListScreen(
     listsViewModel: GroupListsViewModel = viewModel(),
     membersViewModel: GroupMembersViewModel = viewModel()
 ) {
+    var listToDelete by remember { mutableStateOf<ShoppingList?>(null) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
     val listsUiState = listsViewModel.uiState
     val membersUiState = membersViewModel.uiState
     val context = LocalContext.current
@@ -182,27 +185,8 @@ fun GroupListScreen(
                                             )
                                         },
                                         onDelete = {
-                                            val uid = currentUserId
-                                            if (uid != null) {
-                                                listsViewModel.deleteList(
-                                                    listId = list.id,
-                                                    userId = uid
-                                                ) { ok, msg ->
-                                                    if (ok) {
-                                                        Toast.makeText(
-                                                            context,
-                                                            "Lista apagada com sucesso!",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    } else {
-                                                        Toast.makeText(
-                                                            context,
-                                                            msg ?: "Erro ao apagar lista",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    }
-                                                }
-                                            }
+                                            listToDelete = list
+                                            showDeleteDialog = true
                                         }
                                     )
                                 }
@@ -256,6 +240,78 @@ fun GroupListScreen(
                 currentUserId = currentUserId,
                 isCurrentUserOwner = isCurrentUserOwner
             )
+            if (showDeleteDialog && listToDelete != null) {
+                AlertDialog(
+                    onDismissRequest = {
+                        showDeleteDialog = false
+                        listToDelete = null
+                    },
+                    title = {
+                        Text(
+                            text = "Apagar lista?",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = TextDark
+                        )
+                    },
+                    text = {
+                        Text(
+                            text = "Tem a certeza que quer apagar a lista \"${listToDelete!!.title}\"?",
+                            fontSize = 16.sp,
+                            color = TextDark.copy(alpha = 0.8f)
+                        )
+                    },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                val uid = currentUserId
+                                val list = listToDelete
+                                if (uid != null && list != null) {
+                                    listsViewModel.deleteList(
+                                        listId = list.id,
+                                        userId = uid
+                                    ) { ok, msg ->
+                                        if (ok) {
+                                            Toast.makeText(
+                                                context,
+                                                "Lista apagada com sucesso!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            Toast.makeText(
+                                                context,
+                                                msg ?: "Erro ao apagar lista",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                }
+                                showDeleteDialog = false
+                                listToDelete = null
+                            }
+                        ) {
+                            Text(
+                                text = "Apagar",
+                                color = Color.Red,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                showDeleteDialog = false
+                                listToDelete = null
+                            }
+                        ) {
+                            Text(
+                                text = "Cancelar",
+                                color = TextDark
+                            )
+                        }
+                    }
+                )
+            }
 
             if (showCreateDialog && currentUserId != null) {
                 CreateListDialog(

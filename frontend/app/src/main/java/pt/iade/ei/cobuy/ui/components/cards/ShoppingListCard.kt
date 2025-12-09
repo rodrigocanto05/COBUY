@@ -30,7 +30,7 @@ fun ShoppingListCard(
     list: ShoppingList,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    onDelete: () -> Unit   // 👈 NOVO
+    onDelete: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -44,7 +44,6 @@ fun ShoppingListCard(
     ) {
         Box(Modifier.fillMaxSize()) {
 
-            // Fundo da folha (sem argolas)
             Image(
                 painter = painterResource(id = R.drawable.bg_list_card),
                 contentDescription = null,
@@ -52,35 +51,32 @@ fun ShoppingListCard(
                 contentScale = ContentScale.Crop
             )
 
-            // Conteúdo por cima da folha
             Row(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 12.dp, bottom = 10.dp, end = 10.dp)
             ) {
-                // COLUNA DAS ARGOLAS
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(22.dp),         // largura reservada às argolas
+                        .width(22.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.spiral_rings),
                         contentDescription = null,
                         modifier = Modifier
-                            .fillMaxHeight(0.7f),   // altura das argolas
+                            .fillMaxHeight(0.7f),
                         contentScale = ContentScale.FillHeight
                     )
                 }
 
                 Spacer(modifier = Modifier.width(4.dp))
 
-                // COLUNA DO TEXTO (título + data)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 4.dp, bottom = 30.dp), // deixa espaço p/ botão
+                        .padding(start = 4.dp, bottom = 30.dp),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
@@ -104,7 +100,6 @@ fun ShoppingListCard(
                 }
             }
 
-            // 👇 BOTÃO DELETE NO CANTO INFERIOR DIREITO
             IconButton(
                 onClick = onDelete,
                 modifier = Modifier
