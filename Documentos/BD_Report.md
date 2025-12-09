@@ -1,10 +1,10 @@
-## 1. Base de Dados (BD report)
+# 1. Base de Dados (BD report)
 
-Este capítulo apresenta o modelo de dados utilizado no projeto **CoBuy**, incluindo o diagrama MER, a definição das entidades e relações, o dicionário de dados e os exemplos que compõem a base de dados de referência para testes. A base de dados reflete os requisitos funcionais da aplicação, permitindo gerir utilizadores, grupos, listas de compras partilhadas, itens, receitas e locais de compras favoritos.
+Este capítulo apresenta o modelo de dados utilizado no projeto **CoBuy**, incluindo o diagrama ER, a definição das entidades e relações, o dicionário de dados e os exemplos que compõem a base de dados de referência para testes. A base de dados reflete os requisitos funcionais da aplicação, permitindo gerir utilizadores, grupos, listas de compras partilhadas, itens, receitas e locais de compras favoritos.
 
 ---
 
-### 1.1 Modelo Conceptual (MER)
+# 1.1 Modelo (MER)
 
 O Modelo Entidade-Relação do sistema CoBuy organiza os dados essenciais para a gestão colaborativa de compras. O modelo estrutura-se em torno das entidades Users, Groups e Memberships, que permitem a associação de múltiplos utilizadores a múltiplos grupos. A gestão das compras é suportada pelas entidades Lists, List Items e Items, assegurando a criação e partilha de listas com itens reutilizáveis.
 
@@ -12,15 +12,11 @@ As entidades Recipes, Ingredients, Recipe Ingredients e Unit permitem representa
 
 De forma geral, o MER garante coerência, normalização e suporte direto aos requisitos funcionais da aplicação, articulando utilizadores, grupos, listas, receitas e supermercados num modelo de dados consistente e escalável.
   
-#### Diagrama MER
-
 <img width="700" height="700" alt="Captura de ecrã 2025-11-18, às 10 22 53" src="https://github.com/user-attachments/assets/9eb1af67-40ff-4304-8bf2-5da28465d5c0" />
 
 ---
 
-### 1.2 Dicionário de Dados
-
-# Dicionário de Dados
+# 1.2 Dicionário de Dados
 
 ## Tabela: `users`
 | Atributo       | Tipo de dado     | Tamanho | Restrição                       | Descrição                         |
@@ -134,7 +130,7 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 ---
 
-### 1.3 Guia de Dados 
+# 1.3 Guia de Dados 
 
 ## Introdução
 O Guia de Dados descreve a estrutura lógica da Base de Dados, explicando o propósito de cada tabela, as relações existentes e ilustrando exemplos reais de registos.
@@ -372,7 +368,7 @@ Associa utilizadores a supermercados guardados.
 
 ---
 
-### 1.4 Scripts SQL
+# 1.4 Scripts SQL
 
 > Scripts completos incluídos na entrega da tarefa:
 - `creates.sql`
@@ -381,20 +377,22 @@ Associa utilizadores a supermercados guardados.
   
 ---
 
-### 1.5 Views da Base de Dados
+## 1.5 Views da Base de Dados
 
-Foram criadas views para facilitar o acesso a informação agregada e simplificar consultas recorrentes. 
+Foram criadas *views* para facilitar o acesso a informação agregada e simplificar consultas recorrentes.  
 As principais views implementadas são:
-	•	membros_grupos – apresenta os utilizadores e respetivos papéis em cada grupo.
-	•	listas_com_itens – reúne listas com os itens associados, incluindo quantidades e unidades.
-	•	receitas_com_ingredientes – mostra cada receita juntamente com os ingredientes utilizados.
-	•	supermercados_favoritos – identifica os supermercados guardados por cada utilizador.
-	•	itens_mais_usados – devolve um ranking dos itens mais utilizados nas listas.
 
-Estas views contribuem para uma estrutura de dados mais organizada e para consultas SQL mais simples e eficientes, assim cria um melhor acesso à base de dados.
+- **membros_grupos** – apresenta os utilizadores e respetivos papéis em cada grupo.
+- **listas_com_itens** – reúne listas com os itens associados, incluindo quantidades e unidades.
+- **receitas_com_ingredientes** – mostra cada receita juntamente com os ingredientes utilizados.
+- **supermercados_favoritos** – identifica os supermercados guardados por cada utilizador.
+- **itens_mais_usados** – devolve um ranking dos itens mais utilizados nas listas.
 
-### 1.6 Conclusão
+Estas *views* contribuem para uma estrutura de dados mais organizada, permitindo consultas SQL mais simples, rápidas e eficientes, melhorando o acesso e análise da informação na base de dados.
 
-A base de dados desenvolvida para o projeto CoBuy evidencia uma estrutura conceptual e lógica adequada aos requisitos definidos, assegurando a integridade, a normalização e a coerência dos dados ao longo de todo o sistema. O modelo MER e o respetivo dicionário de dados demonstram uma articulação clara entre as entidades e os seus relacionamentos, garantindo suporte às funcionalidades centrais, como a gestão colaborativa de listas, a organização de grupos, o controlo de itens e a integração de receitas e locais de compra.
+
+# 1.6 Conclusão
+
+A base de dados desenvolvida para o projeto CoBuy evidencia uma estrutura conceptual e lógica adequada aos requisitos definidos, assegurando a integridade, a normalização e a coerência dos dados ao longo de todo o sistema. O modelo ER e o respetivo dicionário de dados demonstram uma articulação clara entre as entidades e os seus relacionamentos, garantindo suporte às funcionalidades centrais, como a gestão colaborativa de listas, a organização de grupos, o controlo de itens e a integração de receitas e locais de compra.
 
 Em síntese, a modelação apresentada constitui uma base robusta e escalável, proporcionando as condições necessárias para o correto funcionamento da aplicação e para a sua futura evolução.
