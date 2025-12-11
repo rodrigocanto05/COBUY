@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.ui.screens.list
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ fun ListItemsScreen(
     viewModel: ListItemsViewModel = viewModel()
 ) {
     val unitViewModel: UnitViewModel = viewModel()
+    val context = LocalContext.current
 
     LaunchedEffect(listId) {
         viewModel.loadItems(listId)
@@ -77,6 +80,7 @@ fun ListItemsScreen(
                 .padding(padding)
                 .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
+
             Text(
                 text = "Itens da lista",
                 fontWeight = FontWeight.SemiBold,
@@ -126,6 +130,15 @@ fun ListItemsScreen(
                                     ) { _, _ -> }
                                 },
                                 onDeleteClicked = {
+                                    val name = item.item.name
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "$name foi removido",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+
                                     viewModel.deleteItem(
                                         listId,
                                         item.id
@@ -161,6 +174,7 @@ fun ListItemsScreen(
                             label = { Text("Quantidade") },
                             singleLine = true
                         )
+
                         ExposedDropdownMenuBox(
                             expanded = unitExpanded,
                             onExpandedChange = { unitExpanded = !unitExpanded }
@@ -200,7 +214,9 @@ fun ListItemsScreen(
                     Button(
                         onClick = {
                             if (newItemName.isNotBlank()) {
+
                                 val qty = newItemQty.toDoubleOrNull() ?: 1.0
+
                                 val unitId = when (newItemUnit.lowercase()) {
                                     "kg" -> 1
                                     "g" -> 2
@@ -208,6 +224,7 @@ fun ListItemsScreen(
                                     "ml" -> 4
                                     else -> 5
                                 }
+
                                 viewModel.addItem(
                                     listId,
                                     newItemName,
