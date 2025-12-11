@@ -110,9 +110,8 @@ class ListItemsViewModel : ViewModel() {
         onResult: (Boolean, String?) -> Unit
     ) {
         viewModelScope.launch {
-            val previousItems = uiState.items
             uiState = uiState.copy(
-                items = previousItems.filterNot { it.id == itemId }
+                items = uiState.items.filterNot { it.id == itemId }
             )
 
             try {
@@ -123,7 +122,7 @@ class ListItemsViewModel : ViewModel() {
 
                 onResult(true, null)
             } catch (e: Exception) {
-                uiState = uiState.copy(items = previousItems)
+                println("ERRO AO REMOVER ITEM: ${e.message}")
                 onResult(false, e.message ?: "Erro ao remover item")
             }
         }
