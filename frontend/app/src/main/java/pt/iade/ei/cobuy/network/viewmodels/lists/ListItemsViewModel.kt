@@ -71,6 +71,7 @@ class ListItemsViewModel : ViewModel() {
                 uiState = uiState.copy(
                     items = uiState.items + created
                 )
+
                 onResult(true, null)
             } catch (e: Exception) {
                 onResult(false, e.message ?: "Erro ao adicionar item")
@@ -95,6 +96,7 @@ class ListItemsViewModel : ViewModel() {
                         if (it.id == updated.id) updated else it
                     }
                 )
+
                 onResult(true, null)
             } catch (e: Exception) {
                 onResult(false, e.message ?: "Erro ao atualizar item")
@@ -108,17 +110,20 @@ class ListItemsViewModel : ViewModel() {
         onResult: (Boolean, String?) -> Unit
     ) {
         viewModelScope.launch {
+            val previousItems = uiState.items
+            uiState = uiState.copy(
+                items = previousItems.filterNot { it.id == itemId }
+            )
+
             try {
                 val userId = SessionViewModel.currentUserId
                     ?: throw IllegalStateException("Utilizador não autenticado")
 
                 api.deleteItem(listId, itemId, userId)
 
-                uiState = uiState.copy(
-                    items = uiState.items.filterNot { it.id == itemId }
-                )
                 onResult(true, null)
             } catch (e: Exception) {
+                uiState = uiState.copy(items = previousItems)
                 onResult(false, e.message ?: "Erro ao remover item")
             }
         }

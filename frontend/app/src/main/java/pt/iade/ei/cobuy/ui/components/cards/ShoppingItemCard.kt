@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.ui.components.cards
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,23 +39,22 @@ fun ShoppingItemCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp),
+            .animateContentSize()
+            .padding(vertical = 2.dp),
         shape = RoundedCornerShape(18.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(containerColor = TextLight)
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            // LEFT SIDE
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                // 👇 Só avisa o caller, a lógica vive no ViewModel
                 IconButton(onClick = { onItemClicked(item) }) {
                     Icon(
                         imageVector = if (item.done)
@@ -91,7 +91,6 @@ fun ShoppingItemCard(
                 }
             }
 
-            // RIGHT SIDE — DELETE BUTTON
             IconButton(onClick = { onDeleteClicked(item) }) {
                 Icon(
                     imageVector = Icons.Filled.Delete,

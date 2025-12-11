@@ -22,7 +22,7 @@ import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
-import pt.iade.ei.cobuy.storage.model.Unit as UnitModel   // 👈 alias para a Unit do storage
+import pt.iade.ei.cobuy.storage.model.Unit as UnitModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,23 +44,12 @@ fun ListItemsScreen(
 
     val uiState = viewModel.uiState
     val items = uiState.items
-    val isLoading = uiState.isLoading
-    val errorMessage = uiState.error
 
     var showAddDialog by remember { mutableStateOf(false) }
     var newItemName by remember { mutableStateOf("") }
     var newItemQty by remember { mutableStateOf("") }
     var newItemUnit by remember { mutableStateOf("un") }
     var unitExpanded by remember { mutableStateOf(false) }
-
-    // unidades existentes na BD
-    val unitOptions = listOf("kg", "g", "L", "ml", "un")
-
-    fun clearNewItemFields() {
-        newItemName = ""
-        newItemQty = ""
-        newItemUnit = "un"
-    }
 
     Scaffold(
         topBar = {
@@ -88,7 +77,6 @@ fun ListItemsScreen(
                 .padding(padding)
                 .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
-
             Text(
                 text = "Itens da lista",
                 fontWeight = FontWeight.SemiBold,
@@ -96,7 +84,7 @@ fun ListItemsScreen(
             )
 
             when {
-                isLoading -> {
+                uiState.isLoading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -105,12 +93,12 @@ fun ListItemsScreen(
                     }
                 }
 
-                errorMessage != null -> {
+                uiState.error != null -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = errorMessage)
+                        Text(text = uiState.error ?: "")
                     }
                 }
 
@@ -131,29 +119,17 @@ fun ListItemsScreen(
                         items(items, key = { it.id }) { item ->
                             ShoppingItemCard(
                                 item = item,
-
-                                // ✅ marca/desmarca item e guarda no backend
-                                onItemClicked = { clickedItem ->
+                                onItemClicked = {
                                     viewModel.toggleDone(
-                                        listId = listId,
-                                        itemId = clickedItem.id
-                                    ) { ok, error ->
-                                        if (!ok && error != null) {
-                                            println("ERRO AO ATUALIZAR ITEM: $error")
-                                        }
-                                    }
+                                        listId,
+                                        item.id
+                                    ) { _, _ -> }
                                 },
-
-                                // 👇 DELETE REAL: chama o viewModel
-                                onDeleteClicked = { toDelete ->
+                                onDeleteClicked = {
                                     viewModel.deleteItem(
-                                        listId = listId,
-                                        itemId = toDelete.id
-                                    ) { ok, error ->
-                                        if (!ok && error != null) {
-                                            println("ERRO AO APAGAR ITEM: $error")
-                                        }
-                                    }
+                                        listId,
+                                        item.id
+                                    ) { _, _ -> }
                                 }
                             )
                         }
@@ -166,7 +142,9 @@ fun ListItemsScreen(
             AlertDialog(
                 onDismissRequest = {
                     showAddDialog = false
-                    clearNewItemFields()
+                    newItemName = ""
+                    newItemQty = ""
+                    newItemUnit = "un"
                 },
                 title = { Text(text = "Adicionar item") },
                 text = {
@@ -183,7 +161,6 @@ fun ListItemsScreen(
                             label = { Text("Quantidade") },
                             singleLine = true
                         )
-
                         ExposedDropdownMenuBox(
                             expanded = unitExpanded,
                             onExpandedChange = { unitExpanded = !unitExpanded }
@@ -206,7 +183,7 @@ fun ListItemsScreen(
                                 expanded = unitExpanded,
                                 onDismissRequest = { unitExpanded = false }
                             ) {
-                                unitOptions.forEach { option ->
+                                listOf("kg", "g", "L", "ml", "un").forEach { option ->
                                     DropdownMenuItem(
                                         text = { Text(option) },
                                         onClick = {
@@ -223,30 +200,25 @@ fun ListItemsScreen(
                     Button(
                         onClick = {
                             if (newItemName.isNotBlank()) {
-
                                 val qty = newItemQty.toDoubleOrNull() ?: 1.0
-
-                                // converter unidade → ID da BD
                                 val unitId = when (newItemUnit.lowercase()) {
                                     "kg" -> 1
                                     "g" -> 2
                                     "l" -> 3
                                     "ml" -> 4
-                                    "un" -> 5
                                     else -> 5
                                 }
-
                                 viewModel.addItem(
-                                    listId = listId,
-                                    name = newItemName,
-                                    qty = qty,
-                                    unitId = unitId
-                                ) { ok, error ->
+                                    listId,
+                                    newItemName,
+                                    qty,
+                                    unitId
+                                ) { ok, _ ->
                                     if (ok) {
                                         showAddDialog = false
-                                        clearNewItemFields()
-                                    } else if (error != null) {
-                                        println("ERRO AO ADICIONAR ITEM: $error")
+                                        newItemName = ""
+                                        newItemQty = ""
+                                        newItemUnit = "un"
                                     }
                                 }
                             }
@@ -259,7 +231,9 @@ fun ListItemsScreen(
                     TextButton(
                         onClick = {
                             showAddDialog = false
-                            clearNewItemFields()
+                            newItemName = ""
+                            newItemQty = ""
+                            newItemUnit = "un"
                         }
                     ) {
                         Text("Cancelar")
