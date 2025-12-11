@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pt.iade.ei.cobuy.network.api.lists.ListItemsApi
 import pt.iade.ei.cobuy.network.requests.AddItemRequest
-import pt.iade.ei.cobuy.network.requests.NetworkListItem
-import pt.iade.ei.cobuy.network.requests.toDomain
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.ListItem
 
@@ -34,7 +32,6 @@ class ListItemsViewModel : ViewModel() {
                     ?: throw IllegalStateException("Utilizador não autenticado")
 
                 val result = api.getItems(listId, userId)
-                    .map(NetworkListItem::toDomain)
 
                 uiState = uiState.copy(
                     isLoading = false,
@@ -69,8 +66,7 @@ class ListItemsViewModel : ViewModel() {
                     userId = userId
                 )
 
-                val createdNetwork = api.addItem(listId, body)
-                val created = createdNetwork.toDomain()
+                val created = api.addItem(listId, body)
 
                 uiState = uiState.copy(
                     items = uiState.items + created
@@ -92,8 +88,7 @@ class ListItemsViewModel : ViewModel() {
                 val userId = SessionViewModel.currentUserId
                     ?: throw IllegalStateException("Utilizador não autenticado")
 
-                val updatedNetwork = api.markAsDone(listId, itemId, userId)
-                val updated = updatedNetwork.toDomain()
+                val updated = api.markAsDone(listId, itemId, userId)
 
                 uiState = uiState.copy(
                     items = uiState.items.map {

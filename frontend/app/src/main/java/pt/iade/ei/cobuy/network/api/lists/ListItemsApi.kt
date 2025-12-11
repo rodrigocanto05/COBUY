@@ -2,8 +2,7 @@ package pt.iade.ei.cobuy.network.api.lists
 
 import pt.iade.ei.cobuy.network.api.ApiClient
 import pt.iade.ei.cobuy.network.requests.AddItemRequest
-import pt.iade.ei.cobuy.network.requests.NetworkListItem
-import retrofit2.Response
+import pt.iade.ei.cobuy.storage.model.ListItem
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -18,27 +17,27 @@ interface ListItemsService {
     suspend fun getItems(
         @Path("listId") listId: Int,
         @Query("userId") userId: Int
-    ): List<NetworkListItem>
+    ): List<ListItem>
 
     @POST("api/lists/{listId}/items")
     suspend fun addItem(
         @Path("listId") listId: Int,
         @Body body: AddItemRequest
-    ): NetworkListItem
+    ): ListItem
 
     @PATCH("api/lists/{listId}/items/{itemId}/done")
     suspend fun markAsDone(
         @Path("listId") listId: Int,
         @Path("itemId") itemId: Int,
         @Query("userId") userId: Int
-    ): NetworkListItem
+    ): ListItem
 
     @DELETE("api/lists/{listId}/items/{itemId}")
     suspend fun deleteItem(
         @Path("listId") listId: Int,
         @Path("itemId") itemId: Int,
         @Query("userId") userId: Int
-    ): Response<Unit>
+    )
 }
 
 object ListItemsApi {

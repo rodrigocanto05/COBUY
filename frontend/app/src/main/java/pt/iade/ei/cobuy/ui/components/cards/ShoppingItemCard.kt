@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,8 @@ import pt.iade.ei.cobuy.ui.theme.TextLight
 @Composable
 fun ShoppingItemCard(
     item: ListItem,
-    onItemClicked: (ListItem) -> Unit
+    onItemClicked: (ListItem) -> Unit,
+    onDeleteClicked: (ListItem) -> Unit = {}   // ← ADICIONEI ISTO
 ) {
     val qtyText = item.qty?.let {
         if (it % 1.0 == 0.0) it.toInt().toString() else it.toString()
@@ -49,6 +51,7 @@ fun ShoppingItemCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
+            // LEFT SIDE
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 IconButton(onClick = { onItemClicked(item.copy(done = !item.done)) }) {
@@ -86,6 +89,16 @@ fun ShoppingItemCard(
                     }
                 }
             }
+
+            // RIGHT SIDE — DELETE BUTTON
+            IconButton(onClick = { onDeleteClicked(item) }) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Apagar item",
+                    tint = Color.Red.copy(alpha = 0.85f),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }
@@ -111,7 +124,8 @@ fun ShoppingItemCardDonePreview() {
     COBUYTheme {
         ShoppingItemCard(
             item = doneItem,
-            onItemClicked = {}
+            onItemClicked = {},
+            onDeleteClicked = {}
         )
     }
 }

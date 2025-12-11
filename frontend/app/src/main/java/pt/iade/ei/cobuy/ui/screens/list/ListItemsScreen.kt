@@ -32,7 +32,6 @@ fun ListItemsScreen(
     listName: String,
     viewModel: ListItemsViewModel = viewModel()
 ) {
-    // ViewModel das unidades (instância, não a classe)
     val unitViewModel: UnitViewModel = viewModel()
 
     LaunchedEffect(listId) {
@@ -54,7 +53,9 @@ fun ListItemsScreen(
     var newItemUnit by remember { mutableStateOf("un") }
     var selectedUnit by remember { mutableStateOf<UnitModel?>(null) }
     var unitExpanded by remember { mutableStateOf(false) }
-    val unitOptions = listOf("un", "l", "kg")
+
+    // unidades existentes na BD
+    val unitOptions = listOf("kg", "g", "L", "ml", "un")
 
     fun clearNewItemFields() {
         newItemName = ""
@@ -131,8 +132,18 @@ fun ListItemsScreen(
                         items(items, key = { it.id }) { item ->
                             ShoppingItemCard(
                                 item = item,
-                                onItemClicked = { _ ->
-                                    // TODO: ligar ao toggleDone do ViewModel
+                                onItemClicked = { /* TODO: ligar ao toggleDone do ViewModel */ },
+
+                                // 👇 DELETE REAL: chama o viewModel
+                                onDeleteClicked = { toDelete ->
+                                    viewModel.deleteItem(
+                                        listId = listId,
+                                        itemId = toDelete.id
+                                    ) { ok, error ->
+                                        if (!ok && error != null) {
+                                            println("ERRO AO APAGAR ITEM: $error")
+                                        }
+                                    }
                                 }
                             )
                         }
@@ -202,13 +213,17 @@ fun ListItemsScreen(
                     Button(
                         onClick = {
                             if (newItemName.isNotBlank()) {
+
                                 val qty = newItemQty.toDoubleOrNull() ?: 1.0
 
+                                // converter unidade → ID da BD
                                 val unitId = when (newItemUnit.lowercase()) {
-                                    "un", "uni", "und", "unid" -> 1
-                                    "L", "lt", "litro", "litros" -> 2
-                                    "kg", "quilo", "kilo" -> 3
-                                    else -> 1
+                                    "kg" -> 1
+                                    "g" -> 2
+                                    "l" -> 3
+                                    "ml" -> 4
+                                    "un" -> 5
+                                    else -> 5
                                 }
 
                                 viewModel.addItem(
