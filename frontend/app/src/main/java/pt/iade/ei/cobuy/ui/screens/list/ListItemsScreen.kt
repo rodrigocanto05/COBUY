@@ -225,17 +225,35 @@ fun ListItemsScreen(
                                     else -> 5
                                 }
 
+                                val nameForToast = newItemName
+
                                 viewModel.addItem(
                                     listId,
                                     newItemName,
                                     qty,
                                     unitId
-                                ) { ok, _ ->
+                                ) { ok, error ->
                                     if (ok) {
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                "$nameForToast foi adicionado à lista",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                            .show()
+
                                         showAddDialog = false
                                         newItemName = ""
                                         newItemQty = ""
                                         newItemUnit = "un"
+                                    } else if (error != null) {
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                error,
+                                                Toast.LENGTH_SHORT
+                                            )
+                                            .show()
                                     }
                                 }
                             }
