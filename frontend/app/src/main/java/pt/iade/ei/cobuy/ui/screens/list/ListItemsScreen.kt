@@ -51,7 +51,6 @@ fun ListItemsScreen(
     var newItemName by remember { mutableStateOf("") }
     var newItemQty by remember { mutableStateOf("") }
     var newItemUnit by remember { mutableStateOf("un") }
-    var selectedUnit by remember { mutableStateOf<UnitModel?>(null) }
     var unitExpanded by remember { mutableStateOf(false) }
 
     // unidades existentes na BD
@@ -132,7 +131,18 @@ fun ListItemsScreen(
                         items(items, key = { it.id }) { item ->
                             ShoppingItemCard(
                                 item = item,
-                                onItemClicked = { /* TODO: ligar ao toggleDone do ViewModel */ },
+
+                                // ✅ marca/desmarca item e guarda no backend
+                                onItemClicked = { clickedItem ->
+                                    viewModel.toggleDone(
+                                        listId = listId,
+                                        itemId = clickedItem.id
+                                    ) { ok, error ->
+                                        if (!ok && error != null) {
+                                            println("ERRO AO ATUALIZAR ITEM: $error")
+                                        }
+                                    }
+                                },
 
                                 // 👇 DELETE REAL: chama o viewModel
                                 onDeleteClicked = { toDelete ->
