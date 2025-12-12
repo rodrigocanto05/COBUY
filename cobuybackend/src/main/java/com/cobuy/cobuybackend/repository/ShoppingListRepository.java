@@ -9,4 +9,6 @@ import java.util.List;
 public interface ShoppingListRepository extends JpaRepository<ShoppingList, Integer> {
 
     List<ShoppingList> findByGroup(Group group);
+    List<ShoppingList> findByGroupIdIn(List<Integer> groupIds);
+
 }

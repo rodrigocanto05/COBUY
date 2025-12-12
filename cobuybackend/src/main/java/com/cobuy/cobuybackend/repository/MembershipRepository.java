@@ -21,4 +21,5 @@ public interface MembershipRepository extends JpaRepository<Membership, Integer>
             @Param("userId") Integer userId,
             @Param("groupId") Integer groupId
     );
+    
 }

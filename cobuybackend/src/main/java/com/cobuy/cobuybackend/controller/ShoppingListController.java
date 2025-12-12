@@ -1,6 +1,7 @@
 package com.cobuy.cobuybackend.controller;
 
 import com.cobuy.cobuybackend.model.Group;
+import com.cobuy.cobuybackend.model.Membership;
 import com.cobuy.cobuybackend.model.ShoppingList;
 import com.cobuy.cobuybackend.repository.GroupRepository;
 import com.cobuy.cobuybackend.repository.MembershipRepository;
@@ -89,6 +90,20 @@ public class ShoppingListController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/user/{userId}")
+public ResponseEntity<?> getListsForUser(@PathVariable Integer userId) {
+
+    List<Membership> memberships = membershipRepository.findByUserId(userId);
+
+    List<Integer> groupIds = memberships.stream()
+            .map(m -> m.getGroup().getId())
+            .toList();
+
+    List<ShoppingList> lists = shoppingListRepository.findByGroupIdIn(groupIds);
+
+    return ResponseEntity.ok(lists);
+}
 
     public record CreateListDTO(
             @com.fasterxml.jackson.annotation.JsonProperty("group_id") Integer groupId,
