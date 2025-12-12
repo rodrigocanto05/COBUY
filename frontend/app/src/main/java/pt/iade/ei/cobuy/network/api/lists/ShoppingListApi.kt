@@ -24,6 +24,13 @@ interface ShoppingListApi {
         @Query("userId") userId: Int
     ): Response<ShoppingList>
 
+    @GET("api/lists/user/{userId}")
+    suspend fun getListsForUser(
+        @Path("userId") userId: Int
+    ): Response<List<ShoppingList>>
+
+
+
     @DELETE("api/lists/{listId}")
     suspend fun deleteList(
         @Path("listId") listId: Int,

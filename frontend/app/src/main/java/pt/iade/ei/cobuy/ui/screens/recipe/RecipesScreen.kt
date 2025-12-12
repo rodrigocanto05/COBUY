@@ -9,9 +9,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,56 +18,49 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
-
+import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 
 data class Recipe(
     val id: Int,
     val name: String,
-    val imageRes: Int,
-    val route: String
+    val imageRes: Int
 )
-
 
 private val recipeList = listOf(
-    Recipe(1, "Massa Carbonara", R.drawable.massa_carbonara, "massacarbonara"),
-    Recipe(2, "Frango Grelhado", R.drawable.frangogrelhado, "frangogrelhado"),
-    Recipe(3, "Lasanha de Carne", R.drawable.lasanha, "lasanhadecarne"),
-    Recipe(4, "Arroz de Marisco", R.drawable.arroz_de_marsico, "arrozmarisco"),
-    Recipe(5, "Bacalhau à Brás", R.drawable.bacalhauabras, "bacalhaabras"),
-    Recipe(6, "Salmão no Forno com Batatas", R.drawable.salmaonoforno, "salmaonoforno"),
-    Recipe(7, "Salame de Chocolate", R.drawable.salamedechocolate, "salamechocolate"),
-    Recipe(8, "Chili com Carne", R.drawable.chilicomcarne, "chilicomcarne"),
-    Recipe(9, "Panquecas", R.drawable.panquecas, "panquecas"),
-    Recipe(10, "Omelete de Queijo e Fiambre", R.drawable.omelete, "omeletequeijo"),
-    Recipe(11, "Sopa de Legumes", R.drawable.sopadelegumes, "sopadelegumes"),
-    Recipe(12, "Tosta Mista", R.drawable.tostamista, "tostamista"),
-    Recipe(13, "Wrap de Frango com Alface", R.drawable.wrapdefrango, "wrapfrangoalface"),
-    Recipe(14, "Hambúrguer Caseiro", R.drawable.haumburguer, "hamburgercaseiro"),
-    Recipe(15, "Pizza Caseira", R.drawable.pizza, "pizzacaseira"),
-    Recipe(16, "Esparguete à Bolonhesa", R.drawable.bolonhesa, "bolonhesa"),
-    Recipe(17, "Arroz Doce", R.drawable.arrozdoce, "arrozdoce"),
-    Recipe(18, "Gelatina com Iogurte", R.drawable.gelatinacomiogurte, "gelatinaiogurte"),
-    Recipe(19, "Salada Mediterrânica", R.drawable.saladamediterranea, "saladamediterranica"),
-    Recipe(20, "Bolo de Chocolate", R.drawable.bolodechocolate, "bolodechocolate")
+    Recipe(1, "Massa Carbonara", R.drawable.massa_carbonara),
+    Recipe(2, "Frango Grelhado", R.drawable.frangogrelhado),
+    Recipe(3, "Lasanha de Carne", R.drawable.lasanha),
+    Recipe(4, "Arroz de Marisco", R.drawable.arroz_de_marsico),
+    Recipe(5, "Bacalhau à Brás", R.drawable.bacalhauabras),
+    Recipe(6, "Salmão no Forno com Batatas", R.drawable.salmaonoforno),
+    Recipe(7, "Salame de Chocolate", R.drawable.salamedechocolate),
+    Recipe(8, "Chili com Carne", R.drawable.chilicomcarne),
+    Recipe(9, "Panquecas", R.drawable.panquecas),
+    Recipe(10, "Omelete de Queijo e Fiambre", R.drawable.omelete),
+    Recipe(11, "Sopa de Legumes", R.drawable.sopadelegumes),
+    Recipe(12, "Tosta Mista", R.drawable.tostamista),
+    Recipe(13, "Wrap de Frango com Alface", R.drawable.wrapdefrango),
+    Recipe(14, "Hambúrguer Caseiro", R.drawable.haumburguer),
+    Recipe(15, "Pizza Caseira", R.drawable.pizza),
+    Recipe(16, "Esparguete à Bolonhesa", R.drawable.bolonhesa),
+    Recipe(17, "Arroz Doce", R.drawable.arrozdoce),
+    Recipe(18, "Gelatina com Iogurte", R.drawable.gelatinacomiogurte),
+    Recipe(19, "Salada Mediterrânica", R.drawable.saladamediterranea),
+    Recipe(20, "Bolo de Chocolate", R.drawable.bolodechocolate)
 )
-
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun RecipesScreen(navController: NavController) {
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Receitas") }
-            )
-        },
-        bottomBar = {
-            CoBuyBottomBar(navController)
-        }
+        topBar = { CenterAlignedTopAppBar(title = { Text("Receitas") }) },
+        bottomBar = { CoBuyBottomBar(navController) }
     ) { padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -82,24 +72,27 @@ fun RecipesScreen(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(bottom = 60.dp)
         ) {
-            items(recipeList) { recipe ->
-                RecipeCard(recipe, navController)
+            items(recipeList, key = { it.id }) { recipe ->
+                RecipeCard(
+                    recipe = recipe,
+                    onClick = { navController.navigate("recipeDetail/${recipe.id}") }
+                )
             }
         }
     }
 }
 
 @Composable
-fun RecipeCard(recipe: Recipe, navController: NavController) {
+fun RecipeCard(
+    recipe: Recipe,
+    onClick: () -> Unit
+) {
     Column(
         modifier = Modifier
-            .clickable {
-                navController.navigate(recipe.route)
-            }
+            .clickable { onClick() }
             .background(Color(0xFFF3F3F3), RoundedCornerShape(12.dp))
             .padding(10.dp)
     ) {
-
         Image(
             painter = painterResource(recipe.imageRes),
             contentDescription = recipe.name,
@@ -121,6 +114,7 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
         )
     }
 }
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RecipesScreenPreview() {

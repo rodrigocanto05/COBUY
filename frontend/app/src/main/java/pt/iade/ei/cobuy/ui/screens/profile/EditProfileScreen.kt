@@ -140,6 +140,6 @@ fun EditProfileScreenPreview() {
         gender = gender,
         onNameChange = { name = it },
         onGenderChange = { gender = it },
-        onSave = { /* no-op no preview */ }
+        onSave = { /* sem preview */ }
     )
 }
