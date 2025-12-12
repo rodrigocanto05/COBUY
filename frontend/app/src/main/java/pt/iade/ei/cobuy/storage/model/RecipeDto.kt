@@ -1,9 +1,7 @@
 package pt.iade.ei.cobuy.storage.model
 
 
-data class Recipe(
+data class RecipeDto(
     val id: Int,
-    val user: User? = null,
     val name: String,
-    val serves: Int
 )

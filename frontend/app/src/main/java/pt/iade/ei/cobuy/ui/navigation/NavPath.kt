@@ -27,6 +27,10 @@ sealed class NavPath(val route: String) {
     }
 
     object Recipes : NavPath("recipes")
+
+    object RecipeDetail : NavPath("recipeDetail/{recipeId}") {
+        fun withArgs(recipeId: Int): String = "recipeDetail/$recipeId"
+    }
     object MyLists : NavPath("myLists/{groupId}/{groupName}") {
         fun withArgs(groupId: Int, groupName: String) =
             "myLists/$groupId/${Uri.encode(groupName)}"

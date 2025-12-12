@@ -20,12 +20,12 @@ import pt.iade.ei.cobuy.ui.screens.map.MapScreen
 import pt.iade.ei.cobuy.ui.screens.map.SavedLocationsScreen
 import pt.iade.ei.cobuy.ui.screens.profile.EditProfileScreen
 import pt.iade.ei.cobuy.ui.screens.profile.EditSettingsScreen
-import pt.iade.ei.cobuy.ui.screens.recipe.RecipesScreen
-import pt.iade.ei.cobuy.ui.screens.recipesingredients.*
 import androidx.lifecycle.viewmodel.compose.viewModel
+import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
-import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.screens.list.ListItemsScreen
+import pt.iade.ei.cobuy.ui.screens.recipe.RecipeDetailScreen
+import pt.iade.ei.cobuy.ui.screens.recipe.RecipesScreen
 
 
 @Composable
@@ -43,7 +43,12 @@ fun appNavigation() {
         composable(NavPath.Register.route) { RegisterScreen(navController) }
         composable(NavPath.Dashboard.route) { DashboardScreen(navController, savedPlaceViewModel) }
         composable(NavPath.Map.route) { MapScreen(navController) }
-        composable(NavPath.SavedLocations.route) { SavedLocationsScreen(navController, savedPlaceViewModel) }
+        composable(NavPath.SavedLocations.route) {
+            SavedLocationsScreen(
+                navController,
+                savedPlaceViewModel
+            )
+        }
         composable(NavPath.Profile.route) { ProfileScreen(navController) }
         composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
         composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
@@ -70,7 +75,7 @@ fun appNavigation() {
         ) { backStackEntry ->
             val groupId = backStackEntry.arguments?.getInt("groupId") ?: 0
             val groupName = backStackEntry.arguments?.getString("groupName") ?: ""
-            val userId = 1 // TODO: trocar pelo user autenticado
+            val userId = SessionViewModel.currentUserId
 
             GroupListScreen(
                 navController = navController,
@@ -95,149 +100,23 @@ fun appNavigation() {
             )
         }
 
-
-
         composable(NavPath.Recipes.route) {
             RecipesScreen(navController)
         }
 
-        composable("massacarbonara") {
-            MassaCarbonaraScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
+
+        composable(
+            route = NavPath.RecipeDetail.route,
+            arguments = listOf(navArgument("recipeId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: return@composable
+            RecipeDetailScreen(navController = navController, recipeId = recipeId)
         }
 
-        composable("arrozdoce") {
-            ArrozDoceScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("frangogrelhado") {
-            FrangoGrelhadoScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("lasanhadecarne") {
-            LasanhadeCarneScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("arrozmarisco") {
-            ArrozdeMarisco(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("bacalhaabras") {
-            BacalhaaBrasScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("salmaonoforno") {
-            SalmãonoFornocomBatatasScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("salamechocolate") {
-            SalamedeChocolateScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("chilicomcarne") {
-            ChilicomCarneScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("pizzacaseira") {
-            PizzaCaseiraScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("panquecas") {
-            PanquecasScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("omeletequeijo") {
-            OmeletedeQueijoeFiambreScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("sopadelegumes") {
-            SopadeLegumesScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("tostamista") {
-            TostaMistaScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-        composable("wrapfrangoalface") {
-            WrapdeFrangocomAlfaceScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-
-            composable("saladamediterranica") {
-                SaladaMediterranicaScreen(
-                    navController = navController,
-                    onAddIngredientToShoppingList = {}
-                )
-            }
-
-        composable("hamburgercaseiro") {
-            HamburguerCaseiroScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-        composable("bolodechocolate") {
-            BolodeChocolateScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-        composable("gelatinaiogurte") {
-            GelatinacomIogurteScreen(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
-        composable("bolonhesa") {
-            EspargueteaBolonhesa(
-                navController = navController,
-                onAddIngredientToShoppingList = {}
-            )
-        }
     }
 }
+
+
+
 
 

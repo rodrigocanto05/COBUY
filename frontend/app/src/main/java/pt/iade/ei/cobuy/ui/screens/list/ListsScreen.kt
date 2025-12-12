@@ -41,7 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
-import pt.iade.ei.cobuy.network.viewmodels.groups.GroupListsViewModel
+import pt.iade.ei.cobuy.network.viewmodels.lists.GroupListsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList

@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.network.viewmodels.groups
+package pt.iade.ei.cobuy.network.viewmodels.lists
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
