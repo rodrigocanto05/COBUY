@@ -17,8 +17,9 @@ https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/REST.md
 https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/Manual.md
 
 ## Powerpoint
-
-
+1º https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/pp%20correto2.pptx
+2º
 
 ## Vídeo 
-
+1º
+2º
