@@ -26,6 +26,7 @@ Armazena todos os utilizadores da aplicação.
 - Participar em grupos
 - Adicionar itens a listas
 - Guardar supermercados favoritos
+
 | Atributo       | Tipo de dado     | Tamanho | Restrição                       | Descrição                         |
 | -------------- | ---------------- | ------- | ------------------------------- | --------------------------------- |
 | usr_id         | numérico inteiro | —       | Chave primária / Auto Increment | Identificador único do utilizador |
@@ -43,6 +44,7 @@ Associa utilizadores a grupos e define o respetivo papel.
 - Associar utilizadores a grupos
 - Definir papéis (owner, member)
 - Registar data de entrada
+
 | Atributo      | Tipo de dado     | Tamanho | Restrição                       | Descrição                           |
 | ------------- | ---------------- | ------- | ------------------------------- | ----------------------------------- |
 | mem_id        | numérico inteiro | —       | Chave primária / Auto Increment | Identificador da associação         |
@@ -59,6 +61,7 @@ Representa grupos de utilizadores.
 - Organizar utilizadores
 - Permitir listas partilhadas
 - Definir um utilizador dono
+
 | Atributo         | Tipo de dado | Tamanho | Restrição                 | Descrição                         |
 | ---------------- | ------------ | ------- | ------------------------- | --------------------------------- |
 | grp_id           | inteiro      | —       | Chave primária            | Identificador do grupo            |
@@ -74,6 +77,7 @@ Guarda listas associadas a grupos.
 **Funções principais:**
 - Agrupar itens
 - Organizar compras
+
 | Atributo       | Tipo de dado | Tamanho | Restrição                 | Descrição                      |
 | -------------- | ------------ | ------- | ------------------------- | ------------------------------ |
 | lst_id         | inteiro      | —       | Chave primária            | Identificador da lista         |
@@ -90,6 +94,7 @@ Itens adicionados às listas, com quantidade e unidade.
 - Identificar quem adicionou
 - Definir quantidade/unidade
 - Marcar como concluído
+
 | Atributo   | Tipo de dado | Tamanho | Restrição         | Descrição                        |
 | ---------- | ------------ | ------- | ----------------- | -------------------------------- |
 | li_id      | inteiro      | —       | Chave primária    | Identificador do item            |
@@ -107,6 +112,7 @@ Itens genéricos utilizados em listas.
 **Funções principais:**
 - Definir item base
 - Associar unidade
+
 | Atributo   | Tipo de dado | Tamanho | Restrição        | Descrição              |
 | ---------- | ------------ | ------- | ---------------- | ---------------------- |
 | it_id      | inteiro      | —       | Chave primária   | Identificador          |
@@ -119,6 +125,7 @@ Armazena receitas.
 
 **Funções principais:**
 - Criar receitas com ingredientes associados
+
 | Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                |
 | -------- | ------------ | ------- | -------------- | ------------------------ |
 | rec_id   | inteiro      | —       | Chave primária | Identificador da receita |
@@ -131,6 +138,7 @@ Liga receitas a ingredientes com quantidades específicas.
 **Funções principais:**
 - Associar quantidade
 - Definir unidade utilizada
+
 | Atributo    | Tipo de dado | Tamanho | Restrição               | Descrição             |
 | ----------- | ------------ | ------- | ----------------------- | --------------------- |
 | rgi_id      | inteiro      | —       | Chave primária          | Identificador         |
@@ -146,6 +154,7 @@ Ingredientes utilizados nas receitas.
 **Funções principais:**
 - Definir ingredientes base
 - Associar unidade
+
 | Atributo    | Tipo de dado | Tamanho | Restrição           | Descrição           |
 | ----------- | ------------ | ------- | ------------------- | ------------------- |
 | ing_id      | inteiro      | —       | Chave primária      | Identificador       |
@@ -155,6 +164,7 @@ Ingredientes utilizados nas receitas.
 
 ## Tabela: `unit`
 Tabela de unidades.
+
 | Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                                    |
 | -------- | ------------ | ------- | -------------- | -------------------------------------------- |
 | uni_id   | inteiro      | —       | Chave primária | Identificador                                |
@@ -167,6 +177,7 @@ Supermercados disponíveis com coordenadas GPS.
 **Funções principais:**
 - Identificar supermercados próximos
 - Permitir guardar favoritos
+
 | Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                 |
 | -------- | ------------ | ------- | -------------- | ------------------------- |
 | sup_id   | inteiro      | —       | Chave primária | Identificador             |
@@ -180,6 +191,7 @@ Supermercados disponíveis com coordenadas GPS.
 ## Tabela: `saved_places`
 ### Tabela: `saved_places`
 Associa utilizadores a supermercados guardados.
+
 | Atributo   | Tipo de dado | Tamanho | Restrição                | Descrição              |
 | ---------- | ------------ | ------- | ------------------------ | ---------------------- |
 | sav_id     | inteiro      | —       | Chave primária           | Identificador          |
