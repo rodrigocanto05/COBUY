@@ -205,67 +205,153 @@ Associa utilizadores a supermercados guardados.
 ## Introdução
 O Guia de Dados descreve a estrutura lógica da Base de Dados, explicando o propósito de cada tabela, as relações existentes e ilustrando exemplos reais de registos.
 
-### Tabela: `users`
-Armazena todos os utilizadores da aplicação.
+## Tabela: users
 
-**Funções principais:**
-- Criar grupos
-- Participar em grupos
-- Adicionar itens a listas
-- Guardar supermercados favoritos
+A tabela **users** é responsável por armazenar todos os utilizadores registados na aplicação **COBUY**.  
+Cada utilizador representa uma pessoa que pode criar ou entrar em grupos, adicionar itens às listas de compras, guardar supermercados e utilizar o módulo de receitas.
 
-#### Exemplos
+Atualmente, esta tabela contém **11 utilizadores**.
 
-| usr_id | usr_name        | usr_email                     | usr_gender | usr_created_at |
-|--------|-----------------|-------------------------------|------------|----------------|
-| 1      | Rodrigo Canto   | rodrigocanto@hotmail.com      | M          | 2025-10-20     |
-| 2      | Rodrigo Daibert | rodrigodaibert@hotmail.com    | M          | 2025-10-22     |
-| 5      | Sandra Estrela  | sandra@hotmail.com            | F          | 2025-10-30     |
-| 7      | Jocy Grangeiro  | jocy12@gmail.com              | F          | 2025-11-04     |
-| 11     | Tomas Lebre     | tomaslebre@gmail.com          | M          | 2025-12-02     |
+| usr_id | usr_name         | usr_email                                                         | usr_password | usr_gender | usr_created_at |
+| -----: | ---------------- | ----------------------------------------------------------------- | ------------ | ---------- | -------------- |
+|      1 | Rodrigo Canto    | [rodrigocanto@hotmail.com](mailto:rodrigocanto@hotmail.com)       | canto        | M          | 2025-10-20     |
+|      2 | Rodrigo Daibert  | [rodrigodaibert@hotmail.com](mailto:rodrigodaibert@hotmail.com)   | 1234         | M          | 2025-10-22     |
+|      3 | Marco Fonseca    | [mf2006@gmail.com](mailto:mf2006@gmail.com)                       | hash1        | M          | 2025-10-24     |
+|      4 | Luis Quirim      | [luisquirim@gmail.com](mailto:luisquirim@gmail.com)               | hash1        | M          | 2025-10-28     |
+|      5 | Sandra Estrela   | [sandra@hotmail.com](mailto:sandra@hotmail.com)                   | hash1        | F          | 2025-10-30     |
+|      6 | Daniel Paulo     | [dexpaulo@hotmail.com](mailto:dexpaulo@hotmail.com)               | hash1        | M          | 2025-11-01     |
+|      7 | Jocy Grangeiro   | [jocy12@gmail.com](mailto:jocy12@gmail.com)                       | hash1        | F          | 2025-11-04     |
+|      8 | Paulo Alberto    | [pauloencomendas@gmail.com](mailto:pauloencomendas@gmail.com)     | hash1        | M          | 2025-11-09     |
+|      9 | Patricia Daibert | [patriciadaibert@hotmail.com](mailto:patriciadaibert@hotmail.com) | hash1        | F          | 2025-11-13     |
+|     10 | Martim Fonseca   | [mrmartim@hotmail.com](mailto:mrmartim@hotmail.com)               | hash1        | M          | 2025-12-01     |
+|     11 | Tomas Lebre      | [tomaslebre@gmail.com](mailto:tomaslebre@gmail.com)               | hash1        | M          | 2025-12-02     |
 
 ---
 
-### Tabela: `memberships`
-Associa utilizadores a grupos e define o respetivo papel.
+## Tabela: memberships
 
-**Funções principais:**
-- Associar utilizadores a grupos
-- Definir papéis (owner, member)
-- Registar data de entrada
+A tabela **memberships** é responsável por representar a ligação entre **utilizadores** e **grupos** na aplicação **COBUY**.  
+É nesta tabela que se define **quem pertence a que grupo**, **qual o seu papel** dentro do grupo e **quando entrou**.
 
-#### Exemplos 
+Um registo nesta tabela significa que:
+- um utilizador faz parte de um grupo;
+- pode ter o papel de **owner** (dono) ou **member** (membro).
+
+### Exemplo de funcionamento 
+
+Cada linha da tabela `memberships` pode ser lida como:
+
+> “O utilizador **X** pertence ao grupo **Y**, com o papel **Z**, desde a data **D**.”
+
+
+### Conteúdo da tabela memberships
 
 | mem_usr_id | mem_grp_id | mem_role | mem_joined_at |
-|------------|------------|----------|----------------|
-| 1          | 1          | owner    | 2025-12-03     |
-| 3          | 1          | member   | 2025-12-03     |
-| 4          | 2          | member   | 2025-12-04     |
-| 1          | 3          | member   | 2025-12-05     |
-| 5          | 4          | owner    | 2025-12-05     |
-
-
+|----------:|-----------:|----------|---------------|
+| 1 | 1 | owner  | 2025-12-03 |
+| 2 | 1 | member | 2025-12-03 |
+| 3 | 1 | member | 2025-12-03 |
+| 4 | 1 | member | 2025-12-03 |
+| 11 | 1 | member | 2025-12-04 |
+| 2 | 2 | owner  | 2025-12-04 |
+| 4 | 2 | member | 2025-12-04 |
+| 6 | 2 | member | 2025-12-04 |
+| 8 | 2 | member | 2025-12-04 |
+| 10 | 2 | member | 2025-12-04 |
+| 3 | 3 | owner  | 2025-12-05 |
+| 1 | 3 | member | 2025-12-05 |
+| 2 | 3 | member | 2025-12-05 |
+| 4 | 3 | member | 2025-12-05 |
+| 5 | 4 | owner  | 2025-12-05 |
+| 7 | 4 | member | 2025-12-05 |
+| 9 | 4 | member | 2025-12-05 |
+| 4 | 5 | owner  | 2025-12-07 |
+| 3 | 5 | member | 2025-12-07 |
+| 6 | 5 | member | 2025-12-07 |
 
 ---
 
-### Tabela: `groupss`
-Representa grupos de utilizadores.
+## Tabela: groupss
 
-**Funções principais:**
-- Organizar utilizadores
-- Permitir listas partilhadas
-- Definir um utilizador dono
+A tabela **groupss** armazena todos os grupos criados na aplicação **COBUY**.  
+Um grupo representa um conjunto de utilizadores que partilham listas de compras e responsabilidades comuns.
 
-#### Exemplos 
+Cada grupo:
+- tem um **dono (owner)**, que é um utilizador;
+- possui um **código único**, usado para outros utilizadores entrarem no grupo;
+- pode ter vários **membros**, definidos na tabela `memberships`.
 
-| grp_id | grp_name               | grp_owner_usr_id | grp_code | grp_created_at |
-|--------|------------------------|------------------|----------|----------------|
-| 1      | IADE                   | 1                | X9TPQ    | 2025-12-03     |
-| 2      | Colegas de casa        | 2                | M7K2A    | 2025-12-04     |
-| 3      | Churrasco              | 3                | Q4W9E    | 2025-12-05     |
-| 4      | Mulheres               | 5                | A8ZLM    | 2025-12-05     |
-| 5      | Montijo                | 4                | P6X7R    | 2025-12-07     |
+Atualmente, existem **5 grupos** registados.
 
+| grp_id | grp_name          | grp_owner_usr_id | grp_code | grp_created_at |
+| -----: | ----------------- | ------------------------- | -------- | -------------- |
+| 1 | IADE              | 1 → Rodrigo Canto        | X9TPQ    | 2025-12-03 |
+| 2 | Colegas de casa   | 2 → Rodrigo Daibert      | M7K2A    | 2025-12-04 |
+| 3 | Churrasco         | 3 → Marco Fonseca        | Q4W9E    | 2025-12-05 |
+| 4 | Mulheres          | 5 → Sandra Estrela       | A8ZLM    | 2025-12-05 |
+| 5 | Montijo           | 4 → Luís Quirim          | P6X7R    | 2025-12-07 |
+
+---
+
+## Grupos e respetivos membros
+
+### Grupo 1 — IADE
+
+- **Owner:**  
+  - Rodrigo Canto (`usr_id = 1`)
+
+- **Members:**  
+  - Rodrigo Daibert (`usr_id = 2`)  
+  - Marco Fonseca (`usr_id = 3`)  
+  - Luís Quirim (`usr_id = 4`)  
+  - Tomas Lebre (`usr_id = 11`)
+
+---
+
+### Grupo 2 — Colegas de casa
+
+- **Owner:**  
+  - Rodrigo Daibert (`usr_id = 2`)
+
+- **Members:**  
+  - Luís Quirim (`usr_id = 4`)  
+  - Daniel Paulo (`usr_id = 6`)  
+  - Paulo Alberto (`usr_id = 8`)  
+  - Martim Fonseca (`usr_id = 10`)
+
+---
+
+### Grupo 3 — Churrasco
+
+- **Owner:**  
+  - Marco Fonseca (`usr_id = 3`)
+
+- **Members:**  
+  - Rodrigo Canto (`usr_id = 1`)  
+  - Rodrigo Daibert (`usr_id = 2`)  
+  - Luís Quirim (`usr_id = 4`)
+
+---
+
+### Grupo 4 — Mulheres
+
+- **Owner:**  
+  - Sandra Estrela (`usr_id = 5`)
+
+- **Members:**  
+  - Jocy Grangeiro (`usr_id = 7`)  
+  - Patricia Daibert (`usr_id = 9`)
+
+---
+
+### Grupo 5 — Montijo
+
+- **Owner:**  
+  - Luís Quirim (`usr_id = 4`)
+
+- **Members:**  
+  - Marco Fonseca (`usr_id = 3`)  
+  - Daniel Paulo (`usr_id = 6`)
 
 ---
 
