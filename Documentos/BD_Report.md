@@ -19,6 +19,13 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 # 1.2 Dicionário de Dados
 
 ## Tabela: `users`
+Armazena todos os utilizadores da aplicação.
+
+**Funções principais:**
+- Criar grupos
+- Participar em grupos
+- Adicionar itens a listas
+- Guardar supermercados favoritos
 | Atributo       | Tipo de dado     | Tamanho | Restrição                       | Descrição                         |
 | -------------- | ---------------- | ------- | ------------------------------- | --------------------------------- |
 | usr_id         | numérico inteiro | —       | Chave primária / Auto Increment | Identificador único do utilizador |
@@ -30,6 +37,12 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `memberships`
+Associa utilizadores a grupos e define o respetivo papel.
+
+**Funções principais:**
+- Associar utilizadores a grupos
+- Definir papéis (owner, member)
+- Registar data de entrada
 | Atributo      | Tipo de dado     | Tamanho | Restrição                       | Descrição                           |
 | ------------- | ---------------- | ------- | ------------------------------- | ----------------------------------- |
 | mem_id        | numérico inteiro | —       | Chave primária / Auto Increment | Identificador da associação         |
@@ -40,6 +53,12 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `groupss`
+Representa grupos de utilizadores.
+
+**Funções principais:**
+- Organizar utilizadores
+- Permitir listas partilhadas
+- Definir um utilizador dono
 | Atributo         | Tipo de dado | Tamanho | Restrição                 | Descrição                         |
 | ---------------- | ------------ | ------- | ------------------------- | --------------------------------- |
 | grp_id           | inteiro      | —       | Chave primária            | Identificador do grupo            |
@@ -50,6 +69,11 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `lists`
+Guarda listas associadas a grupos.
+
+**Funções principais:**
+- Agrupar itens
+- Organizar compras
 | Atributo       | Tipo de dado | Tamanho | Restrição                 | Descrição                      |
 | -------------- | ------------ | ------- | ------------------------- | ------------------------------ |
 | lst_id         | inteiro      | —       | Chave primária            | Identificador da lista         |
@@ -59,6 +83,13 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `list_items`
+Itens adicionados às listas, com quantidade e unidade.
+
+**Funções principais:**
+- Registar itens concretos dentro da lista
+- Identificar quem adicionou
+- Definir quantidade/unidade
+- Marcar como concluído
 | Atributo   | Tipo de dado | Tamanho | Restrição         | Descrição                        |
 | ---------- | ------------ | ------- | ----------------- | -------------------------------- |
 | li_id      | inteiro      | —       | Chave primária    | Identificador do item            |
@@ -71,6 +102,11 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `items`
+Itens genéricos utilizados em listas.
+
+**Funções principais:**
+- Definir item base
+- Associar unidade
 | Atributo   | Tipo de dado | Tamanho | Restrição        | Descrição              |
 | ---------- | ------------ | ------- | ---------------- | ---------------------- |
 | it_id      | inteiro      | —       | Chave primária   | Identificador          |
@@ -79,6 +115,10 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `recipes`
+Armazena receitas.
+
+**Funções principais:**
+- Criar receitas com ingredientes associados
 | Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                |
 | -------- | ------------ | ------- | -------------- | ------------------------ |
 | rec_id   | inteiro      | —       | Chave primária | Identificador da receita |
@@ -86,6 +126,11 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `recipe_ingredients`
+Liga receitas a ingredientes com quantidades específicas.
+
+**Funções principais:**
+- Associar quantidade
+- Definir unidade utilizada
 | Atributo    | Tipo de dado | Tamanho | Restrição               | Descrição             |
 | ----------- | ------------ | ------- | ----------------------- | --------------------- |
 | rgi_id      | inteiro      | —       | Chave primária          | Identificador         |
@@ -96,6 +141,11 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `ingredients`
+Ingredientes utilizados nas receitas.
+
+**Funções principais:**
+- Definir ingredientes base
+- Associar unidade
 | Atributo    | Tipo de dado | Tamanho | Restrição           | Descrição           |
 | ----------- | ------------ | ------- | ------------------- | ------------------- |
 | ing_id      | inteiro      | —       | Chave primária      | Identificador       |
@@ -104,6 +154,7 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `unit`
+Tabela de unidades.
 | Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                                    |
 | -------- | ------------ | ------- | -------------- | -------------------------------------------- |
 | uni_id   | inteiro      | —       | Chave primária | Identificador                                |
@@ -111,6 +162,11 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `supermarkets`
+Supermercados disponíveis com coordenadas GPS.
+
+**Funções principais:**
+- Identificar supermercados próximos
+- Permitir guardar favoritos
 | Atributo | Tipo de dado | Tamanho | Restrição      | Descrição                 |
 | -------- | ------------ | ------- | -------------- | ------------------------- |
 | sup_id   | inteiro      | —       | Chave primária | Identificador             |
@@ -122,6 +178,8 @@ De forma geral, o MER garante coerência, normalização e suporte direto aos re
 
 
 ## Tabela: `saved_places`
+### Tabela: `saved_places`
+Associa utilizadores a supermercados guardados.
 | Atributo   | Tipo de dado | Tamanho | Restrição                | Descrição              |
 | ---------- | ------------ | ------- | ------------------------ | ---------------------- |
 | sav_id     | inteiro      | —       | Chave primária           | Identificador          |
