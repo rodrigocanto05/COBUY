@@ -31,7 +31,6 @@ public class MembershipController {
         this.userRepo = userRepo;
     }
 
-    // DTOs
     public record GroupDTO(Integer id, String name, String role) {}
     public record MemberDTO(Integer id, String name, String email, String role) {}
     public record LeaveGroupRequest(Integer userId, Integer groupId) {}

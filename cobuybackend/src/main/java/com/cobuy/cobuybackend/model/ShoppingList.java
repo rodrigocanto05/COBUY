@@ -1,7 +1,9 @@
 package com.cobuy.cobuybackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "lists")
@@ -21,6 +23,14 @@ public class ShoppingList {
 
     @Column(name = "lst_created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(
+        mappedBy = "list",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<ListItem> items;
 
     @PrePersist
     public void prePersist() {
@@ -59,5 +69,13 @@ public class ShoppingList {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<ListItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ListItem> items) {
+        this.items = items;
     }
 }

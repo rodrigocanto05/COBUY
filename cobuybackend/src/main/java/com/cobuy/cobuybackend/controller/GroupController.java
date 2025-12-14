@@ -51,7 +51,6 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // *********** NOVO ENDPOINT: grupos de um user ***********
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getGroupsByUser(@PathVariable Integer userId) {
 
@@ -72,7 +71,6 @@ public class GroupController {
 
         return ResponseEntity.ok(result);
     }
-    // ********************************************************
 
     @PostMapping
     public ResponseEntity<?> createGroup(

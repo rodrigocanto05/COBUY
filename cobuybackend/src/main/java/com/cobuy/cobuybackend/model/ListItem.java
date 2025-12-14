@@ -34,7 +34,6 @@ public class ListItem {
     @Column(name = "li_done", nullable = false)
     private Boolean done = false;
 
-    // GETTERS & SETTERS
     public Integer getId() {
         return id;
     }

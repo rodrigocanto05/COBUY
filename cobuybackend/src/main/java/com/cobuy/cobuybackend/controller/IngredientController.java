@@ -24,16 +24,13 @@ public class IngredientController {
         this.unitRepository = unitRepository;
     }
 
-    // DTO para criação/edição
     public record IngredientDTO(String name, Integer unitId) {}
 
-    // GET /ingredients - lista todos
     @GetMapping
     public List<Ingredient> getAll() {
         return ingredientRepository.findAll();
     }
 
-    // GET /ingredients/{id} - busca por id
     @GetMapping("/{id}")
     public ResponseEntity<Ingredient> getById(@PathVariable Integer id) {
         return ingredientRepository.findById(id)
@@ -41,7 +38,6 @@ public class IngredientController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // POST /ingredients - cria ingrediente
     @PostMapping
     public ResponseEntity<?> create(@RequestBody IngredientDTO body) {
         if (body == null || body.name() == null || body.name().isBlank()) {
