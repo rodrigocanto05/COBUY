@@ -1,6 +1,7 @@
 package pt.iade.ei.cobuy.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -58,6 +59,8 @@ fun DashboardScreen(
     val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
     val savedLocationsCount = savedPlaces.size
 
+    BackHandler(enabled = true) { }
+
     LaunchedEffect(Unit) {
         authViewModel.loadUser()
     }
@@ -93,7 +96,11 @@ fun DashboardScreen(
                 title = {
                     Row(
                         modifier = Modifier
-                            .clickable { navController.navigate(NavPath.MyGroups.route) }
+                            .clickable {
+                                navController.navigate(NavPath.MyGroups.route) {
+                                    launchSingleTop = true
+                                }
+                            }
                             .shadow(4.dp, RoundedCornerShape(12.dp))
                             .background(Color.White, RoundedCornerShape(12.dp))
                             .padding(horizontal = 10.dp, vertical = 6.dp),
@@ -114,7 +121,13 @@ fun DashboardScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { navController.navigate(NavPath.Profile.route) }) {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(NavPath.Profile.route) {
+                                launchSingleTop = true
+                            }
+                        }
+                    ) {
                         Box(
                             modifier = Modifier
                                 .size(32.dp)
@@ -192,14 +205,22 @@ fun DashboardScreen(
 
             CustomOutlinedButton(
                 text = "Entrar em grupo",
-                onClick = { navController.navigate(NavPath.JoinGroup.route) }
+                onClick = {
+                    navController.navigate(NavPath.JoinGroup.route) {
+                        launchSingleTop = true
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             CustomOutlinedButton(
                 text = "Criar Novo Grupo",
-                onClick = { navController.navigate(NavPath.CreateGroup.route) }
+                onClick = {
+                    navController.navigate(NavPath.CreateGroup.route) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }

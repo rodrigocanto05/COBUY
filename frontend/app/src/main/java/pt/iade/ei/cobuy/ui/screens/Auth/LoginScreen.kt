@@ -105,7 +105,12 @@ fun LoginScreen(navController: NavController) {
                 viewModel.login(emailOrPhone, password) { ok, err ->
                     if (ok) {
                         errorMessage = ""
-                        navController.navigate(NavPath.Dashboard.route)
+                        navController.navigate(NavPath.Dashboard.route) {
+                            popUpTo(NavPath.Home.route) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
                     } else {
                         errorMessage = "Ups! Algo não está certo. Verifique os seus dados."
                         Log.e("LOGIN", "Erro: $err")

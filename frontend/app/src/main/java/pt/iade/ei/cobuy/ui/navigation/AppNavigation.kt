@@ -32,33 +32,65 @@ fun appNavigation() {
     val navController = rememberNavController()
     val savedPlaceViewModel: SavedPlaceViewModel = viewModel()
 
-    val currentUserId = SessionViewModel.currentUserId
-
-    LaunchedEffect(currentUserId) {
-        if (currentUserId == null) {
-            navController.navigate(NavPath.Home.route) {
-                popUpTo(0) { inclusive = true }
-                launchSingleTop = true
-            }
-        }
+    val startDestination = if (SessionViewModel.currentUserId == null) {
+        NavPath.Home.route
+    } else {
+        NavPath.Dashboard.route
     }
 
     NavHost(
         navController = navController,
-        startDestination = NavPath.Home.route
+        startDestination = startDestination
     ) {
-        composable(NavPath.Home.route) { HomeScreen(navController) }
-        composable(NavPath.Login.route) { LoginScreen(navController) }
-        composable(NavPath.Register.route) { RegisterScreen(navController) }
-        composable(NavPath.Dashboard.route) { DashboardScreen(navController, savedPlaceViewModel) }
-        composable(NavPath.Map.route) { MapScreen(navController) }
-        composable(NavPath.SavedLocations.route) { SavedLocationsScreen(navController, savedPlaceViewModel) }
-        composable(NavPath.Profile.route) { ProfileScreen(navController) }
-        composable(NavPath.EditProfile.route) { EditProfileScreen(navController) }
-        composable(NavPath.EditSettings.route) { EditSettingsScreen(navController) }
-        composable(NavPath.CreateGroup.route) { CreateGroupScreen(navController) }
-        composable(NavPath.JoinGroup.route) { JoinGroupScreen(navController) }
-        composable(NavPath.MyGroups.route) { MyGroupsScreen(navController) }
+
+        composable(NavPath.Home.route) {
+            HomeScreen(navController)
+        }
+
+        composable(NavPath.Login.route) {
+            LoginScreen(navController)
+        }
+
+        composable(NavPath.Register.route) {
+            RegisterScreen(navController)
+        }
+
+        composable(NavPath.Dashboard.route) {
+            DashboardScreen(navController, savedPlaceViewModel)
+        }
+
+        composable(NavPath.Map.route) {
+            MapScreen(navController)
+        }
+
+        composable(NavPath.SavedLocations.route) {
+            SavedLocationsScreen(navController, savedPlaceViewModel)
+        }
+
+        composable(NavPath.Profile.route) {
+            ProfileScreen(navController)
+        }
+
+        composable(NavPath.EditProfile.route) {
+            EditProfileScreen(navController)
+        }
+
+        composable(NavPath.EditSettings.route) {
+            EditSettingsScreen(navController)
+        }
+
+        composable(NavPath.CreateGroup.route) {
+            CreateGroupScreen(navController)
+        }
+
+        composable(NavPath.JoinGroup.route) {
+            JoinGroupScreen(navController)
+        }
+
+        composable(NavPath.MyGroups.route) {
+            MyGroupsScreen(navController)
+        }
+
         composable(
             route = NavPath.GroupDetail.route,
             arguments = listOf(navArgument("groupId") { type = NavType.IntType })
@@ -66,6 +98,7 @@ fun appNavigation() {
             val groupId = backStackEntry.arguments?.getInt("groupId") ?: 0
             GroupDetailScreen(navController, groupId)
         }
+
         composable(
             route = NavPath.MyLists.route,
             arguments = listOf(
@@ -77,6 +110,7 @@ fun appNavigation() {
             val groupName = backStackEntry.arguments?.getString("groupName") ?: ""
             GroupListScreen(navController, groupId, groupName)
         }
+
         composable(
             route = NavPath.ListItems.route,
             arguments = listOf(
@@ -88,7 +122,11 @@ fun appNavigation() {
             val listName = backStackEntry.arguments?.getString("listName") ?: ""
             ListItemsScreen(navController, listId, listName)
         }
-        composable(NavPath.Recipes.route) { RecipesScreen(navController) }
+
+        composable(NavPath.Recipes.route) {
+            RecipesScreen(navController)
+        }
+
         composable(
             route = NavPath.RecipeDetail.route,
             arguments = listOf(navArgument("recipeId") { type = NavType.IntType })

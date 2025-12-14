@@ -131,7 +131,12 @@ fun RegisterScreen(navController: NavController) {
                     viewModel.register(username, email, password, gender) { success, error ->
                         if (success) {
                             Toast.makeText(context, "Conta criada com sucesso!", Toast.LENGTH_SHORT).show()
-                            navController.navigate(NavPath.Login.route)
+                            navController.navigate(NavPath.Login.route) {
+                                popUpTo(NavPath.Register.route) {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
                         } else {
                             errorMessage = error ?: "Erro ao criar conta"
                         }
