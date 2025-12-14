@@ -76,7 +76,6 @@ public class ListItemController {
         User user = userRepository.findById(dto.userId()).orElse(null);
         if (user == null) return ResponseEntity.status(404).body("Utilizador não encontrado");
 
-        // Criar item se não existir
         Item item = itemRepository.findByName(dto.name().trim()).orElse(null);
         if (item == null) {
             item = new Item();

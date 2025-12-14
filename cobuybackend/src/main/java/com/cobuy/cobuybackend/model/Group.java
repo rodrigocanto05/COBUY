@@ -27,9 +27,21 @@ public class Group {
     @Column(name = "grp_created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(
+        mappedBy = "group",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
     @JsonIgnore
     private List<Membership> memberships;
+
+    @OneToMany(
+        mappedBy = "group",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<ShoppingList> lists;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -45,4 +57,10 @@ public class Group {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public List<Membership> getMemberships() { return memberships; }
+    public void setMemberships(List<Membership> memberships) { this.memberships = memberships; }
+
+    public List<ShoppingList> getLists() { return lists; }
+    public void setLists(List<ShoppingList> lists) { this.lists = lists; }
 }
