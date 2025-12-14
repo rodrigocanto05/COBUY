@@ -6,9 +6,7 @@ import retrofit2.http.Query
 
 interface GoogleApi {
 
-    /**
-     * Pesquisa supermercados próximos usando a Google Places API.
-     */
+
     @GET("place/nearbysearch/json")
     suspend fun getNearbySupermarkets(
         @Query("location") location: String,

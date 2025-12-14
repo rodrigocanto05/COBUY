@@ -1,5 +1,6 @@
 package pt.iade.ei.cobuy.ui.screens.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -32,6 +33,7 @@ fun EditProfileScreen(
         factory = AuthViewModelFactory(LocalContext.current)
     )
 ) {
+    val context = LocalContext.current
     val user by authViewModel.currentUser
 
     var name by remember { mutableStateOf("") }
@@ -51,10 +53,20 @@ fun EditProfileScreen(
         onNameChange = { name = it },
         onGenderChange = { gender = it },
         onSave = {
-
             authViewModel.updateUser(name, gender) { ok ->
                 if (ok) {
+                    Toast.makeText(
+                        context,
+                        "Perfil atualizado com sucesso",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     navController.popBackStack()
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Erro ao atualizar perfil",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -87,7 +99,6 @@ fun EditProfileScreenContent(
 
             Spacer(Modifier.height(8.dp))
 
-
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -98,7 +109,6 @@ fun EditProfileScreenContent(
                     onValueChange = onNameChange,
                     label = "Nome"
                 )
-
 
                 Text(
                     text = "Género",
@@ -140,6 +150,6 @@ fun EditProfileScreenPreview() {
         gender = gender,
         onNameChange = { name = it },
         onGenderChange = { gender = it },
-        onSave = { /* sem preview */ }
+        onSave = { }
     )
 }

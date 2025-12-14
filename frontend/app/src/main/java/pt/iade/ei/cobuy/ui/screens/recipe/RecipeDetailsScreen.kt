@@ -57,11 +57,9 @@ fun RecipeDetailScreen(
     val ingredients by vm.ingredients.collectAsState(initial = emptyList())
     val error by vm.error.collectAsState(initial = null)
 
-    // ✅ carrega dados (uma vez cada)
     LaunchedEffect(recipeId) { vm.load(recipeId) }
     LaunchedEffect(userId) { listsVm.loadUserLists(userId) }
 
-    // ✅ UMA só declaração + group nullable
     val userListsUi: List<ShoppingListUi> = remember(listsState.lists) {
         listsState.lists.map { sl ->
             val groupName = sl.group?.name ?: "Sem grupo"

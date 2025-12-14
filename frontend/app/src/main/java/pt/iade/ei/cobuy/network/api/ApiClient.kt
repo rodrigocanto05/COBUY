@@ -19,7 +19,7 @@ object ApiClient {
         appContext = context.applicationContext
     }
 
-    // ---------- BACKEND ----------
+    // servidor
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -35,7 +35,7 @@ object ApiClient {
             .build()
     }
 
-    private const val BACKEND_URL = "http://192.168.1.194:8082/"
+    private const val BACKEND_URL = "http://10.0.2.2:8082/"
     val backendRetrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BACKEND_URL)
@@ -44,7 +44,7 @@ object ApiClient {
             .build()
     }
 
-    // --- APIS DO BACKEND ---
+    // apis backend
 
     val savedPlacesApi: SavedPlacesApi by lazy {
         backendRetrofit.create(SavedPlacesApi::class.java)
@@ -54,7 +54,7 @@ object ApiClient {
         backendRetrofit.create(SupermarketApi::class.java)
     }
 
-    // ---------- GOOGLE MAPS ----------
+    // google maps
 
     private val googleClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
