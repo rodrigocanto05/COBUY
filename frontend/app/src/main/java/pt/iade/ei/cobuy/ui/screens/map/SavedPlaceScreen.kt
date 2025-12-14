@@ -31,8 +31,12 @@ fun SavedLocationsScreen(
     savedPlaceViewModel: SavedPlaceViewModel
 ) {
 
-    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
     val context = LocalContext.current
+    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
+
+    LaunchedEffect(Unit) {
+        savedPlaceViewModel.load()
+    }
 
     Scaffold(
         topBar = {
@@ -43,7 +47,7 @@ fun SavedLocationsScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Voltar atrás",
-                            tint = Color(0xFFFF9800) // mesma cor do MapScreen
+                            tint = Color(0xFFFF9800)
                         )
                     }
                 },
@@ -65,14 +69,16 @@ fun SavedLocationsScreen(
                 Text("Nenhum local salvo ainda!", fontSize = 16.sp)
             }
         } else {
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
                     .padding(horizontal = 16.dp)
             ) {
-                items(savedPlaces) { place ->
+                items(
+                    items = savedPlaces,
+                    key = { it.id } // 🔑 evita bugs de recomposição
+                ) { place ->
 
                     Card(
                         modifier = Modifier
@@ -124,6 +130,7 @@ fun SavedLocationsScreen(
         }
     }
 }
+
 @SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -138,5 +145,3 @@ fun SavedLocationsScreenPreview() {
         )
     }
 }
-
-

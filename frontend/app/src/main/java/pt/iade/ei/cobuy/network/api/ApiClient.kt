@@ -35,8 +35,7 @@ object ApiClient {
             .build()
     }
 
-    private const val BACKEND_URL = "http://10.0.2.2:8082/"
-
+    private const val BACKEND_URL = "http://192.168.1.194:8082/"
     val backendRetrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BACKEND_URL)

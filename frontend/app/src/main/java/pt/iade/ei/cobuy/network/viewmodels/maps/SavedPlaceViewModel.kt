@@ -23,68 +23,45 @@ class SavedPlaceViewModel(
     private val _savedPlaces = MutableStateFlow<List<SavedPlace>>(emptyList())
     val savedPlaces: StateFlow<List<SavedPlace>> = _savedPlaces
 
-    init {
-        load()
-    }
-
     fun load() {
         viewModelScope.launch {
             try {
                 _savedPlaces.value = repo.getSavedPlaces()
             } catch (e: Exception) {
-                Log.e("SavedPlaceVM", "Erro ao carregar favoritos", e)
+                _savedPlaces.value = emptyList()
             }
         }
+    }
+
+    fun clear() {
+        _savedPlaces.value = emptyList()
     }
 
     fun save(supermarketId: Int, onResult: (SaveResult) -> Unit) {
         viewModelScope.launch {
             try {
                 repo.savePlace(supermarketId)
+                load()
                 onResult(SaveResult.ADDED)
-
             } catch (e: HttpException) {
                 when (e.code()) {
-                    409 -> {
-                        Log.w("SavedPlaceVM", "Já está nos favoritos")
-                        onResult(SaveResult.ALREADY_EXISTS)
-                    }
-                    404 -> {
-                        Log.w("SavedPlaceVM", "Supermercado não encontrado")
-                        onResult(SaveResult.ERROR)
-                    }
-                    else -> {
-                        Log.e("SavedPlaceVM",
-                            "Erro HTTP inesperado: ${e.code()}", e)
-                        onResult(SaveResult.ERROR)
-                    }
+                    409 -> onResult(SaveResult.ALREADY_EXISTS)
+                    else -> onResult(SaveResult.ERROR)
                 }
-
             } catch (e: Exception) {
-                Log.e("SavedPlaceVM", "Erro ao guardar favorito", e)
                 onResult(SaveResult.ERROR)
             }
-
-            load()
         }
     }
 
     fun remove(id: Int) {
         viewModelScope.launch {
+            _savedPlaces.value = _savedPlaces.value.filterNot { it.id == id }
             try {
                 repo.deletePlace(id)
-
-            } catch (e: HttpException) {
-                when (e.code()) {
-                    404 -> Log.w("SavedPlaceVM", "Favorito já não existia")
-                    403 -> Log.w("SavedPlaceVM", "Não pertence ao utilizador")
-                    else -> Log.e("SavedPlaceVM", "Erro ao remover favorito: ${e.code()}")
-                }
             } catch (e: Exception) {
-                Log.e("SavedPlaceVM", "Erro inesperado ao remover favorito", e)
+                load()
             }
-
-            load()
         }
     }
 }

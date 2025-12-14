@@ -39,7 +39,6 @@ import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
@@ -64,13 +63,18 @@ fun DashboardScreen(
     }
 
     LaunchedEffect(user?.id) {
-        val currentUser = user
-        if (currentUser != null) {
+        if (user != null) {
+            savedPlaceViewModel.clear()
+            savedPlaceViewModel.load()
+
             groupViewModel.getUserGroups { result, error ->
                 if (error == null) {
                     groupCount = result?.size ?: 0
                 }
             }
+        } else {
+            savedPlaceViewModel.clear()
+            groupCount = 0
         }
     }
 
