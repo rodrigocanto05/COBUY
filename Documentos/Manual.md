@@ -93,23 +93,26 @@ Nesta funcionalidade, o utilizador pode realizar várias ações relacionadas co
 ### 5.2 Criar Lista
 1. Tocar em **“+”**.  
 2. Introduzir o nome da lista.
-3. Introduzir descrição opcional.
 4. Guardar.
 
-<img width="175" height="400" alt="Captura_de_ecrã_2025-12-08__às_11 08 55-removebg-preview" src="https://github.com/user-attachments/assets/f2d5de1e-78b4-4043-b071-3dc0be6ff09d" />
+<img width="175" height="400" alt="Captura_de_ecrã_2025-12-14__às_17 53 54-removebg-preview" src="https://github.com/user-attachments/assets/302e39a6-79ad-414f-b0fd-df333aad8f1e" />
+
 
 ### 5.3 Adicionar Item
 1. Abrir uma lista.  
-2. Selecionar **“Adicionar Item”**.  
+2. Selecionar **“+”**.  
 3. Inserir nome, quantidade e unidade.
 
-![screenshot](caminho-da-print)
+<img width="175" height="400" alt="Captura_de_ecrã_2025-12-14__às_17 54 09-removebg-preview" src="https://github.com/user-attachments/assets/be4f66f7-c66e-4a19-acee-81a538bbaa75" />
+
+
 
 ### 5.4 Marcar Item como Concluído
 1. Tocar no checkbox ao lado do item.  
 2. O estado é sincronizado entre todos os membros do grupo.
 
-![screenshot](caminho-da-print)
+<img width="175" height="400" alt="Captura_de_ecrã_2025-12-14__às_17 56 21-removebg-preview" src="https://github.com/user-attachments/assets/2d26de19-61b3-4f64-a4f7-70080ba34bb0" />
+
 
 ---
 
@@ -133,7 +136,7 @@ Ao selecionar uma receita, o utilizador vê:
 2. Tocar em **“Adicionar Ingredientes”**.  
 3. Os itens são adicionados automaticamente.
 
-![screenshot](caminho-da-print)
+<img width="175" height="400" alt="Captura_de_ecrã_2025-12-14__às_18 00 24-removebg-preview" src="https://github.com/user-attachments/assets/ccb2f5d7-33fe-40ba-a278-97074ee01148" />
 
 ---
 
