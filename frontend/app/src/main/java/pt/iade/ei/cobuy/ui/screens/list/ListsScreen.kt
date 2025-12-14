@@ -41,9 +41,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
-import pt.iade.ei.cobuy.network.viewmodels.lists.GroupListsViewModel
-import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
 import pt.iade.ei.cobuy.network.viewmodels.SessionViewModel
+import pt.iade.ei.cobuy.network.viewmodels.groups.GroupMembersViewModel
+import pt.iade.ei.cobuy.network.viewmodels.lists.GroupListsViewModel
 import pt.iade.ei.cobuy.storage.model.ShoppingList
 import pt.iade.ei.cobuy.ui.components.cards.ShoppingListCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
@@ -51,7 +51,6 @@ import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.screens.MembersSideCard
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
-
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -240,6 +239,7 @@ fun GroupListScreen(
                 currentUserId = currentUserId,
                 isCurrentUserOwner = isCurrentUserOwner
             )
+
             if (showDeleteDialog && listToDelete != null) {
                 AlertDialog(
                     onDismissRequest = {
@@ -316,16 +316,12 @@ fun GroupListScreen(
             if (showCreateDialog && currentUserId != null) {
                 CreateListDialog(
                     onDismiss = { showCreateDialog = false },
-                    onConfirm = { name, description ->
-                        val descOrNull = description.trim().ifBlank { null }
-
+                    onConfirm = { name ->
                         listsViewModel.createList(
                             groupId = groupId,
                             userId = currentUserId,
-                            title = name.trim(),
-                            description = descOrNull
+                            title = name.trim()
                         )
-
                         showCreateDialog = false
                     }
                 )
@@ -334,15 +330,13 @@ fun GroupListScreen(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateListDialog(
     onDismiss: () -> Unit,
-    onConfirm: (String, String) -> Unit
+    onConfirm: (String) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
 
     val logoSize = 90.dp
     val overlap = 45.dp
@@ -392,18 +386,7 @@ fun CreateListDialog(
                                 )
                             )
 
-                            Spacer(modifier = Modifier.height(4.dp))
-
-                            Text(
-                                text = "Define o nome e uma breve descrição.",
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = TextDark.copy(alpha = 0.7f),
-                                    fontSize = 14.sp
-                                ),
-                                textAlign = TextAlign.Center
-                            )
-
-                            Spacer(modifier = Modifier.height(24.dp))
+                            Spacer(modifier = Modifier.height(20.dp))
 
                             Box(
                                 modifier = Modifier
@@ -416,31 +399,6 @@ fun CreateListDialog(
                                     placeholder = { Text("Nome da lista") },
                                     singleLine = true,
                                     modifier = Modifier.fillMaxWidth(),
-                                    shape = RoundedCornerShape(20.dp),
-                                    colors = TextFieldDefaults.colors(
-                                        focusedContainerColor = Color.Transparent,
-                                        unfocusedContainerColor = Color.Transparent,
-                                        cursorColor = OrangePrimary,
-                                        focusedIndicatorColor = Color.Transparent,
-                                        unfocusedIndicatorColor = Color.Transparent
-                                    )
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.height(15.dp))
-
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(Color.White, RoundedCornerShape(20.dp))
-                            ) {
-                                TextField(
-                                    value = description,
-                                    onValueChange = { description = it },
-                                    placeholder = { Text("Descrição (opcional)") },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .heightIn(min = 80.dp),
                                     shape = RoundedCornerShape(20.dp),
                                     colors = TextFieldDefaults.colors(
                                         focusedContainerColor = Color.Transparent,
@@ -492,8 +450,7 @@ fun CreateListDialog(
 
                 Button(
                     onClick = {
-                        if (name.isNotBlank())
-                            onConfirm(name.trim(), description.trim())
+                        if (name.isNotBlank()) onConfirm(name.trim())
                     },
                     enabled = name.isNotBlank(),
                     modifier = Modifier

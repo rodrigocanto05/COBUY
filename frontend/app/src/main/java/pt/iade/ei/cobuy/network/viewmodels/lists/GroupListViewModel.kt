@@ -47,7 +47,6 @@ class GroupListsViewModel : ViewModel() {
         groupId: Int,
         userId: Int,
         title: String,
-        description: String?
     ) {
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true, error = null)

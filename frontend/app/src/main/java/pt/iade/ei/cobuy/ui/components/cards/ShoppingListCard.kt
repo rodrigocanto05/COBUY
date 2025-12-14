@@ -107,7 +107,7 @@ fun ShoppingListCard(
                     .padding(6.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_list_delete), // cria este drawable
+                    painter = painterResource(id = R.drawable.ic_list_delete),
                     contentDescription = "Apagar lista",
                     modifier = Modifier.size(28.dp)
                 )
