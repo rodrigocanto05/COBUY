@@ -477,11 +477,78 @@ fun CreateListDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun GroupListScreenPreview() {
+fun GroupListScreenPreview_User1() {
     val nav = rememberNavController()
-    GroupListScreen(
-        navController = nav,
-        groupId = 1,
-        groupName = "Grupo Exemplo"
+
+    val fakeLists = listOf(
+        ShoppingList(id = 1, title = "Compras Semana"),
+        ShoppingList(id = 2, title = "Jantar de Natal"),
+        ShoppingList(id = 3, title = "Farmácia"),
+        ShoppingList(id = 4, title = "Limpeza")
     )
+
+    val currentUserId = 1
+
+    Scaffold(
+        topBar = {
+            CoBuyTopBar(
+                title = "Grupo Exemplo",
+                navController = nav,
+                actions = {
+                    TextButton(onClick = { }) {
+                        Text(
+                            text = "Membros",
+                            color = OrangePrimary,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { },
+                containerColor = OrangePrimary,
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "Criar nova lista",
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+            ) {
+                if (currentUserId == 0) {
+                    Text("Utilizador inválido", color = MaterialTheme.colorScheme.error)
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 96.dp)
+                    ) {
+                        gridItems(fakeLists) { list ->
+                            ShoppingListCard(
+                                list = list,
+                                onClick = { },
+                                onDelete = { }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

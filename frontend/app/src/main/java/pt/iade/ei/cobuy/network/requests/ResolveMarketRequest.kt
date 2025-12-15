@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.storage.model
+package pt.iade.ei.cobuy.network.requests
 
 data class ResolveMarketRequest(
     val name: String,

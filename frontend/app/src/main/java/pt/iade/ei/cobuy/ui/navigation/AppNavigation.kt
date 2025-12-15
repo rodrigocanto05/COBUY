@@ -14,7 +14,6 @@ import pt.iade.ei.cobuy.ui.screens.Auth.HomeScreen
 import pt.iade.ei.cobuy.ui.screens.Auth.LoginScreen
 import pt.iade.ei.cobuy.ui.screens.Auth.RegisterScreen
 import pt.iade.ei.cobuy.ui.screens.group.CreateGroupScreen
-import pt.iade.ei.cobuy.ui.screens.group.GroupDetailScreen
 import pt.iade.ei.cobuy.ui.screens.group.JoinGroupScreen
 import pt.iade.ei.cobuy.ui.screens.group.MyGroupsScreen
 import pt.iade.ei.cobuy.ui.screens.list.GroupListScreen
@@ -89,14 +88,6 @@ fun appNavigation() {
 
         composable(NavPath.MyGroups.route) {
             MyGroupsScreen(navController)
-        }
-
-        composable(
-            route = NavPath.GroupDetail.route,
-            arguments = listOf(navArgument("groupId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val groupId = backStackEntry.arguments?.getInt("groupId") ?: 0
-            GroupDetailScreen(navController, groupId)
         }
 
         composable(

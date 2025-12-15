@@ -34,8 +34,10 @@ import pt.iade.ei.cobuy.network.viewmodels.groups.GroupViewModel
 import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
 import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.buttons.CustomOutlinedButton
+import pt.iade.ei.cobuy.ui.components.buttons.GroupsButton
 import pt.iade.ei.cobuy.ui.components.cards.StatusCard
 import pt.iade.ei.cobuy.ui.navigation.NavPath
+import pt.iade.ei.cobuy.ui.screens.previews.DashboardScreenUi
 import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
 import pt.iade.ei.cobuy.ui.theme.TextDark
@@ -94,31 +96,13 @@ fun DashboardScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Row(
-                        modifier = Modifier
-                            .clickable {
-                                navController.navigate(NavPath.MyGroups.route) {
-                                    launchSingleTop = true
-                                }
+                    GroupsButton(
+                        onClick = {
+                            navController.navigate(NavPath.MyGroups.route) {
+                                launchSingleTop = true
                             }
-                            .shadow(4.dp, RoundedCornerShape(12.dp))
-                            .background(Color.White, RoundedCornerShape(12.dp))
-                            .padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Groups,
-                            contentDescription = "Grupos",
-                            tint = Color.Black
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Grupos",
-                            color = Color.Black,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp
-                        )
-                    }
+                        }
+                    )
                 },
                 actions = {
                     IconButton(
@@ -226,17 +210,11 @@ fun DashboardScreen(
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    device = "spec:width=411dp,height=891dp"
+)
 @Composable
-fun DashboardScreenPreview() {
-    val navController = rememberNavController()
-    val fakeViewModel = SavedPlaceViewModel()
-
-    COBUYTheme {
-        DashboardScreen(
-            navController = navController,
-            savedPlaceViewModel = fakeViewModel
-        )
-    }
+fun DashboardScreenUiPreview() {
+    DashboardScreenUi()
 }

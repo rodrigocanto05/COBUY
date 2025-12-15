@@ -34,7 +34,10 @@ interface ProfileApi {
 
 }
 
-data class UpdateProfileRequest(val name: String?, val gender: String?)
+data class UpdateProfileRequest(
+    val name: String?,
+    val gender: String?
+)
 data class UpdateEmailRequest(val email: String)
 data class UpdatePasswordRequest(
     val oldPassword: String,

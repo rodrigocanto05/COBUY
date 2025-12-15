@@ -1,6 +1,6 @@
 package pt.iade.ei.cobuy.network.api.maps
 
-import pt.iade.ei.cobuy.storage.model.ResolveMarketRequest
+import pt.iade.ei.cobuy.network.requests.ResolveMarketRequest
 import pt.iade.ei.cobuy.storage.model.Market
 import retrofit2.http.Body
 import retrofit2.http.GET

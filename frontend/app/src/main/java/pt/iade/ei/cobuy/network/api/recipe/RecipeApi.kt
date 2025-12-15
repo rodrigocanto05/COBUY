@@ -3,7 +3,7 @@ package pt.iade.ei.cobuy.network.api.recipe
 import okhttp3.ResponseBody
 import pt.iade.ei.cobuy.network.models.AddToListRequest
 import pt.iade.ei.cobuy.network.models.RecipeIngredientDto
-import pt.iade.ei.cobuy.storage.model.RecipeDto
+import pt.iade.ei.cobuy.storage.model.Recipe
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,7 +13,7 @@ import retrofit2.http.Path
 interface RecipeApi {
 
     @GET("recipes")
-    suspend fun getRecipes(): List<RecipeDto>
+    suspend fun getRecipes(): List<Recipe>
 
     @GET("recipes/{recipeId}/ingredients")
     suspend fun getRecipeIngredients(

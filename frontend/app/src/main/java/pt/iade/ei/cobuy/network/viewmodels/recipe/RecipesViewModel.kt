@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.iade.ei.cobuy.network.api.recipe.RecipeApiProvider
-import pt.iade.ei.cobuy.storage.model.RecipeDto
+import pt.iade.ei.cobuy.storage.model.Recipe
 
 class RecipesViewModel : ViewModel() {
 
     private val api = RecipeApiProvider.service
 
-    private val _recipes = MutableStateFlow<List<RecipeDto>>(emptyList())
-    val recipe: StateFlow<List<RecipeDto>> = _recipes
+    private val _recipes = MutableStateFlow<List<Recipe>>(emptyList())
+    val recipe: StateFlow<List<Recipe>> = _recipes
 
     fun load() {
         viewModelScope.launch {

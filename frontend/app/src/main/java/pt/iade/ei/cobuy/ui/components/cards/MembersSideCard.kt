@@ -40,7 +40,7 @@ import pt.iade.ei.cobuy.ui.theme.TextDark
 fun MembersSideCard(
     visible: Boolean,
     memberships: List<Membership>,
-    groupCode: String? = null,              // <<< NOVO PARÂMETRO
+    groupCode: String? = null,
     onDismiss: () -> Unit,
     onLeaveGroup: (() -> Unit)? = null,
     onInviteMember: (() -> Unit)? = null,
@@ -307,7 +307,7 @@ fun MembersSideCardPreview() {
         MembersSideCard(
             visible = true,
             memberships = fakeMemberships,
-            groupCode = "GRP-12345",
+            groupCode = "AAAAA",
             onDismiss = {},
             onLeaveGroup = {},
             onInviteMember = {},

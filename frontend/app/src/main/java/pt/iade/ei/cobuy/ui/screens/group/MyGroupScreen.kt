@@ -217,6 +217,7 @@ fun MyGroupsScreen(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun MyGroupsScreenPreview() {
+    SessionViewModel.currentUserId = 1
     val nav = rememberNavController()
     MyGroupsScreen(navController = nav)
 }

@@ -8,7 +8,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+
 
 data class ShoppingListUi(
     val id: Int,
@@ -54,4 +56,23 @@ fun SelectListDialog(
             TextButton(onClick = onDismiss) { Text("Cancelar") }
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SelectListDialogPreview() {
+    MaterialTheme {
+        Surface {
+            SelectListDialog(
+                show = true,
+                lists = listOf(
+                    ShoppingListUi(1, "Compras da Semana"),
+                    ShoppingListUi(2, "Churrasco"),
+                    ShoppingListUi(3, "Casa Nova")
+                ),
+                onDismiss = {},
+                onSelect = { _ -> }
+            )
+        }
+    }
 }

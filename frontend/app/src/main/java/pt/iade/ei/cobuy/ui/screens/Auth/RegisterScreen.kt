@@ -24,6 +24,7 @@ import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
 import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModel
 import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModelFactory
+import pt.iade.ei.cobuy.ui.screens.previews.RegisterScreenUi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -178,8 +179,12 @@ fun GenderRadio(label: String, selectedValue: String, value: String, onSelect: (
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    device = "spec:width=411dp,height=891dp"
+)
 @Composable
-fun RegisterScreenPreview() {
-    RegisterScreen(navController = NavController(LocalContext.current))
+fun RegisterScreenUiPreview() {
+    RegisterScreenUi()
 }
+

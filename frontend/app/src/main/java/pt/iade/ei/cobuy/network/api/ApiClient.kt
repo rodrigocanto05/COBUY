@@ -19,16 +19,17 @@ object ApiClient {
         appContext = context.applicationContext
     }
 
-    // servidor
-
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
     private val backendClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(TokenInterceptor(App.instance.tokenManager)) // Auth
-            .addInterceptor(logging) // Logs
+            .addInterceptor(
+                TokenInterceptor(
+                    App.instance.tokenManager)
+            )
+            .addInterceptor(logging)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
@@ -44,7 +45,6 @@ object ApiClient {
             .build()
     }
 
-    // apis backend
 
     val savedPlacesApi: SavedPlacesApi by lazy {
         backendRetrofit.create(SavedPlacesApi::class.java)
@@ -54,11 +54,10 @@ object ApiClient {
         backendRetrofit.create(SupermarketApi::class.java)
     }
 
-    // google maps
 
     private val googleClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(logging) // Logs apenas
+            .addInterceptor(logging)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

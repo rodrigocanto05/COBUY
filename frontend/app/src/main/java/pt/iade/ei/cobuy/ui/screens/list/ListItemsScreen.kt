@@ -21,6 +21,7 @@ import pt.iade.ei.cobuy.network.viewmodels.lists.ListItemsViewModel
 import pt.iade.ei.cobuy.network.viewmodels.lists.UnitViewModel
 import pt.iade.ei.cobuy.ui.components.cards.ShoppingItemCard
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.screens.previews.ListItemsScreenUi
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 import pt.iade.ei.cobuy.ui.theme.COBUYTheme
 import pt.iade.ei.cobuy.ui.theme.OrangePrimary
@@ -281,12 +282,7 @@ fun ListItemsScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun ListItemsScreenPreview() {
-    COBUYTheme {
-        ListItemsScreen(
-            navController = rememberNavController(),
-            listId = 1,
-            listName = "Churrasco Rapazes"
-        )
-    }
+fun ListItemsScreenUiPreview() {
+    ListItemsScreenUi()
 }
+

@@ -1,6 +1,6 @@
 package pt.iade.ei.cobuy.network.api.maps
 
-import pt.iade.ei.cobuy.storage.model.SavedPlaceResponse
+import pt.iade.ei.cobuy.network.requests.SavedPlaceResponse
 import retrofit2.http.*
 
 interface SavedPlacesApi {

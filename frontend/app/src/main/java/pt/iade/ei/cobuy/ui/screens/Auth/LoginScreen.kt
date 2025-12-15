@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import pt.iade.ei.cobuy.R
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
@@ -24,6 +25,7 @@ import pt.iade.ei.cobuy.ui.navigation.NavPath
 import pt.iade.ei.cobuy.ui.theme.*
 import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModel
 import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModelFactory
+import pt.iade.ei.cobuy.ui.screens.previews.LoginScreenUi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -131,8 +133,11 @@ fun LoginScreen(navController: NavController) {
     }
 }
 
-@Preview(showBackground = true)
+
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp")
 @Composable
-fun LoginScreenPreview() {
-    LoginScreen(navController = NavController(LocalContext.current))
+fun LoginScreenUiPreview() {
+    LoginScreenUi()
 }
+
+

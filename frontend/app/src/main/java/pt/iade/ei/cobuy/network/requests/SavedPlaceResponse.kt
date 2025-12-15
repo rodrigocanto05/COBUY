@@ -1,4 +1,4 @@
-package pt.iade.ei.cobuy.storage.model
+package pt.iade.ei.cobuy.network.requests
 
 data class SavedPlaceResponse(
     val id: Int,
