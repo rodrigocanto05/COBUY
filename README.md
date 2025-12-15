@@ -16,12 +16,12 @@ https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/REST.md
 ## Manual de Utilização da APP
 https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/Manual.md
 
-## Powerpoint
-1º https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/pp%20correto2.pptx
+## Powerpoint(posters incluídos)
+1º https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/pp%20correto2.pptx 
 
-2º
+2º 
 
 ## Vídeo 
-1ºhttps://drive.google.com/file/d/17BNajzqPKn1WTMbOUUUI77LTt4UyNm-s/view?usp=sharing
+1º https://drive.google.com/file/d/17BNajzqPKn1WTMbOUUUI77LTt4UyNm-s/view?usp=sharing
 
-2º
+2º https://drive.google.com/file/d/1u6xG7UMHvlshcokeUMlpV0_0gNixvt2X/view?usp=sharing
