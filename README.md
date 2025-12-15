@@ -19,7 +19,7 @@ https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/Manual.md
 ## Powerpoint(posters incluídos)
 1º https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/pp%20correto2.pptx 
 
-2º 
+2º https://github.com/rodrigocanto05/COBUY/blob/main/Documentos/CoBuy-2-2.pdf
 
 ## Vídeo 
 1º https://drive.google.com/file/d/17BNajzqPKn1WTMbOUUUI77LTt4UyNm-s/view?usp=sharing
