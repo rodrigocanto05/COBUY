@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -27,6 +28,8 @@ import pt.iade.ei.cobuy.ui.components.bottombar.CoBuyBottomBar
 import pt.iade.ei.cobuy.ui.components.dialogs.SelectListDialog
 import pt.iade.ei.cobuy.ui.components.dialogs.ShoppingListUi
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.screens.previews.ListItemsScreenUi
+import pt.iade.ei.cobuy.ui.screens.previews.RecipeDetailScreenUi
 import pt.iade.ei.cobuy.viewmodel.recipe.RecipeIngredientsViewModel
 import pt.iade.ei.cobuy.viewmodel.recipe.RecipeIngredientsViewModelFactory
 
@@ -231,3 +234,9 @@ private fun IngredientRow(
         }
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun RecipeDetailScreenUiPreview() {
+    RecipeDetailScreenUi()
+}
+

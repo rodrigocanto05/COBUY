@@ -1,7 +1,5 @@
-package pt.iade.ei.cobuy.ui.screens.map
+package pt.iade.ei.cobuy.ui.screens.previews
 
-import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,44 +8,41 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import pt.iade.ei.cobuy.network.viewmodels.maps.SavedPlaceViewModel
-import pt.iade.ei.cobuy.ui.screens.previews.SavedLocationsScreenUi
 import pt.iade.ei.cobuy.ui.theme.COBUYTheme
+
+private data class UiPlace(
+    val id: Int,
+    val name: String
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SavedLocationsScreen(
-    navController: NavController,
-    savedPlaceViewModel: SavedPlaceViewModel
+fun SavedLocationsScreenUi(
+    userId: Int = 1 // só para “simular” o userId no preview
 ) {
-
-    val context = LocalContext.current
-    val savedPlaces by savedPlaceViewModel.savedPlaces.collectAsState()
-
-    LaunchedEffect(Unit) {
-        savedPlaceViewModel.load()
-    }
+    val fakePlaces = listOf(
+        UiPlace(1, "Continente Amadora"),
+        UiPlace(2, "Pingo Doce Benfica"),
+        UiPlace(3, "Mercadona Oeiras")
+    )
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("Locais Salvos", fontSize = 20.sp) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Voltar atrás",
+                            contentDescription = null,
                             tint = Color(0xFFFF9800)
                         )
                     }
@@ -60,7 +55,7 @@ fun SavedLocationsScreen(
         containerColor = Color.White
     ) { padding ->
 
-        if (savedPlaces.isEmpty()) {
+        if (fakePlaces.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -76,11 +71,7 @@ fun SavedLocationsScreen(
                     .padding(padding)
                     .padding(horizontal = 16.dp)
             ) {
-                items(
-                    items = savedPlaces,
-                    key = { it.id } // 🔑 evita bugs de recomposição
-                ) { place ->
-
+                items(fakePlaces, key = { it.id }) { place ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -91,7 +82,6 @@ fun SavedLocationsScreen(
                             containerColor = Color(0xFFF0ECF6)
                         )
                     ) {
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -108,19 +98,10 @@ fun SavedLocationsScreen(
                                 modifier = Modifier.weight(1f)
                             )
 
-                            IconButton(
-                                onClick = {
-                                    savedPlaceViewModel.remove(place.id)
-                                    Toast.makeText(
-                                        context,
-                                        "Removido dos favoritos!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            ) {
+                            IconButton(onClick = {}) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "Remover",
+                                    contentDescription = null,
                                     tint = Color(0xFF333333)
                                 )
                             }
@@ -131,9 +112,11 @@ fun SavedLocationsScreen(
         }
     }
 }
-@Preview(showBackground = true)
+
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SavedLocationsScreenUiPreview() {
-    SavedLocationsScreenUi()
+    COBUYTheme {
+        SavedLocationsScreenUi(userId = 1)
+    }
 }
-

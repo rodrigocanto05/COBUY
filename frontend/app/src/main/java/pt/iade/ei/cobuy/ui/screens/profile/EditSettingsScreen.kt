@@ -18,6 +18,7 @@ import pt.iade.ei.cobuy.network.viewmodels.auth.AuthViewModelFactory
 import pt.iade.ei.cobuy.ui.components.buttons.PrimaryButton
 import pt.iade.ei.cobuy.ui.components.inputs.CustomTextField
 import pt.iade.ei.cobuy.ui.components.topbar.CoBuyTopBar
+import pt.iade.ei.cobuy.ui.screens.previews.EditSettingsScreenUi
 import pt.iade.ei.cobuy.ui.theme.BackgroundLight
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,9 +116,9 @@ fun EditSettingsScreen(
         }
     }
 }
-
-@Preview(showBackground = true)
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp")
 @Composable
 fun EditSettingsScreenPreview() {
-    EditSettingsScreen(navController = rememberNavController())
+    EditSettingsScreenUi(navController = rememberNavController())
 }
+
